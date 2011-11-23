@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Sj2Calendar</string>
+    <string name="menu.preferences">Inställningar</string>
+    <string name="menu.subscription">Prenumeration</string>
+    <string name="menu.about">Om...</string>
+    <string name="common.exit">Stäng</string>
+    <string name="common.next">Nästa</string>
+    <string name="gosms.header">Go SMS Pro installerad</string>
+    <string name="gosms.text">Du verkar tyvärr ha Go SMS Pro installerad, vilket gör att SJ2Cal inte kan ta emot biljetterna från SJ.\n
+    För att SJ2Cal ska kunna fungera korrekt måste Go SMS Pro avinstalleras eller deaktiveras.\n
+    Läs mer om problemet genom att klicka på knappen nedan.
+    </string>
+    <string name="gosms.moreinfo">Mer information</string>
+    <string name="button.delete">Ta bort</string>
+    <string name="about.header">Om Sj2Calendar</string>
+    <string name="about.text">
+    1.0.6\n
+    \tLagt till varning när Go SMS Pro är installerad.
+    1.0.5\n
+    \tLagt till kontroll så att applikationen inte försöker tolka SL-biljetter.
+    1.0.4\n
+    \t
+    1.0.3\n
+    \tRättat problem med tolkning av meddelanden när telefonen har annat språk än svenska inställt.\n
+    1.0.2\n
+    \tFix för ersättningsfunktionen, problem på SE Xperia Mini.\n
+    1.0.1\n
+    \tRättning för beställningar utan platsbokning.n
+    1.0.0\n
+    \tAnvänder nya inställningar, tyvärr måste användaren uppdatera inställningarna.\n
+    \n
+    Applikationen har utvecklats för eget bruk, utan koppling till SJ.\n    
+    Synpunkter, förslag på förbättringar eller felrapporter skickas till \'android.support@acrend.se\', 
+    eller registreras på getSatisfaction genom länken i inställningarna.\n
+    Sj2Calendar används på egen risk, Acrend tar inget ansvar för försvunna eller felaktiga biljetter.\n
+    \n
+    Instruktioner\n
+    \t1. Välj vilken kalender du vill att biljetterna ska läggas i.\n
+    \t2. För att aktivera funktionen, välj "Läs inkommande SMS".\n
+    \t3. I vissa fall får man både en bekräftelse på sin beställning och senare en mobilbiljett.\n 
+    \t\tFör att inte få dubletter av kalenderposter, välj "Ersätt kalenderposter för samma biljettnummer".\n
+    \t4. Om du känner dig trygg med att applikationen fungerar, välj "Ta bort bearbetade SMS".\n 
+    \t\tApplikationen kommer då att ta bort meddelandet från inkorgen.\n
+    \n
+    \n
+    Vid eventuella fel, som att applikationen inte kan tyda meddelandet från SJ, kommer meddelandet att ligga 
+    kvar i inkorgen. Man kan även skicka mobilbiljetten igen från www.sj.se.
+    </string>
+
+		<string name="ticket.list.empty">Hittade inga biljetter.</string>
+		<string name="prefs.category.sms">SMS</string>
+		<string name="prefs.category.sms.processIncomingMessages">Läs inkommande SMS</string>
+		<string name="prefs.category.sms.processIncomingMessages.summary">Tolkar inkommande SMS och lägger till information i vald kalender.</string>
+		<string name="prefs.category.sms.deleteProcessedMessage">Ta bort bearbetade SMS</string>
+		<string name="prefs.category.sms.deleteProcessedMessage.summary">Tar bort de SMS som har lagts till i kalendern, så att du slipper rensa själv.</string>
+		<string name="prefs.category.calendar">Kalender</string>
+		<string name="prefs.category.calendar.updateCalendar">Uppdatera kalender</string>
+		<string name="prefs.category.calendar.updateCalendar.summary">Välj detta om du vill lägga in dina resor som bokningar i kalendern.</string>
+		<string name="prefs.category.calendar.select_calendar">Välj kalender</string>
+		<string name="prefs.category.calendar.select_calendar.summary">Välj den kalendar du vill att biljetter ska skrivas i.</string>
+		<string name="prefs.category.calendar.replaceTicket">Ersätt biljetter</string>
+		<string name="prefs.category.calendar.replaceTicket.summary">Söker efter existerande kalenderposter och byter ut dem mot ny information för givet biljettnummer.</string>
+		<string name="prefs.category.serverservices">Server-tjänster</string>
+		<string name="prefs.category.serverservices.title">Tåginformation från Trafikverket</string>
+		<string name="prefs.category.serverservices.summary">Konfiguration för att hantera hur Live-uppdatering ska hanteras.</string>
+		<string name="prefs.category.serverservices.useServerServices.title">Använd server-tjänster</string>
+    <string name="prefs.category.serverservices.useServerServices.summary">Dessa tjänster är kopplade till en prenumeration, som kan köpas via Android Market.</string>
+		<string name="prefs.category.serverservices.readAhead.title">Kontroll av försening innan avfärd</string>
+		<string name="prefs.category.serverservices.readAhead.summary">Välj hur långt innan avfärd som applikationen ska kontrollera eventuell försening.</string>
+    <string name="prefs.category.serverservices.account.title">Konto för inloggning</string>
+    <string name="prefs.category.serverservices.account.summary">Välj det konto som ska användas vid inloggning mot server.</string>
+		<string name="prefs.category.suggestions">Synpunkter</string>
+		<string name="prefs.category.suggestions.getSatisfaction.title">Länk till getSatisfaction</string>
+		<string name="prefs.category.suggestions.getSatisfaction.summary">Synpunkter och eventuella felrapporter registreras med fördel hos getSatisfaction, klicka här för att komma till sajten.</string>
+		<string name="prefs.category.account.title">Konto</string>
+		<string name="prefs.category.account.summary">Välj Google-konto för kommunikation med server.</string>
+		<string name="prefs.category.c2dmregistration.title">Registrering av push-meddelanden</string>
+		<string name="prefs.category.c2dmregistration.summary">Klicka nedan för att starta registrering av din enhet. Registreringen kan ta några sekunder.</string>
+		<string name="prefs.category.c2dmregistration.register">Registrera</string>
+		<string name="prefs.category.c2dmregistration.wait">Registrerar enhet, vänligen vänta...</string>
+		<string name="ticket.details.trainNo">Tågnr:</string>
+		<string name="ticket.details.ticketCode">Biljettkod:</string>
+		<string name="ticket.details.car">Vagn:</string>
+		<string name="ticket.details.seat">Plats:</string>
+		<string name="ticket.details.departureTrack">Avg spår:</string>
+		<string name="ticket.details.arrivalTrack">Ank spår:</string>
+		<string name="ticket.details.orgTime">Ord tid</string>
+		<string name="ticket.details.newTime">Tid enl Trafikverket</string>
+		<string name="ticket.details.departure">Avgång:</string>
+		<string name="ticket.details.arrival">Ankomst:</string>
+		<string name="ticket.details.notify">Signalera vid ändrad tid</string>
+		<string name="ticket.details.checkTraffic">Kontrollera trafik</string>
+		<string name="ticket.details.showTicket">Visa biljett</string>
+		<string name="ticket.text.title">Mobilbiljett</string>
+		<string name="subscription.details.subscriptionloading">Hämtar prenumerations-information, vänligen vänta...</string>
+    <string name="subscription.details.productsloading">Hämtar produkter, vänligen vänta...</string>
+		<string name="subscription.details.info">Din prenumeration är giltig t o m %1$s. Du har %2$d gratis-bevakningar kvar att använda.</string>
+</resources>

@@ -1,0 +1,9 @@
+
+/android/bin
+/android/gen
+/server/test-classes
+/server/war/sjtrafficserver
+/server/war/WEB-INF/classes
+/server/war/WEB-INF/deploy
+/shared/gen
+/shared/bin

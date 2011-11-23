@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:id="@+id/subscription.details.scrollView">
+	<RelativeLayout android:layout_height="fill_parent"
+		android:layout_width="fill_parent">
+		<TextView android:text="@string/subscription.details.info"
+			android:id="@+id/subscription.details.info" android:layout_height="wrap_content"
+			android:layout_width="wrap_content" />
+    <Spinner android:id="@+id/subscription.details.productList" android:layout_height="wrap_content"
+      android:layout_width="fill_parent"
+      android:layout_below="@id/subscription.details.info"/>
+		<Button
+		    android:id="@+id/subscription.details.buy"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_below="@id/subscription.details.productList"
+		    android:text="Köp" />
+		
+	</RelativeLayout>
+</ScrollView>

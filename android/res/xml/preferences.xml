@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory android:title="@string/prefs.category.sms">
+
+		<CheckBoxPreference android:key="processIncomingMessages"
+			android:title="@string/prefs.category.sms.processIncomingMessages" 
+			android:summary="@string/prefs.category.sms.processIncomingMessages.summary"/>
+		<CheckBoxPreference android:key="deleteProcessedMessage"
+			android:title="@string/prefs.category.sms.deleteProcessedMessage" 
+			android:summary="@string/prefs.category.sms.deleteProcessedMessage.summary" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/prefs.category.calendar">
+    <CheckBoxPreference android:key="updateCalendar"
+      android:title="@string/prefs.category.calendar.updateCalendar" 
+      android:summary="@string/prefs.category.calendar.updateCalendar.summary"/>
+		<se.acrend.sj2cal.calendar.CalendarListPreference
+			android:key="calendarId" android:title="@string/prefs.category.calendar.select_calendar"
+			android:dialogTitle="@string/prefs.category.calendar.select_calendar"
+			android:defaultValue="-1"  
+			android:dependency="updateCalendar" />
+
+		<CheckBoxPreference android:key="replaceTicket"
+			android:title="@string/prefs.category.calendar.replaceTicket" 
+			android:summary="@string/prefs.category.calendar.replaceTicket.summary" android:dependency="updateCalendar" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/prefs.category.serverservices" 
+	    android:summary="@string/prefs.category.serverservices.summary">
+		
+   <CheckBoxPreference android:key="useServerServices"
+      android:title="@string/prefs.category.serverservices.useServerServices.title" 
+      android:summary="@string/prefs.category.serverservices.useServerServices.summary" android:defaultValue="true" />
+	    
+      <ListPreference android:title="@string/prefs.category.serverservices.account.title"
+      android:summary="@string/prefs.category.serverservices.account.summary"
+      android:key="account" />
+   
+   
+		<ListPreference android:title="@string/prefs.category.serverservices.readAhead.title"
+			android:summary="@string/prefs.category.serverservices.readAhead.summary"
+			android:key="readAheadMinutes" android:entries="@array/train_info_readAhead_names"
+			android:entryValues="@array/train_info_readAhead_minutes"
+			android:defaultValue="60" />
+	</PreferenceCategory>
+	    
+	    
+	<PreferenceCategory android:title="@string/prefs.category.suggestions">
+    <se.acrend.sj2cal.preference.LinkPreference 
+    android:title="@string/prefs.category.suggestions.getSatisfaction.title"
+    android:summary="@string/prefs.category.suggestions.getSatisfaction.summary"
+    android:value="http://getsatisfaction.com/acrend/products/acrend_sj2calendar"/>
+
+	</PreferenceCategory>
+
+</PreferenceScreen>

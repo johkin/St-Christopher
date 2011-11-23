@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<datastore-indexes autoGenerate="true">
+	<datastore-index kind="BookingEntity" ancestor="false">
+		<property name="trainNo" direction="asc" />
+		<property name="date" direction="asc" />
+		<property name="userEmail" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="TrainStopEntity" ancestor="false">
+		<property name="trainNo" direction="asc" />
+		<property name="date" direction="asc" />
+	</datastore-index>
+	<datastore-index kind="TrainStopEntity" ancestor="false">
+        <property name="actualArrival" direction="asc"/>
+        <property name="originalArrival" direction="asc"/>
+    </datastore-index>
+</datastore-indexes>

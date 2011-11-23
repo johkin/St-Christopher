@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent" android:layout_width="fill_parent">
+	<TextView android:text="@string/prefs.category.c2dmregistration.summary"
+		android:id="@+id/register_device.summary" android:layout_height="wrap_content"
+		android:layout_width="wrap_content" style="@style/Label" />
+
+	<Button android:id="@+id/register_device.register" android:text="@string/prefs.category.c2dmregistration.register"
+		android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_centerInParent="true"
+		android:layout_below="@id/register_device.summary" />
+		
+	<Button android:text="@string/common.next" android:id="@+id/register_device.nextButton"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true"></Button>
+
+</RelativeLayout>

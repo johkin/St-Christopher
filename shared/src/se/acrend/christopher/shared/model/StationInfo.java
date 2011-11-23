@@ -1,0 +1,88 @@
+package se.acrend.christopher.shared.model;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+public class StationInfo implements Serializable, Comparable<StationInfo> {
+
+  private static final long serialVersionUID = 1L;
+  private String name;
+  private TimeInfo arrival;
+  private TimeInfo departure;
+  private String track;
+  private List<String> info;
+
+  public StationInfo() {
+    info = new ArrayList<String>();
+  }
+
+  @XmlTransient
+  @Override
+  public int compareTo(final StationInfo o) {
+    return getSortTime().compareTo(o.getSortTime());
+  }
+
+  @XmlElement(name = "info")
+  public List<String> getInfo() {
+    return info;
+  }
+
+  public void setInfo(final List<String> info) {
+    this.info = info;
+  }
+
+  public void addInfo(final String info) {
+    this.info.add(info);
+  }
+
+  @XmlElement(name = "track")
+  public String getTrack() {
+    return track;
+  }
+
+  public void setTrack(final String track) {
+    this.track = track;
+  }
+
+  @XmlElement(name = "name")
+  public String getName() {
+    return name;
+  }
+
+  public void setName(final String name) {
+    this.name = name;
+  }
+
+  @XmlElement(name = "arrival")
+  public TimeInfo getArrival() {
+    return arrival;
+  }
+
+  public void setArrival(final TimeInfo arrival) {
+    this.arrival = arrival;
+  }
+
+  @XmlElement(name = "departure")
+  public TimeInfo getDeparture() {
+    return departure;
+  }
+
+  public void setDeparture(final TimeInfo departure) {
+    this.departure = departure;
+  }
+
+  Calendar getSortTime() {
+    if (departure != null) {
+      return departure.getTime();
+    } else {
+      return arrival.getTime();
+    }
+
+  }
+
+}

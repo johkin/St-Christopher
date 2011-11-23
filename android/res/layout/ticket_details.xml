@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:id="@+id/ticket.details.scrollView">
+	<RelativeLayout android:layout_height="fill_parent"
+		android:layout_width="fill_parent">
+		<TableLayout android:id="@+id/ticket.details.tableLayout"
+			android:layout_height="wrap_content" android:layout_width="match_parent">
+			<TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView android:text="@string/ticket.details.ticketCode"
+					android:id="@+id/details.ticketCodeLabel" android:layout_height="wrap_content"
+					android:layout_width="wrap_content" style="@style/Label"
+					android:gravity="right" />
+				<TextView android:id="@+id/ticket.details.ticketCode"
+					android:layout_height="wrap_content" android:layout_width="wrap_content"
+					android:layout_span="2" />
+			</TableRow>
+			<TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView android:text="@string/ticket.details.car"
+					android:id="@+id/ticket.details.carLabel" android:layout_height="wrap_content"
+					android:layout_width="wrap_content" style="@style/Label"
+					android:gravity="right" />
+				<TextView android:id="@+id/ticket.details.car"
+					android:layout_height="wrap_content" android:layout_width="wrap_content"
+					android:layout_span="2" />
+			</TableRow>
+			<TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView android:text="@string/ticket.details.seat"
+					android:id="@+id/ticket.details.seatLabel" android:layout_height="wrap_content"
+					android:layout_width="wrap_content" style="@style/Label"
+					android:gravity="right" />
+				<TextView android:id="@+id/ticket.details.seat"
+					android:layout_height="wrap_content" android:layout_width="wrap_content"
+					android:layout_span="2" />
+			</TableRow>
+			<TableRow android:id="@+id/tableRow4" android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView android:text="@string/ticket.details.departureTrack"
+					android:id="@+id/ticket.details.seatLabel" android:layout_height="wrap_content"
+					android:layout_width="wrap_content" style="@style/Label"
+					android:gravity="right" />
+				<TextView android:id="@+id/ticket.details.departureTrack"
+					android:layout_height="wrap_content" android:layout_width="wrap_content"
+					android:layout_span="2" />
+			</TableRow>
+			<TableRow android:id="@+id/tableRow5" android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView android:text="@string/ticket.details.arrivalTrack"
+					android:id="@+id/ticket.details.seatLabel" android:layout_height="wrap_content"
+					android:layout_width="wrap_content" style="@style/Label"
+					android:gravity="right" />
+				<TextView android:id="@+id/ticket.details.arrivalTrack"
+					android:layout_height="wrap_content" android:layout_width="wrap_content"
+					android:layout_span="2" />
+			</TableRow>
+			<TableRow android:id="@+id/tableRow7" android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView android:id="@+id/ticket.details.from"
+					android:text="@string/ticket.details.departure"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:paddingLeft="5px" style="@style/Label" android:gravity="right" />
+				<Button android:id="@+id/ticket.details.departure"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:text="20111103 07:21" android:padding="5px" android:background="#505050" android:textColor="#FFFFFF" />
+			</TableRow>
+			<TableRow android:id="@+id/tableRow8" android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<TextView android:id="@+id/ticket.details.to" android:text="@string/ticket.details.arrival"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:paddingLeft="5px" style="@style/Label" android:gravity="right" />
+				<Button android:id="@+id/ticket.details.arrival"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					 android:text="20111103 08:34" android:padding="5px" android:background="#505050" android:textColor="#FFFFFF" />
+			</TableRow>
+			<TableRow android:id="@+id/tableRow9" android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				<ToggleButton android:id="@+id/ticket.details.notify"
+					android:layout_height="wrap_content" android:layout_width="wrap_content" />
+				<TextView android:text="@string/ticket.details.notify"
+					android:layout_width="fill_parent" android:id="@+id/details.notifyLabel"
+					android:layout_height="wrap_content" style="@style/Label"
+					android:layout_span="2" />
+			</TableRow>
+		</TableLayout>
+		<Button android:id="@+id/ticket.details.showTicket"
+			android:text="@string/ticket.details.showTicket"
+			android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:layout_below="@id/ticket.details.tableLayout"
+			android:layout_centerHorizontal="true" />
+	</RelativeLayout>
+</ScrollView>

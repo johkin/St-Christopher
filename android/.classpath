@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="lib" path="lib/guice-2.0-no_aop.jar"/>
+	<classpathentry kind="lib" path="lib/roboguice-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/c2dm.jar" sourcepath="lib/c2dm-sources.jar"/>
+	<classpathentry kind="lib" path="lib/libGoogleAnalytics.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ChristopherShared"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

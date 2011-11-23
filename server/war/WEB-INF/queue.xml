@@ -1,0 +1,21 @@
+<!--Change the total storage limit for all queues to 50MB-->
+<queue-entries>
+  <total-storage-limit>50M</total-storage-limit>
+  <!--Change the refresh rate of the default queue to 1/s-->
+  <queue>
+    <name>update-server-auth</name>
+    <rate>0.1/s</rate>
+  </queue>
+  <queue>
+    <name>current-trains</name>
+    <rate>5/s</rate>
+  </queue>
+  <queue>
+    <name>changed-stops</name>
+    <rate>5/s</rate>
+  </queue>
+  <queue>
+    <name>send-message</name>
+    <rate>5/s</rate>
+  </queue>
+</queue-entries>
