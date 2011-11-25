@@ -78,10 +78,19 @@ public class DateUtil {
     }
   }
 
-  public static Date toDate(Calendar cal) {
+  public static Date toDate(final Calendar cal) {
     if (cal == null) {
       return null;
     }
     return new Date(cal.getTimeInMillis());
+  }
+
+  public static Calendar toCalendar(final Date date) {
+    if (date == null) {
+      return null;
+    }
+    Calendar cal = createCalendar();
+    cal.setTimeInMillis(date.getTime());
+    return cal;
   }
 }

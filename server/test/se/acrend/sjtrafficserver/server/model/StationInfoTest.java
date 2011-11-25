@@ -26,17 +26,17 @@ public class StationInfoTest {
     StationInfo info = new StationInfo();
     info.setName("3");
     info.setDeparture(new TimeInfo());
-    info.getDeparture().setTime(createCalendar(3));
+    info.getDeparture().setOriginal(createCalendar(3));
     list.add(info);
     info = new StationInfo();
     info.setName("1");
     info.setDeparture(new TimeInfo());
-    info.getDeparture().setTime(createCalendar(1));
+    info.getDeparture().setOriginal(createCalendar(1));
     list.add(info);
     info = new StationInfo();
     info.setName("2");
     info.setArrival(new TimeInfo());
-    info.getArrival().setTime(createCalendar(2));
+    info.getArrival().setOriginal(createCalendar(2));
     list.add(info);
 
     Collections.sort(list);

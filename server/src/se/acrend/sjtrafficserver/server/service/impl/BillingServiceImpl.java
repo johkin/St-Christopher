@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import se.acrend.christopher.shared.model.PrepareBillingInfo;
 import se.acrend.christopher.shared.model.ProductList;
+import se.acrend.christopher.shared.model.ProductList.Product;
 import se.acrend.christopher.shared.model.ReturnCode;
 import se.acrend.christopher.shared.model.SubscriptionInfo;
-import se.acrend.christopher.shared.model.ProductList.Product;
 import se.acrend.sjtrafficserver.server.control.impl.SubscriptionControllerImpl;
 import se.acrend.sjtrafficserver.server.dao.ProductDao;
 import se.acrend.sjtrafficserver.server.dao.ServerDataDao;
@@ -52,8 +52,8 @@ public class BillingServiceImpl {
 
     result.setNotificationCount(subscription.getNotificationCount());
     result.setTravelWarrantCount(subscription.getTravelWarrantCount());
-    result.setNotificationExpireDate(subscription.getNotificationExpireDate());
-    result.setTravelWarrantExpireDate(subscription.getTravelWarrantExpireDate());
+    result.setNotificationExpireDate(DateUtil.toCalendar(subscription.getNotificationExpireDate()));
+    result.setTravelWarrantExpireDate(DateUtil.toCalendar(subscription.getTravelWarrantExpireDate()));
     result.setReturnCode(ReturnCode.Success);
 
     EMF.close();
@@ -111,8 +111,8 @@ public class BillingServiceImpl {
 
     result.setNotificationCount(subscription.getNotificationCount());
     result.setTravelWarrantCount(subscription.getTravelWarrantCount());
-    result.setNotificationExpireDate(subscription.getNotificationExpireDate());
-    result.setTravelWarrantExpireDate(subscription.getTravelWarrantExpireDate());
+    result.setNotificationExpireDate(DateUtil.toCalendar(subscription.getNotificationExpireDate()));
+    result.setTravelWarrantExpireDate(DateUtil.toCalendar(subscription.getTravelWarrantExpireDate()));
     result.setReturnCode(ReturnCode.Success);
 
     transaction.commit();

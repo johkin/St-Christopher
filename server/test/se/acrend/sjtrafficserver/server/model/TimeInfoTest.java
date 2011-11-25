@@ -20,8 +20,8 @@ public class TimeInfoTest {
 
   @Test
   public void testGetDelayedMillis() {
-    time.setTime(Calendar.getInstance());
-    time.getTime().setTimeInMillis(0);
+    time.setOriginal(Calendar.getInstance());
+    time.getOriginal().setTimeInMillis(0);
 
     assertEquals(0, time.getDelayedMillis());
 
@@ -29,7 +29,7 @@ public class TimeInfoTest {
 
   @Test
   public void testGetDelayedMillisActualOnTime() {
-    time.setTime(createCalendar(0));
+    time.setOriginal(createCalendar(0));
     time.setActual(createCalendar(0));
 
     assertEquals(0, time.getDelayedMillis());
@@ -37,7 +37,7 @@ public class TimeInfoTest {
 
   @Test
   public void testGetDelayedMillisActualEarly() {
-    time.setTime(createCalendar(5));
+    time.setOriginal(createCalendar(5));
     time.setActual(createCalendar(0));
 
     assertEquals(0, time.getDelayedMillis());
@@ -45,7 +45,7 @@ public class TimeInfoTest {
 
   @Test
   public void testGetDelayedMillisActualDelayed() {
-    time.setTime(createCalendar(0));
+    time.setOriginal(createCalendar(0));
     time.setActual(createCalendar(5));
 
     assertEquals(5, time.getDelayedMillis());

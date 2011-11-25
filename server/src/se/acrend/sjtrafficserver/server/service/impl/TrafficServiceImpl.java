@@ -118,15 +118,15 @@ public class TrafficServiceImpl {
 
       if (departureStop != null) {
         result.setDepartureTrack(departureStop.getTrack());
-        result.setActualDeparture(departureStop.getActualDeparture());
-        result.setEstimatedDeparture(departureStop.getEstimatedDeparture());
-        result.setGuessedDeparture(departureStop.getGuessedDeparture());
+        result.setActualDeparture(DateUtil.toCalendar(departureStop.getActualDeparture()));
+        result.setEstimatedDeparture(DateUtil.toCalendar(departureStop.getEstimatedDeparture()));
+        result.setGuessedDeparture(DateUtil.toCalendar(departureStop.getGuessedDeparture()));
       }
       if (arrivalStop != null) {
         result.setArrivalTrack(arrivalStop.getTrack());
-        result.setActualArrival(arrivalStop.getActualDeparture());
-        result.setEstimatedArrival(arrivalStop.getEstimatedDeparture());
-        result.setGuessedArrival(arrivalStop.getGuessedArrival());
+        result.setActualArrival(DateUtil.toCalendar(arrivalStop.getActualDeparture()));
+        result.setEstimatedArrival(DateUtil.toCalendar(arrivalStop.getEstimatedDeparture()));
+        result.setGuessedArrival(DateUtil.toCalendar(arrivalStop.getGuessedArrival()));
       }
 
       if (booking == null) {
@@ -433,16 +433,16 @@ public class TrafficServiceImpl {
       if (info.getArrival() != null) {
         TimeInfo arrival = info.getArrival();
         stop.setActualArrival(DateUtil.toDate(arrival.getActual()));
-        stop.setEstimatedArrival(DateUtil.toDate(arrival.getCalculated()));
-        stop.setOriginalArrival(DateUtil.toDate(arrival.getTime()));
+        stop.setEstimatedArrival(DateUtil.toDate(arrival.getEstimated()));
+        stop.setOriginalArrival(DateUtil.toDate(arrival.getOriginal()));
         stop.setGuessedArrival(DateUtil.toDate(arrival.getGuessed()));
         stop.setArrivalStatus(arrival.getStatus().name());
       }
       if (info.getDeparture() != null) {
         TimeInfo departure = info.getDeparture();
         stop.setActualDeparture(DateUtil.toDate(departure.getActual()));
-        stop.setEstimatedDeparture(DateUtil.toDate(departure.getCalculated()));
-        stop.setOriginalDeparture(DateUtil.toDate(departure.getTime()));
+        stop.setEstimatedDeparture(DateUtil.toDate(departure.getEstimated()));
+        stop.setOriginalDeparture(DateUtil.toDate(departure.getOriginal()));
         stop.setGuessedDeparture(DateUtil.toDate(departure.getGuessed()));
         stop.setDepartureStatus(departure.getStatus().name());
       }

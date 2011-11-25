@@ -66,7 +66,7 @@ public class TrafikVerketControllerImpl {
   private long updateGuessedTime(long delayedMillis, final TimeInfo time) {
     if (time != null) {
       Calendar guessed = DateUtil.createCalendar();
-      guessed.setTimeInMillis(time.getTime().getTimeInMillis() + delayedMillis);
+      guessed.setTimeInMillis(time.getOriginal().getTimeInMillis() + delayedMillis);
       time.setGuessed(guessed);
       delayedMillis = time.getDelayedMillis();
     }

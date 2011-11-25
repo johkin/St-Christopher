@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Sj2Calendar</string>
+    <string name="app_name">Christopher</string>
     <string name="menu.preferences">Inställningar</string>
     <string name="menu.subscription">Prenumeration</string>
     <string name="menu.about">Om...</string>
@@ -9,12 +9,12 @@
     <string name="common.next">Nästa</string>
     <string name="gosms.header">Go SMS Pro installerad</string>
     <string name="gosms.text">Du verkar tyvärr ha Go SMS Pro installerad, vilket gör att SJ2Cal inte kan ta emot biljetterna från SJ.\n
-    För att SJ2Cal ska kunna fungera korrekt måste Go SMS Pro avinstalleras eller deaktiveras.\n
+    För att Christopher ska kunna fungera korrekt måste Go SMS Pro avinstalleras eller deaktiveras.\n
     Läs mer om problemet genom att klicka på knappen nedan.
     </string>
     <string name="gosms.moreinfo">Mer information</string>
     <string name="button.delete">Ta bort</string>
-    <string name="about.header">Om Sj2Calendar</string>
+    <string name="about.header">Om Christopher</string>
     <string name="about.text">
     1.0.6\n
     \tLagt till varning när Go SMS Pro är installerad.

@@ -3,7 +3,7 @@ package net.londatiga.android;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.acrend.sj2cal.R;
+import se.acrend.christopher.R;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -23,9 +23,8 @@ import android.widget.TextView;
 /**
  * QuickAction dialog.
  * 
- * @author Lorensius W. L. T <lorenz@londatiga.net>
- * 
- *         Contributors: - Kevin Peck <kevinwpeck@gmail.com>
+ * @author Lorensius W. L. T <lorenz@londatiga.net> Contributors: - Kevin Peck
+ *         <kevinwpeck@gmail.com>
  */
 public class QuickAction extends PopupWindows implements OnDismissListener {
   private ImageView mArrowUp;
@@ -69,7 +68,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
         // Equation for graphing: 1.2-((x*1.6)-1.1)^2
         final float inner = (t * 1.55f) - 1.1f;
 
-        return 1.2f - inner * inner;
+        return 1.2f - (inner * inner);
       }
     });
 
@@ -85,7 +84,6 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
    * 
    * @param index
    *          Index of item (position from callback)
-   * 
    * @return Action Item at the position
    */
   public ActionItem getActionItem(final int index) {
@@ -266,7 +264,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
    *          displayed on top of anchor and vice versa
    */
   private void setAnimationStyle(final int screenWidth, final int requestedX, final boolean onTop) {
-    int arrowPos = requestedX - mArrowUp.getMeasuredWidth() / 2;
+    int arrowPos = requestedX - (mArrowUp.getMeasuredWidth() / 2);
 
     switch (mAnimStyle) {
     case ANIM_GROW_FROM_LEFT:
@@ -282,9 +280,9 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
       break;
 
     case ANIM_AUTO:
-      if (arrowPos <= screenWidth / 4) {
+      if (arrowPos <= (screenWidth / 4)) {
         mWindow.setAnimationStyle((onTop) ? R.style.Animations_PopUpMenu_Left : R.style.Animations_PopDownMenu_Left);
-      } else if (arrowPos > screenWidth / 4 && arrowPos < 3 * (screenWidth / 4)) {
+      } else if ((arrowPos > (screenWidth / 4)) && (arrowPos < (3 * (screenWidth / 4)))) {
         mWindow
             .setAnimationStyle((onTop) ? R.style.Animations_PopUpMenu_Center : R.style.Animations_PopDownMenu_Center);
       } else {
@@ -314,7 +312,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 
     ViewGroup.MarginLayoutParams param = (ViewGroup.MarginLayoutParams) showArrow.getLayoutParams();
 
-    param.leftMargin = requestedX - arrowWidth / 2;
+    param.leftMargin = requestedX - (arrowWidth / 2);
 
     hideArrow.setVisibility(View.INVISIBLE);
   }
@@ -332,14 +330,13 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 
   @Override
   public void onDismiss() {
-    if (!mDidAction && mDismissListener != null) {
+    if (!mDidAction && (mDismissListener != null)) {
       mDismissListener.onDismiss();
     }
   }
 
   /**
    * Listener for item click
-   * 
    */
   public interface OnActionItemClickListener {
     public abstract void onItemClick(QuickAction source, int pos, int actionId);
@@ -347,7 +344,6 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 
   /**
    * Listener for window dismiss
-   * 
    */
   public interface OnDismissListener {
     public abstract void onDismiss();

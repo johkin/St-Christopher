@@ -14,8 +14,8 @@ import org.slf4j.LoggerFactory;
 import se.acrend.christopher.shared.exception.TemporaryException;
 import se.acrend.christopher.shared.model.StationInfo;
 import se.acrend.christopher.shared.model.TimeInfo;
-import se.acrend.christopher.shared.model.TrainInfo;
 import se.acrend.christopher.shared.model.TimeInfo.Status;
+import se.acrend.christopher.shared.model.TrainInfo;
 import se.acrend.sjtrafficserver.server.util.DateUtil;
 
 public class TrafikVerketParser {
@@ -95,23 +95,23 @@ public class TrafikVerketParser {
   private TimeInfo parseTime(final String timeString, final String date) {
     TimeInfo info = new TimeInfo();
 
-    info.setTime(findValue(timeString, "^(\\d{1,2}\\:\\d{2})", date));
-    if (info.getTime() == null) {
+    info.setOriginal(findValue(timeString, "^(\\d{1,2}\\:\\d{2})", date));
+    if (info.getOriginal() == null) {
       return null;
     }
 
     info.setActual(findValue(timeString, "[Avgick|Ankom] (\\d{1,2}\\:\\d{2})", date));
-    info.setCalculated(findValue(timeString, "Beräknas (\\d{1,2}\\:\\d{2})", date));
+    info.setEstimated(findValue(timeString, "Beräknas (\\d{1,2}\\:\\d{2})", date));
 
-    if (info.getTime() != null) {
-      if (info.getCalculated() != null) {
-        if (info.getTime().before(info.getCalculated())) {
+    if (info.getOriginal() != null) {
+      if (info.getEstimated() != null) {
+        if (info.getOriginal().before(info.getEstimated())) {
           info.setStatus(Status.Delayed);
         } else {
           info.setStatus(Status.Ok);
         }
       } else if (info.getActual() != null) {
-        if (info.getTime().before(info.getActual())) {
+        if (info.getOriginal().before(info.getActual())) {
           info.setStatus(Status.Delayed);
         } else {
           info.setStatus(Status.Ok);

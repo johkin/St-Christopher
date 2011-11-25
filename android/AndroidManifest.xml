@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="auto"
-    package="se.acrend.sj2cal"
-    android:versionCode="200"
-    android:versionName="2.0.0" >
+    package="se.acrend.christopher"
+    android:versionCode="090"
+    android:versionName="0.9.0" >
 
     <application
         android:debuggable="true"
         android:icon="@drawable/sj2cal"
         android:label="@string/app_name"
-        android:name=".application.Sj2CalApp" >
-        <activity android:name=".activity.TicketTabActivity" >
+        android:name=".android.application.ChristopherApp" >
+        <activity android:name=".android.activity.TicketTabActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.help.About" >
+        <activity android:name=".android.activity.help.About" >
             <intent-filter >
-                <action android:name="se.acrend.sj2cal.About" />
+                <action android:name="se.acrend.christopher.About" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.help.GoSMS" />
-        <activity android:name=".activity.ComingTicketList" />
-        <activity android:name=".activity.DoneTicketList" />
-        <activity android:name=".activity.TicketDetails" />
-        <activity android:name=".activity.TicketText" />
-        <activity android:name=".activity.Preferences" />
-        <activity android:name=".activity.SubscriptionDetails" />
-        <activity android:name=".activity.setup.ChooseAccount" />
-        <activity android:name=".activity.setup.RegisterDevice" />
-        <activity android:name=".activity.setup.ChooseCalendar" />
+        <activity android:name=".android.activity.help.GoSMS" />
+        <activity android:name=".android.activity.ComingTicketList" />
+        <activity android:name=".android.activity.DoneTicketList" />
+        <activity android:name=".android.activity.TicketDetails" />
+        <activity android:name=".android.activity.TicketText" />
+        <activity android:name=".android.activity.Preferences" />
+        <activity android:name=".android.activity.SubscriptionDetails" />
+        <activity android:name=".android.activity.setup.ChooseAccount" />
+        <activity android:name=".android.activity.setup.RegisterDevice" />
+        <activity android:name=".android.activity.setup.ChooseCalendar" />
 
-        <receiver android:name=".receiver.SmsReceiver" >
+        <receiver android:name=".android.receiver.SmsReceiver" >
             <intent-filter android:priority="1000" >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.MessageReceiver" >
+        <receiver android:name=".android.receiver.MessageReceiver" >
             <intent-filter >
-                <action android:name="se.acrend.sj2cal.TEST_MESSAGE" />
+                <action android:name="se.acrend.christopher.TEST_MESSAGE" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.RegistrationReceiver" >
+        <receiver android:name=".android.receiver.RegistrationReceiver" >
             <intent-filter >
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.BACKGROUND_DATA_SETTING_CHANGED" />
             </intent-filter>
             <intent-filter >
-                <action android:name="se.acrend.sj2cal.PREPARE_REGISTRATION" />
-                <action android:name="se.acrend.sj2cal.REGISTER_BOOKING" />
-                <action android:name="se.acrend.sj2cal.DELETE_BOOKING" />
+                <action android:name="se.acrend.christopher.PREPARE_REGISTRATION" />
+                <action android:name="se.acrend.christopher.REGISTER_BOOKING" />
+                <action android:name="se.acrend.christopher.DELETE_BOOKING" />
 
-                <data android:mimeType="vnd.android.cursor.item/se.acrend.sj2cal.ticket" />
+                <data android:mimeType="vnd.android.cursor.item/se.acrend.christopher.ticket" />
             </intent-filter>
         </receiver>
         <!--
@@ -68,23 +68,23 @@
             <intent-filter >
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
-                <category android:name="se.acrend.sj2cal" />
+                <category android:name="se.acrend.christopher" />
             </intent-filter>
             <!-- Receive the registration id -->
             <intent-filter >
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="se.acrend.sj2cal" />
+                <category android:name="se.acrend.christopher" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.BillingReceiver" >
+        <receiver android:name=".android.receiver.BillingReceiver" >
             <intent-filter >
                 <action android:name="com.android.vending.billing.IN_APP_NOTIFY" />
                 <action android:name="com.android.vending.billing.RESPONSE_CODE" />
                 <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".widget.TicketWidgetProvider" >
+        <receiver android:name=".android.widget.TicketWidgetProvider" >
             <intent-filter >
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -93,39 +93,40 @@
                 android:resource="@xml/ticket_widget" />
         </receiver>
 
-        <service android:name=".service.BillingService" />
+        <service android:name=".android.service.BillingService" />
         <service android:name=".C2DMReceiver" />
-        <service android:name=".service.RegistrationService" >
+        <service android:name=".android.service.RegistrationService" >
         </service>
-        <service android:name=".service.UpdateService" >
+        <service android:name=".android.service.UpdateService" >
             <intent-filter >
-                <action android:name="se.acrend.sj2cal.BOOKING_INFORMATION" />
+                <action android:name="se.acrend.christopher.BOOKING_INFORMATION" />
             </intent-filter>
         </service>
-        <service android:name=".service.CalendarService" >
+        <service android:name=".android.service.CalendarService" >
             <intent-filter >
-                <action android:name="se.acrend.sj2cal.ADD_CALENDAR_EVENT" />
-                <action android:name="se.acrend.sj2cal.DELETE_CALENDAR_EVENT" />
+                <action android:name="se.acrend.christopher.ADD_CALENDAR_EVENT" />
+                <action android:name="se.acrend.christopher.DELETE_CALENDAR_EVENT" />
 
-                <data android:mimeType="vnd.android.cursor.item/se.acrend.sj2cal.ticket" />
+                <data android:mimeType="vnd.android.cursor.item/se.acrend.christopher.ticket" />
             </intent-filter>
         </service>
 
         <provider
-            android:authorities="se.acrend.sj2cal.ticket"
-            android:name=".content.TicketProvider" >
+            android:authorities="se.acrend.christopher.ticket"
+            android:name=".android.content.TicketProvider" >
         </provider>
         <provider
-            android:authorities="se.acrend.sj2cal.trafficInfo"
-            android:name=".trafficinfo.provider.TrafficInfoProvider" >
+            android:authorities="se.acrend.christopher.trafficInfo"
+            android:name=".android.trafficinfo.provider.TrafficInfoProvider" >
         </provider>
+        <uses-library android:required="true" android:name="se.acrend.christopher.shared"/>
     </application>
 
     <permission
-        android:name="se.acrend.sj2cal.permission.C2D_MESSAGE"
+        android:name="se.acrend.christopher.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="se.acrend.sj2cal.permission.C2D_MESSAGE" />
+    <uses-permission android:name="se.acrend.christopher.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
@@ -140,8 +141,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-sdk
-        android:minSdkVersion="7"
-        android:targetSdkVersion="8" >
+        android:minSdkVersion="8"
+        android:targetSdkVersion="14" >
     </uses-sdk>
 
     <supports-screens
