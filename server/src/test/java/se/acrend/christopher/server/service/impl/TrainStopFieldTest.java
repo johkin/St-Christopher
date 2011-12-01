@@ -1,4 +1,4 @@
-package se.acrend.sjtrafficserver.server.service.impl;
+package se.acrend.christopher.server.service.impl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,8 +7,8 @@ import java.sql.Timestamp;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.acrend.sjtrafficserver.server.entity.TrainStopEntity;
-import se.acrend.sjtrafficserver.server.service.impl.TrafficServiceImpl.TrainStopField;
+import se.acrend.christopher.server.entity.TrainStopEntity;
+import se.acrend.christopher.server.service.impl.TrafficServiceImpl.TrainStopField;
 
 public class TrainStopFieldTest {
 

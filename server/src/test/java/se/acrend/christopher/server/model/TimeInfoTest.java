@@ -1,4 +1,4 @@
-package se.acrend.sjtrafficserver.server.model;
+package se.acrend.christopher.server.model;
 
 import static org.junit.Assert.assertEquals;
 

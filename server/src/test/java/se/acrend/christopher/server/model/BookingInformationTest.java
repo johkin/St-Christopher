@@ -1,4 +1,4 @@
-package se.acrend.sjtrafficserver.server.model;
+package se.acrend.christopher.server.model;
 
 import java.io.StringWriter;
 

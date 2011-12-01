@@ -1,4 +1,4 @@
-package se.acrend.sjtrafficserver.server.parser;
+package se.acrend.christopher.server.parser;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,8 +8,8 @@ import org.junit.Test;
 
 import se.acrend.christopher.shared.exception.TemporaryException;
 import se.acrend.christopher.shared.model.StationInfo;
-import se.acrend.christopher.shared.model.TrainInfo;
 import se.acrend.christopher.shared.model.TimeInfo.Status;
+import se.acrend.christopher.shared.model.TrainInfo;
 
 public class TrafikVerketParserTest {
 
