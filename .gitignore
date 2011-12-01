@@ -26,3 +26,5 @@
 /server/target
 /server/.classpath
 /server/.project
+/.settings
+/.project
