@@ -34,28 +34,22 @@
   <dependency>
    <groupId>org.roboguice</groupId>
    <artifactId>roboguice</artifactId>
-   <version>1.1.2</version>
+   <version>1.1.1</version>
   </dependency>
   <dependency>
    <groupId>com.google.ads</groupId>
-   <artifactId>admob</artifactId>
+   <artifactId>google-admob</artifactId>
    <version>4.0.4</version>
-   <scope>system</scope>
-   <systemPath>${basedir}/lib/GoogleAdMobAdsSdk-4.0.4.jar</systemPath>
   </dependency>
   <dependency>
    <groupId>com.google.c2dm</groupId>
-   <artifactId>c2dm</artifactId>
+   <artifactId>google-c2dm</artifactId>
    <version>1.0.0</version>
-   <scope>system</scope>
-   <systemPath>${basedir}/lib/c2dm.jar</systemPath>
   </dependency>
   <dependency>
    <groupId>com.google.analytics</groupId>
-   <artifactId>analytics</artifactId>
+   <artifactId>google-analytics</artifactId>
    <version>1.0.0</version>
-   <scope>system</scope>
-   <systemPath>${basedir}/lib/libGoogleAnalytics.jar</systemPath>
   </dependency>
  </dependencies>
 

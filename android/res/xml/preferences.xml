@@ -15,7 +15,7 @@
     <CheckBoxPreference android:key="updateCalendar"
       android:title="@string/prefs.category.calendar.updateCalendar" 
       android:summary="@string/prefs.category.calendar.updateCalendar.summary"/>
-		<se.acrend.sj2cal.calendar.CalendarListPreference
+		<se.acrend.christopher.android.calendar.CalendarListPreference
 			android:key="calendarId" android:title="@string/prefs.category.calendar.select_calendar"
 			android:dialogTitle="@string/prefs.category.calendar.select_calendar"
 			android:defaultValue="-1"  
@@ -47,10 +47,10 @@
 	    
 	    
 	<PreferenceCategory android:title="@string/prefs.category.suggestions">
-    <se.acrend.sj2cal.preference.LinkPreference 
+    <se.acrend.christopher.android.preference.LinkPreference 
     android:title="@string/prefs.category.suggestions.getSatisfaction.title"
     android:summary="@string/prefs.category.suggestions.getSatisfaction.summary"
-    android:value="http://getsatisfaction.com/acrend/products/acrend_sj2calendar"/>
+    android:value="http://getsatisfaction.com/acrend/products/acrend_christopher"/>
 
 	</PreferenceCategory>
 

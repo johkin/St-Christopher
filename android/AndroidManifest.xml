@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:installLocation="auto"
+    android:installLocation="internalOnly"
     package="se.acrend.christopher"
     android:versionCode="090"
     android:versionName="0.9.0" >
@@ -119,7 +119,6 @@
             android:authorities="se.acrend.christopher.trafficInfo"
             android:name=".android.trafficinfo.provider.TrafficInfoProvider" >
         </provider>
-        <uses-library android:required="true" android:name="se.acrend.christopher.shared"/>
     </application>
 
     <permission

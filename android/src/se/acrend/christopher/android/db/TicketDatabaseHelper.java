@@ -11,7 +11,7 @@ public class TicketDatabaseHelper extends SQLiteOpenHelper {
   private static final String TAG = "TicketDatabaseHelper";
 
   private static final int DATABASE_VERSION = 13;
-  public static final String DATABASE_NAME = "sj2cal.db";
+  public static final String DATABASE_NAME = "christopher.db";
 
   public TicketDatabaseHelper(final Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
