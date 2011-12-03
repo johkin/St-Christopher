@@ -40,7 +40,13 @@ public class MainView extends Window {
           setContent(new ConfigurationView());
         }
       });
-      adminMenu.addItem("Produkter", null);
+      adminMenu.addItem("Produkter", new Command() {
+
+        @Override
+        public void menuSelected(final MenuItem selectedItem) {
+          setContent(new ProductView());
+        }
+      });
       adminMenu.addItem("Alla bokningar", null);
     }
 

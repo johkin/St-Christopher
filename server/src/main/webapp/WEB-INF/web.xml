@@ -10,9 +10,24 @@
 		<param-value>classpath*:appCtx.xml</param-value>
 	</context-param>
 
+  <filter>
+   <filter-name>openEntityManagerInViewFilter</filter-name>
+   <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>openEntityManagerInViewFilter</filter-name>
+    <servlet-name>dispatcher</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>openEntityManagerInViewFilter</filter-name>
+    <servlet-name>vaadinServlet</servlet-name>
+  </filter-mapping>
+
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
 
 	<!-- Servlets -->
 	<servlet>
@@ -28,47 +43,7 @@
     <servlet-name>dispatcher</servlet-name>
     <servlet-class> org.springframework.web.servlet.DispatcherServlet</servlet-class>
   </servlet>
-<!-- 
-	<servlet>
-		<servlet-name>registrationServlet</servlet-name>
-		<servlet-class>se.acrend.christopher.server.servlet.RegistrationServlet</servlet-class>
-	</servlet>
 
-	<servlet>
-		<servlet-name>billingServlet</servlet-name>
-		<servlet-class>se.acrend.christopher.server.servlet.BillingServlet</servlet-class>
-	</servlet>
-
-	<servlet>
-		<servlet-name>proxyServlet</servlet-name>
-		<servlet-class>se.acrend.christopher.server.servlet.TrainProxyServlet</servlet-class>
-	</servlet>
-
-	<servlet>
-		<servlet-name>authQueueServlet</servlet-name>
-		<servlet-class>se.acrend.christopher.server.servlet.queue.AuthQueueServlet</servlet-class>
-	</servlet>
-
-	<servlet>
-		<servlet-name>sendMessageQueueServlet</servlet-name>
-		<servlet-class>se.acrend.christopher.server.servlet.queue.SendMessageQueueServlet</servlet-class>
-	</servlet>
-
-	<servlet>
-		<servlet-name>findChangedStopsQueueServlet</servlet-name>
-		<servlet-class>se.acrend.christopher.server.servlet.queue.FindChangedStopsQueueServlet</servlet-class>
-	</servlet>
-
-	<servlet>
-		<servlet-name>findCurrentTrainsCronServlet</servlet-name>
-		<servlet-class>se.acrend.christopher.server.servlet.cron.FindCurrentTrainsCronServlet</servlet-class>
-	</servlet>
-
-	<servlet>
-		<servlet-name>purgeDataCronServlet</servlet-name>
-		<servlet-class>se.acrend.christopher.server.servlet.cron.PurgeDataCronServlet</servlet-class>
-	</servlet>
--->
 	<servlet-mapping>
 		<servlet-name>vaadinServlet</servlet-name>
 		<url-pattern>/gui</url-pattern>
@@ -77,56 +52,12 @@
 		<servlet-name>vaadinServlet</servlet-name>
 		<url-pattern>/gui/*</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>vaadinServlet</servlet-name>
-		<url-pattern>/VAADIN/*</url-pattern>
-	</servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
     <url-pattern>/*</url-pattern>
   </servlet-mapping>
-<!-- 
-	<servlet-mapping>
-		<servlet-name>registrationServlet</servlet-name>
-		<url-pattern>/registration</url-pattern>
-	</servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>billingServlet</servlet-name>
-		<url-pattern>/billing</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>proxyServlet</servlet-name>
-		<url-pattern>/proxy</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>authQueueServlet</servlet-name>
-		<url-pattern>/_ah/queue/update-server-auth</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>sendMessageQueueServlet</servlet-name>
-		<url-pattern>/_ah/queue/send-message</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>findChangedStopsQueueServlet</servlet-name>
-		<url-pattern>/_ah/queue/current-trains</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>findCurrentTrainsCronServlet</servlet-name>
-		<url-pattern>/cron/check-traffic</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>purgeDataCronServlet</servlet-name>
-		<url-pattern>/cron/delete-old-entries</url-pattern>
-	</servlet-mapping>
--->
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>gui/</welcome-file>

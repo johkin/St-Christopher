@@ -37,6 +37,7 @@ public class TrafikVerketParser {
     info.setTrainNo(trainNo);
 
     Elements tables = document.select("table.FavouriteDataGrid");
+
     if (tables.isEmpty()) {
       log.error("Kunde inte tolka svar från Transportstyrelsen för tåg {}, datum {}", trainNo, date);
       throw new TemporaryException("Kunde inte tolka svar från Transportstyrelsen för tåg " + trainNo + " datum "

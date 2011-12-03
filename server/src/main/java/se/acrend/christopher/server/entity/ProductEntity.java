@@ -12,6 +12,8 @@ import com.google.appengine.api.datastore.Key;
 @Entity
 public class ProductEntity implements Serializable {
 
+  private static final long serialVersionUID = 1L;
+
   public enum ProductType {
     Day, Count
   }

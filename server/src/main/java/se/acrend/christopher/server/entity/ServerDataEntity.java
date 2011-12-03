@@ -12,6 +12,8 @@ import com.google.appengine.api.datastore.Key;
 @Entity
 public class ServerDataEntity implements Serializable {
 
+  private static final long serialVersionUID = 1L;
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Key key;

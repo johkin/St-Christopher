@@ -54,6 +54,10 @@ public class TrafficServiceImpl {
   private UserService userService;
   @Autowired
   private EntityManagerFactory entityManagerFactory;
+  @Autowired
+  private TrainStopDao trainDao;
+  @Autowired
+  private BookingDao bookingDao;
 
   public AbstractResponse registerBooking(final String code, final String trainNo, final Date date, final String from,
       final String to, final String registrationId) {
@@ -95,8 +99,6 @@ public class TrafficServiceImpl {
 
       log.debug("Parsat xml: {}", info);
 
-      TrainStopDao trainDao = new TrainStopDao();
-
       List<TrainStopEntity> stops = trainDao.findByTrainNo(trainNo, cal);
       if (stops.isEmpty()) {
         stops = convert(info.getStations(), cal, trainNo);
@@ -107,7 +109,6 @@ public class TrafficServiceImpl {
         }
       }
 
-      BookingDao bookingDao = new BookingDao();
       User user = userService.getCurrentUser();
 
       BookingEntity booking = bookingDao.findByCodeUser(code, user.getEmail());
@@ -131,9 +132,11 @@ public class TrafficServiceImpl {
       if (booking == null) {
         booking = new BookingEntity();
         if (departureStop != null) {
+          log.debug("Bokning från {}", departureStop.getStationName());
           booking.setDeparture(departureStop.getKey());
         }
         if (arrivalStop != null) {
+          log.debug("Bokning till {}", arrivalStop.getStationName());
           booking.setArrival(arrivalStop.getKey());
         }
         booking.setUserEmail(user.getEmail());
@@ -193,7 +196,6 @@ public class TrafficServiceImpl {
     try {
       transaction = entityManagerFactory.createEntityManager().getTransaction();
 
-      BookingDao bookingDao = new BookingDao();
       User user = userService.getCurrentUser();
 
       BookingEntity booking = bookingDao.findByCodeUser(code, user.getEmail());
@@ -225,9 +227,6 @@ public class TrafficServiceImpl {
       TrainInfo tagInfo = trafikVerketController.getTagInfo(trainNo, cal);
 
       log.debug("Hämtat tåginfo för tåg {}, {}", trainNo, DateUtil.formatDate(cal));
-
-      TrainStopDao trainDao = new TrainStopDao();
-      BookingDao bookingDao = new BookingDao();
 
       List<TrainStopEntity> stops = trainDao.findByTrainNo(trainNo, cal);
       if (stops.isEmpty()) {

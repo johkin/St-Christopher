@@ -5,17 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ContextUtil {
+public class ServiceLocator {
 
   private static BeanFactory beanFactory;
 
-  public static <T> T getBean(final Class<T> type) {
+  public static <T> T getService(final Class<T> type) {
     return beanFactory.getBean(type);
   }
 
   @Autowired
   public void setBeanFactory(final BeanFactory beanFactory) {
-    ContextUtil.beanFactory = beanFactory;
+    ServiceLocator.beanFactory = beanFactory;
   }
 
 }

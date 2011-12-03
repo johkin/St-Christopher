@@ -22,7 +22,7 @@ public class TrafikVerketParserTest {
 
   @Test
   public void testParseCancelled() throws Exception {
-    String content = IOUtils.toString(this.getClass().getResourceAsStream("/trafikverket/284-cancelled.html"));
+    String content = IOUtils.toString(this.getClass().getResourceAsStream("/trafikverket/284-cancelled.html"), "UTF-8");
     TrainInfo info = parser.parse(content, "20111005", "284");
 
     for (StationInfo station : info.getStations()) {
@@ -42,7 +42,7 @@ public class TrafikVerketParserTest {
 
   @Test
   public void testParseDelayed() throws Exception {
-    String content = IOUtils.toString(this.getClass().getResourceAsStream("/trafikverket/542-delayed.html"));
+    String content = IOUtils.toString(this.getClass().getResourceAsStream("/trafikverket/542-delayed.html"), "UTF-8");
     TrainInfo info = parser.parse(content, "20111005", "284");
 
     for (StationInfo station : info.getStations()) {
@@ -67,7 +67,7 @@ public class TrafikVerketParserTest {
 
   @Test
   public void testParseInfo() throws Exception {
-    String content = IOUtils.toString(this.getClass().getResourceAsStream("/trafikverket/523-info.html"));
+    String content = IOUtils.toString(this.getClass().getResourceAsStream("/trafikverket/523-info.html"), "UTF-8");
     TrainInfo info = parser.parse(content, "20111005", "284");
 
     for (StationInfo station : info.getStations()) {
