@@ -1,5 +1,6 @@
 package se.acrend.christopher.android.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import roboguice.service.RoboService;
 import se.acrend.christopher.R;
 import se.acrend.christopher.android.activity.SubscriptionDetails;
+import se.acrend.christopher.android.activity.TicketTabActivity;
 import se.acrend.christopher.android.content.ProviderHelper;
 import se.acrend.christopher.android.content.ProviderTypes;
 import se.acrend.christopher.android.intent.Intents;
@@ -66,6 +68,63 @@ public class RegistrationService extends RoboService {
 
   private static final int MAX_RETRY_COUNT = 5;
 
+  @Override
+  public void onStart(final Intent intent, final int startId) {
+    super.onStart(intent, startId);
+
+    if (Intents.DELETE_BOOKING.equals(intent.getAction())) {
+      deleteBooking(intent.getData());
+    } else if (Intents.REGISTER_BOOKING.equals(intent.getAction())) {
+      // Kontrollera bakgrundsdata
+      if (!connectivityManager.getBackgroundDataSetting()) {
+        notifyBackgroundData(context);
+        return;
+      }
+
+      if (!connectivityManager.getActiveNetworkInfo().isConnected()) {
+        Calendar fiveMinutes = Calendar.getInstance();
+        fiveMinutes.add(Calendar.MINUTE, 5);
+
+        notifyConnectivity(context, fiveMinutes);
+
+        Log.d(
+            TAG,
+            "Schemalägger ny registrering för url " + intent.getDataString() + " vid "
+                + DateUtil.formatTime(fiveMinutes));
+
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, fiveMinutes.getTimeInMillis(), pendingIntent);
+
+        return;
+      }
+
+      DbModel model = providerHelper.findTicket(intent.getData());
+
+      callRegistration(model);
+    } else if (Intents.PREPARE_REGISTRATION.equals(intent.getAction())) {
+      DbModel model = providerHelper.findTicket(intent.getData());
+
+      registerTimer(context, model);
+    }
+  }
+
+  public void updatePendingRegistrations() {
+    if (!connectivityManager.getBackgroundDataSetting()) {
+      notifyBackgroundData(context);
+    } else {
+      // Lista alla poster i databasen där ankomst inte har passerat
+      String[] args = { new Timestamp(timeSource.getCurrentMillis()).toString() };
+
+      List<DbModel> tickets = providerHelper.findTickets("originalArrival > ? and registered = 0", args);
+      if (!tickets.isEmpty()) {
+
+        for (DbModel model : tickets) {
+          registerTimer(context, model);
+        }
+      }
+    }
+  }
+
   public void deleteBooking(final Uri data) {
     Log.d(TAG, "Delete booking");
 
@@ -85,10 +144,9 @@ public class RegistrationService extends RoboService {
 
     try {
 
-      HttpPost post = communicationHelper.createPostRequest(HttpUtil.REGISTRATION_PATH);
+      HttpPost post = communicationHelper.createPostRequest(HttpUtil.REGISTRATION_PATH + "/unregister");
 
       List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-      nameValuePairs.add(new BasicNameValuePair("action", "unregister"));
       nameValuePairs.add(new BasicNameValuePair("code", info.getCode()));
 
       HttpResponse response = communicationHelper.callServer(post, nameValuePairs);
@@ -111,10 +169,9 @@ public class RegistrationService extends RoboService {
     try {
       String registrationId = prefsHelper.getRegistrationId();
 
-      HttpPost post = communicationHelper.createPostRequest(HttpUtil.REGISTRATION_PATH);
+      HttpPost post = communicationHelper.createPostRequest(HttpUtil.REGISTRATION_PATH + "/register");
 
       List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-      nameValuePairs.add(new BasicNameValuePair("action", "register"));
       nameValuePairs.add(new BasicNameValuePair("code", model.getCode()));
       nameValuePairs.add(new BasicNameValuePair("trainNo", model.getTrain()));
       nameValuePairs.add(new BasicNameValuePair("from", model.getFrom()));
@@ -189,9 +246,52 @@ public class RegistrationService extends RoboService {
 
     Log.d(TAG, "Schemalägger ny registrering för id " + model.getId() + " vid " + DateUtil.formatTime(fiveMinutes));
 
-    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(Intents.REGISTER_BOOKING,
+    PendingIntent pendingIntent = PendingIntent.getService(context, 0, new Intent(Intents.REGISTER_BOOKING,
         ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, model.getId())), PendingIntent.FLAG_ONE_SHOT);
     alarmManager.set(AlarmManager.RTC_WAKEUP, fiveMinutes.getTimeInMillis(), pendingIntent);
+  }
+
+  private void notifyConnectivity(final Context context, final Calendar scheduleTime) {
+    Notification notification = new Notification();
+    notification.icon = R.drawable.sj2cal_bw;
+    notification.when = System.currentTimeMillis();
+    notification.flags = Notification.FLAG_AUTO_CANCEL;
+    notification.tickerText = "Saknar koppling till nät vid registrering.";
+    Intent notificationIntent = new Intent("Dummy");
+    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+
+    notification.setLatestEventInfo(context, "Saknar koppling till nät vid registrering.",
+        "Har schemalagt nytt försök för registrering vid " + DateUtil.formatTime(scheduleTime), pendingIntent);
+
+    notificationManager.notify(1, notification);
+  }
+
+  private void notifyBackgroundData(final Context context) {
+    Notification notification = new Notification();
+    notification.icon = R.drawable.stat_sys_warning;
+    notification.when = System.currentTimeMillis();
+    notification.flags = Notification.FLAG_AUTO_CANCEL;
+    notification.tickerText = "Kan inte registrera resa hos server.";
+    // TODO Rätt action/class
+    Intent notificationIntent = new Intent(context, TicketTabActivity.class);
+    PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+
+    notification.setLatestEventInfo(context, "Kan inte registrera resa.",
+        "Bakgrundsdata inte tillåten, ändra inställningarna för att registrera resa hos server.", contentIntent);
+
+    notificationManager.notify(1, notification);
+  }
+
+  private void registerTimer(final Context context, final DbModel model) {
+    Calendar registrationTime = model.getDeparture().getOriginal();
+    registrationTime.add(Calendar.MINUTE, -prefsHelper.getReadAheadMinutes());
+
+    Log.d(TAG, "Schemalägger registrering för id " + model.getId() + " vid " + DateUtil.formatTime(registrationTime));
+    Log.d(TAG, "Klockan är nu " + DateUtil.formatTime(DateUtil.createCalendar()));
+
+    PendingIntent pendingIntent = PendingIntent.getService(context, 0, new Intent(Intents.REGISTER_BOOKING,
+        ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, model.getId())), PendingIntent.FLAG_ONE_SHOT);
+    alarmManager.set(AlarmManager.RTC_WAKEUP, registrationTime.getTimeInMillis(), pendingIntent);
   }
 
   @Override

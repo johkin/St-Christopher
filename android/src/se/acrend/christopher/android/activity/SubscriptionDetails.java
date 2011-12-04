@@ -108,7 +108,7 @@ public class SubscriptionDetails extends RoboActivity {
 
       @Override
       protected void onPostExecute(final ProductList result) {
-        ArrayAdapter<Product> s = new ArrayAdapter<ProductList.Product>(context, R.layout.calendars_dropdown_item,
+        ArrayAdapter<Product> s = new ArrayAdapter<ProductList.Product>(context, R.layout.product_dropdown_item,
             result.getProducts()) {
 
           @Override

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/ticket.details.menu.register" android:icon="@drawable/ic_menu_upload"
+    android:title="@string/button.register" />
 	<item android:id="@+id/ticket.details.menu.delete" android:icon="@drawable/ic_menu_delete"
 		android:title="@string/button.delete" />
 </menu>

@@ -47,6 +47,21 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>c2dm-source</id>
+						<phase>install</phase>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+						<configuration>
+							<file>${basedir}/lib/c2dm-sources.jar</file>
+							<groupId>com.google.c2dm</groupId>
+							<artifactId>google-c2dm</artifactId>
+							<version>1.0.0</version>
+							<packaging>jar</packaging>
+							<classifier>sources</classifier>
+						</configuration>
+					</execution>
+					<execution>
 						<id>admob</id>
 						<phase>install</phase>
 						<goals>

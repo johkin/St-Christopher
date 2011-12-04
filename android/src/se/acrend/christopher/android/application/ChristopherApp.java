@@ -2,20 +2,25 @@ package se.acrend.christopher.android.application;
 
 import java.util.List;
 
-import roboguice.application.RoboApplication;
+import roboguice.application.RoboInjectableApplication;
 import se.acrend.christopher.android.module.ChristopherModule;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+import com.google.inject.Inject;
 import com.google.inject.Module;
 
-public class ChristopherApp extends RoboApplication {
+public class ChristopherApp extends RoboInjectableApplication {
 
   private static final String COM_JB_GOSMS = "com.jb.gosms";
   private static final String SJ_2_CAL = "se.acrend.christopher";
 
   private static final String TAG = "ChristopherApp";
+
+  @Inject
+  private GoogleAnalyticsTracker analyticsTracker;
 
   @Override
   protected void addApplicationModules(final List<Module> modules) {
@@ -26,8 +31,12 @@ public class ChristopherApp extends RoboApplication {
   public void onCreate() {
     super.onCreate();
 
-    // TODO Lägg kontroll av OS-version för att avgöra vad som ska vara aktivt,
-    // ställ in default-värden.
+    analyticsTracker.startNewSession("UA-26490475-1", getApplicationContext());
+  }
+
+  @Override
+  public void onTerminate() {
+    analyticsTracker.stopSession();
   }
 
   public boolean isGoSmsInstalled() {

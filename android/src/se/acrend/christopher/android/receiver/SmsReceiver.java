@@ -1,7 +1,6 @@
 package se.acrend.christopher.android.receiver;
 
 import roboguice.receiver.RoboBroadcastReceiver;
-import se.acrend.christopher.R;
 import se.acrend.christopher.android.parser.MessageHandler;
 import se.acrend.christopher.android.preference.PrefsHelper;
 import android.content.Context;
@@ -41,10 +40,7 @@ public class SmsReceiver extends RoboBroadcastReceiver {
     boolean success = messageHandler.handleMessage(msgBody);
 
     if (success) {
-      String analyticsCode = context.getString(R.string.analytics_code);
-      tracker.startNewSession(analyticsCode, context);
       tracker.trackEvent("Ticket", "Received", "SMS", 0);
-      tracker.stopSession();
       tracker.dispatch();
     }
 

@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ABC123D0001" />
-        <se.acrend.sj2cal.view.DotView
+        <se.acrend.christopher.android.view.DotView
             android:id="@+id/ticket.item.registeredDot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" 

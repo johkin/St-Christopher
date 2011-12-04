@@ -39,10 +39,9 @@ public class BillingHelper {
 
     try {
 
-      HttpPost post = communicationHelper.createPostRequest(HttpUtil.SUBSCRIPTION_PATH);
+      HttpPost post = communicationHelper.createPostRequest(HttpUtil.BILLING_PATH + "/getSubscription");
 
       List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-      parameters.add(new BasicNameValuePair("action", "getSubscription"));
 
       HttpResponse response = communicationHelper.callServer(post, parameters);
 
@@ -64,10 +63,9 @@ public class BillingHelper {
 
     try {
 
-      HttpPost post = communicationHelper.createPostRequest(HttpUtil.SUBSCRIPTION_PATH);
+      HttpPost post = communicationHelper.createPostRequest(HttpUtil.BILLING_PATH + "/getProductList");
 
       List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-      parameters.add(new BasicNameValuePair("action", "getProductList"));
 
       HttpResponse response = communicationHelper.callServer(post, parameters);
 
@@ -87,10 +85,9 @@ public class BillingHelper {
     Log.d(TAG, "Hämta Market-Key");
 
     try {
-      HttpPost post = communicationHelper.createPostRequest(HttpUtil.SUBSCRIPTION_PATH);
+      HttpPost post = communicationHelper.createPostRequest(HttpUtil.BILLING_PATH + "/getMarketLicenseKey");
 
       List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-      parameters.add(new BasicNameValuePair("action", "getMarketLicenseKey"));
 
       HttpResponse response = communicationHelper.callServer(post, parameters);
 
@@ -112,10 +109,9 @@ public class BillingHelper {
 
     try {
 
-      HttpPost post = communicationHelper.createPostRequest(HttpUtil.SUBSCRIPTION_PATH);
+      HttpPost post = communicationHelper.createPostRequest(HttpUtil.BILLING_PATH + "/billingCompleted");
 
       List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-      parameters.add(new BasicNameValuePair("action", "billingCompleted"));
       parameters.add(new BasicNameValuePair("productId", productId));
       parameters.add(new BasicNameValuePair("nonce", Long.toString(nonce)));
 

@@ -2,8 +2,6 @@ package se.acrend.christopher.android.activity;
 
 import roboguice.activity.RoboPreferenceActivity;
 import se.acrend.christopher.R;
-import se.acrend.christopher.android.calendar.CalendarHelper;
-import se.acrend.christopher.android.calendar.CalendarListPreference;
 import se.acrend.christopher.android.preference.AccountHelper;
 import android.content.Context;
 import android.os.Bundle;
@@ -15,8 +13,6 @@ import com.google.inject.Inject;
 public class Preferences extends RoboPreferenceActivity {
 
   @Inject
-  private CalendarHelper calendarHelper;
-  @Inject
   private Context context;
   @Inject
   private AccountHelper accountHelper;
@@ -26,9 +22,6 @@ public class Preferences extends RoboPreferenceActivity {
     super.onCreate(savedInstanceState);
 
     addPreferencesFromResource(R.xml.preferences);
-
-    CalendarListPreference calendarList = (CalendarListPreference) findPreference("calendarId");
-    calendarList.setAdapter(calendarHelper.getCalendarList());
 
     ListPreference account = (ListPreference) findPreference("account");
 

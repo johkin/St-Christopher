@@ -13,6 +13,7 @@ import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.model.DbModel;
 import se.acrend.christopher.android.model.DbModel.TimeModel;
 import se.acrend.christopher.android.util.DateUtil;
+import se.acrend.christopher.android.util.TimeSource;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.ContentResolver;
@@ -37,6 +38,8 @@ import com.google.inject.Inject;
 public class TicketDetails extends RoboActivity {
 
   private static final String TAG = "TicketDetails";
+
+  private static final long REGISTER_BEFORE_DEPARTURE_MILLIS = 24 * 60 * 60 * 1000;
 
   @InjectView(R.id.ticket_details_ticketCode)
   private TextView ticketCode;
@@ -64,6 +67,8 @@ public class TicketDetails extends RoboActivity {
   private Context context;
   @Inject
   private ContentResolver contentResolver;
+  @Inject
+  private TimeSource timeSource;
 
   private ContentObserver contentObserver;
 
@@ -203,18 +208,27 @@ public class TicketDetails extends RoboActivity {
   public boolean onCreateOptionsMenu(final Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.details_menu, menu);
+    MenuItem registrationMenu = menu.getItem(0);
+    long millis = model.getDeparture().getOriginal().getTimeInMillis() - timeSource.getCurrentMillis();
+    if (model.isRegistered() || (millis > REGISTER_BEFORE_DEPARTURE_MILLIS)) {
+      // registrationMenu.setEnabled(false);
+    }
     return true;
   }
 
   @Override
   public boolean onOptionsItemSelected(final MenuItem item) {
+    Uri data = ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, model.getId());
     switch (item.getItemId()) {
     case R.id.ticket_details_menu_delete:
       // TODO ProgressDialog
       getContentResolver().unregisterContentObserver(contentObserver);
-      Uri data = ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, model.getId());
-      sendBroadcast(new Intent(Intents.DELETE_BOOKING, data));
+      startService(new Intent(Intents.DELETE_BOOKING, data));
       finish();
+      return true;
+    case R.id.ticket_details_menu_register:
+      // TODO ProgressDialog
+      startService(new Intent(Intents.REGISTER_BOOKING, data));
       return true;
     default:
       return super.onOptionsItemSelected(item);

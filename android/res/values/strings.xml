@@ -14,6 +14,7 @@
     </string>
     <string name="gosms.moreinfo">Mer information</string>
     <string name="button.delete">Ta bort</string>
+    <string name="button.register">Registrera bokning</string>
     <string name="about.header">Om Christopher</string>
     <string name="about.text">
     1.0.6\n
@@ -34,7 +35,7 @@
     Applikationen har utvecklats för eget bruk, utan koppling till SJ.\n    
     Synpunkter, förslag på förbättringar eller felrapporter skickas till \'android.support@acrend.se\', 
     eller registreras på getSatisfaction genom länken i inställningarna.\n
-    Sj2Calendar används på egen risk, Acrend tar inget ansvar för försvunna eller felaktiga biljetter.\n
+    Christopher används på egen risk, Acrend tar inget ansvar för försvunna eller felaktiga biljetter.\n
     \n
     Instruktioner\n
     \t1. Välj vilken kalender du vill att biljetterna ska läggas i.\n

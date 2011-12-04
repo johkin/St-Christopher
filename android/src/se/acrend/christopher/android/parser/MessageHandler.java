@@ -82,9 +82,6 @@ public class MessageHandler {
         ticketId));
     context.sendBroadcast(intent);
 
-    Intent addCalendarEvent = new Intent(Intents.ADD_CALENDAR_EVENT, ContentUris.withAppendedId(
-        ProviderTypes.CONTENT_URI, ticketId));
-    context.startService(addCalendarEvent);
     Log.d(TAG, "Start service for ticket: " + wrapper.getCode());
 
     notifyMessage();
@@ -102,7 +99,7 @@ public class MessageHandler {
     PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
     notification.setLatestEventInfo(context, "Lagt till biljett.",
-        "Har lagt till nya biljetter i kalendern. Kontrollera informationen.", contentIntent);
+        "Har lagt till nya biljetter. Kontrollera informationen.", contentIntent);
 
     notificationManager.notify(1, notification);
   }

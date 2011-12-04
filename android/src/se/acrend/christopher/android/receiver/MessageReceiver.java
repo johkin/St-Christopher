@@ -1,7 +1,6 @@
 package se.acrend.christopher.android.receiver;
 
 import roboguice.receiver.RoboBroadcastReceiver;
-import se.acrend.christopher.R;
 import se.acrend.christopher.android.parser.MessageHandler;
 import android.content.Context;
 import android.content.Intent;
@@ -27,10 +26,7 @@ public class MessageReceiver extends RoboBroadcastReceiver {
 
     messageHandler.handleMessage(msgBody);
 
-    String analyticsCode = context.getString(R.string.analytics_code);
-    tracker.startNewSession(analyticsCode, context);
     tracker.trackEvent("Ticket", "Received", "Test", 0);
-    tracker.stopSession();
     tracker.dispatch();
   }
 }

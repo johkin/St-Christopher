@@ -4,7 +4,6 @@ import roboguice.activity.RoboTabActivity;
 import se.acrend.christopher.R;
 import se.acrend.christopher.android.activity.help.About;
 import se.acrend.christopher.android.activity.setup.ChooseAccount;
-import se.acrend.christopher.android.activity.setup.ChooseCalendar;
 import se.acrend.christopher.android.activity.setup.RegisterDevice;
 import se.acrend.christopher.android.preference.PrefsHelper;
 import android.content.Intent;
@@ -48,8 +47,6 @@ public class TicketTabActivity extends RoboTabActivity {
       startActivityForResult(new Intent().setClass(getApplicationContext(), ChooseAccount.class), 2);
     } else if (prefsHelper.getRegistrationId() == null) {
       startActivityForResult(new Intent().setClass(getApplicationContext(), RegisterDevice.class), 3);
-    } else if (prefsHelper.getCalendarId() == -1) {
-      startActivityForResult(new Intent().setClass(getApplicationContext(), ChooseCalendar.class), 4);
     }
   }
 

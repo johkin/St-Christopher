@@ -8,9 +8,9 @@ import org.apache.http.HttpResponse;
 
 public class HttpUtil {
 
-  public static final String SERVER_URL = "https://st-christopher-server.appspot.com";
+  public static final String SERVER_URL = "https://1.latest.st-christopher-server.appspot.com";
   public static final String REGISTRATION_PATH = "/registration";
-  public static final String SUBSCRIPTION_PATH = "/billing";
+  public static final String BILLING_PATH = "/billing";
   public static final String LOGIN_PATH = "/_ah/login?continue=";
 
   public static String toString(final HttpResponse response) throws UnsupportedEncodingException, IOException {

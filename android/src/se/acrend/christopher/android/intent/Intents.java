@@ -6,9 +6,6 @@ public interface Intents {
   String PREPARE_REGISTRATION = "se.acrend.christopher.PREPARE_REGISTRATION";
   String DELETE_BOOKING = "se.acrend.christopher.DELETE_BOOKING";
 
-  String ADD_CALENDAR_EVENT = "se.acrend.christopher.ADD_CALENDAR_EVENT";
-  String DELETE_CALENDAR_EVENT = "se.acrend.christopher.DELETE_CALENDAR_EVENT";
-
   String BOOKING_INFORMATION = "se.acrend.christopher.BOOKING_INFORMATION";
 
   String C2DM_REGISTRATION_FINISHED = "se.acrend.christopher.C2DM_REGISTRATION_FINISHED";
