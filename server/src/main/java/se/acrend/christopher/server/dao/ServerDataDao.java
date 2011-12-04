@@ -14,7 +14,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 @Component
 public class ServerDataDao {
 
-  private final Key key = KeyFactory.createKey("ServerDataEntity", 1);
+  private final Key key = KeyFactory.createKey(DataConstants.KIND_SERVER_DATA, 1);
 
   @Autowired
   private DatastoreService datastore;

@@ -410,7 +410,7 @@ public class TrafficServiceImpl {
     List<Entity> list = new ArrayList<Entity>();
 
     for (StationInfo info : stations) {
-      Entity stop = new Entity("TrainStopEntity");
+      Entity stop = new Entity(DataConstants.KIND_TRAIN_STOP);
 
       if (info.getArrival() != null) {
         TimeInfo arrival = info.getArrival();

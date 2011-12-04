@@ -41,38 +41,6 @@
       <artifactId>appengine-jsr107cache</artifactId>
       <version>${gae.version}</version>
     </dependency>
-    <!-- 
-    <dependency>
-      <groupId>org.datanucleus</groupId>
-      <artifactId>datanucleus-core</artifactId>
-      <version>1.1.5</version>
-    </dependency>
-    <dependency>
-      <groupId>org.datanucleus</groupId>
-      <artifactId>datanucleus-jpa</artifactId>
-      <version>1.1.5</version>
-    </dependency>
-    <dependency>
-      <groupId>org.datanucleus</groupId>
-      <artifactId>datanucleus-enhancer</artifactId>
-      <version>1.1.4</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.appengine.orm</groupId>
-      <artifactId>datanucleus-appengine</artifactId>
-      <version>1.0.9</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.geronimo.specs</groupId>
-      <artifactId>geronimo-jpa_3.0_spec</artifactId>
-      <version>1.1.1</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.jdo</groupId>
-      <artifactId>jdo-api</artifactId>
-      <version>3.0</version>
-    </dependency>
-     -->
     <dependency>
       <groupId>org.apache.geronimo.specs</groupId>
       <artifactId>geronimo-servlet_2.5_spec</artifactId>
@@ -119,62 +87,10 @@
       <artifactId>spring-beans</artifactId>
       <version>3.0.6.RELEASE</version>
     </dependency>
-    <!-- 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-orm</artifactId>
-      <version>3.0.6.RELEASE</version>
-    </dependency>
-     -->
   </dependencies>
 
   <build>
     <plugins>
-      <!-- This plug-in "enhances" your domain model objects (i.e. makes them persistent for datanucleus) 
-      <plugin>
-        <groupId>org.datanucleus</groupId>
-        <artifactId>maven-datanucleus-plugin</artifactId>
-        <version>1.1.4</version>
-        <configuration>
-          <mappingIncludes>**/entity/*.class</mappingIncludes>
-          <verbose>false</verbose>
-          <enhancerName>ASM</enhancerName>
-          <api>JPA</api>
-          <fork>false</fork>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <goals>
-              <goal>enhance</goal>
-            </goals>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>org.datanucleus</groupId>
-            <artifactId>datanucleus-core</artifactId>
-            <version>1.1.5</version>
-            <exclusions>
-              <exclusion>
-                <groupId>javax.transaction</groupId>
-                <artifactId>transaction-api</artifactId>
-              </exclusion>
-            </exclusions>
-          </dependency>
-          <dependency>
-            <groupId>org.datanucleus</groupId>
-            <artifactId>datanucleus-rdbms</artifactId>
-            <version>1.1.5</version>
-          </dependency>
-          <dependency>
-            <groupId>org.datanucleus</groupId>
-            <artifactId>datanucleus-enhancer</artifactId>
-            <version>1.1.4</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      -->
       <!-- 
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>

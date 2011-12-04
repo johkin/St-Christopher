@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import se.acrend.christopher.server.dao.SubscriptionDao;
+import se.acrend.christopher.server.persistence.DataConstants;
 import se.acrend.christopher.server.util.DateUtil;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -33,14 +31,12 @@ public class SubscriptionControllerImpl {
   public Entity findSubscription() {
     User user = userService.getCurrentUser();
 
-    PreparedQuery query = datastore.prepare(new Query("Subscription").addFilter("userEmail", FilterOperator.EQUAL,
-        user.getEmail()));
-    Entity subscription = query.asSingleEntity();
+    Entity subscription = subscriptionDao.findByUser(user.getEmail());
 
     if (subscription == null) {
       Transaction transaction = datastore.beginTransaction();
 
-      subscription = new Entity("Subscription");
+      subscription = new Entity(DataConstants.KIND_SUBSCRIPTION);
       subscription.setProperty("notificationCount", 5);
       subscription.setProperty("travelWarrantCount", 5);
 
