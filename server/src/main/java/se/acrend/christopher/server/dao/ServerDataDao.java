@@ -1,23 +1,30 @@
 package se.acrend.christopher.server.dao;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import se.acrend.christopher.server.entity.ServerDataEntity;
+import se.acrend.christopher.server.persistence.DataConstants;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
-@Repository
-public class ServerDataDao extends AbstractDao<ServerDataEntity> {
+@Component
+public class ServerDataDao {
 
   private final Key key = KeyFactory.createKey("ServerDataEntity", 1);
 
-  public ServerDataEntity findData() {
-    ServerDataEntity entity = operations.find(ServerDataEntity.class, key);
+  @Autowired
+  private DatastoreService datastore;
 
-    if (entity == null) {
-      entity = new ServerDataEntity();
-      entity.setKey(key);
+  public Entity findData() {
+    Entity entity = null;
+    try {
+      entity = datastore.get(key);
+    } catch (EntityNotFoundException e) {
+      entity = new Entity(DataConstants.KIND_SERVER_DATA, key);
     }
     return entity;
   }

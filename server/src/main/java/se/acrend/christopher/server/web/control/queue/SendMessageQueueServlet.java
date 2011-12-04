@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import se.acrend.christopher.server.dao.BookingDao;
 import se.acrend.christopher.server.dao.ServerDataDao;
-import se.acrend.christopher.server.entity.BookingEntity;
-import se.acrend.christopher.server.entity.ServerDataEntity;
 import se.acrend.christopher.server.util.Constants;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.urlfetch.HTTPHeader;
@@ -44,11 +45,13 @@ public class SendMessageQueueServlet {
   private ServerDataDao dataDao;
   @Autowired
   private BookingDao bookingDao;
+  @Autowired
+  private DatastoreService datastore;
 
   @RequestMapping("/_ah/queue/send-message")
   protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws IOException {
     try {
-      ServerDataEntity data = dataDao.findData();
+      Entity data = dataDao.findData();
 
       if (data == null) {
         sendAuthMessage();
@@ -67,7 +70,8 @@ public class SendMessageQueueServlet {
       parameters.remove("trainNo");
       parameters.remove("bookingKey");
 
-      boolean result = sendMessage(bookingKey, registrationId, trainNo, data.getAuthString(), parameters);
+      boolean result = sendMessage(bookingKey, registrationId, trainNo, (String) data.getProperty("authString"),
+          parameters);
 
       if (!result) {
         resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
@@ -130,9 +134,11 @@ public class SendMessageQueueServlet {
           log.warn("Tog emot fel från c2dm-server: {}", errorMessage);
           if ("InvalidRegistration".equals(errorMessage)) {
             log.debug("Försöker ta bort bokning med ogiltig registrationId: {}", bookingKey);
-            BookingEntity booking = bookingDao.findByKey(bookingKey);
+            Entity booking = bookingDao.findByKey(bookingKey);
             if (booking != null) {
-              bookingDao.delete(booking);
+              Transaction transaction = datastore.beginTransaction();
+              datastore.delete(booking.getKey());
+              transaction.commit();
             }
           }
         }

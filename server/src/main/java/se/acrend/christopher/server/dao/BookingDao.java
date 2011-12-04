@@ -3,86 +3,97 @@ package se.acrend.christopher.server.dao;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import org.springframework.orm.jpa.JpaCallback;
-import org.springframework.stereotype.Repository;
-
-import se.acrend.christopher.server.entity.BookingEntity;
+import se.acrend.christopher.server.persistence.DataConstants;
 import se.acrend.christopher.server.util.DateUtil;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Transaction;
 
-@Repository
-public class BookingDao extends AbstractDao<BookingEntity> {
+@Component
+public class BookingDao {
+  @Autowired
+  private DatastoreService datastore;
 
-  public BookingEntity findByKey(final Key key) {
+  public Entity findByKey(final Key key) {
 
-    List resultList = operations.find("select b from " + BookingEntity.class.getName() + " b where key = :key", key);
-
-    if (resultList.isEmpty()) {
+    try {
+      Entity entity = datastore.get(key);
+      return entity;
+    } catch (EntityNotFoundException e) {
       return null;
     }
 
-    return (BookingEntity) resultList.get(0);
   }
 
-  public List<BookingEntity> findBookings() {
+  public List<Entity> findBookings() {
+    PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_BOOKING));
 
-    return operations.find("select b from " + BookingEntity.class.getName() + " b");
+    return query.asList(FetchOptions.Builder.withDefaults());
   }
 
-  public List<BookingEntity> findBookings(final String email) {
+  public List<Entity> findBookings(final String email) {
+    PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_BOOKING)
+        .addFilter("userEmail", FilterOperator.EQUAL, email));
 
-    return operations.find("select b from " + BookingEntity.class.getName() + " b where userEmail = :userEmail", email);
+    return query.asList(FetchOptions.Builder.withDefaults());
   }
 
-  public BookingEntity findByTrainNoDateUser(final String trainNo, final Calendar date, final String email) {
+  // public Entity findByTrainNoDateUser(final String trainNo, final Calendar
+  // date, final String email) {
+  // PreparedQuery query = datastore.prepare(new
+  // Query(DataConstants.KIND_BOOKING)
+  // .addFilter("trainNo", FilterOperator.EQUAL, trainNo)
+  // .addFilter("date", FilterOperator.EQUAL, DateUtil.toDate(date))
+  // .addFilter("userEmail", FilterOperator.EQUAL, email));
+  // Entity booking = query.asSingleEntity();
+  //
+  // return booking;
+  // }
 
-    List resultList = operations.find("select b from " + BookingEntity.class.getName()
-        + " b where trainNo = :trainNo and date = :date and userEmail = :userEmail", trainNo, email,
-        DateUtil.toDate(date));
+  public Entity findByCodeUser(final String code, final String email) {
+    PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_BOOKING).addFilter("code",
+        FilterOperator.EQUAL, code)
+        .addFilter("userEmail", FilterOperator.EQUAL, email));
+    Entity booking = query.asSingleEntity();
 
-    if (resultList.isEmpty()) {
-      return null;
-    }
-    return (BookingEntity) resultList.get(0);
+    return booking;
   }
 
-  public BookingEntity findByCodeUser(final String code, final String email) {
+  public List<Entity> findByDeparture(final Key key) {
+    PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_BOOKING)
+        .addFilter("departure", FilterOperator.EQUAL, key));
 
-    List resultList = operations.find("select b from " + BookingEntity.class.getName()
-        + " b where code = :code and userEmail = :userEmail", code, email);
+    return query.asList(FetchOptions.Builder.withDefaults());
 
-    if (resultList.isEmpty()) {
-      return null;
-    }
-    return (BookingEntity) resultList.get(0);
   }
 
-  public List<BookingEntity> findByDeparture(final Key key) {
+  public List<Entity> findByArrival(final Key key) {
+    PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_BOOKING)
+        .addFilter("arrival", FilterOperator.EQUAL, key));
 
-    return operations.find("select b from " + BookingEntity.class.getName() + " b where departure = :departure", key);
-  }
-
-  public List<BookingEntity> findByArrival(final Key key) {
-
-    return operations.find("select b from " + BookingEntity.class.getName() + " b where arrival = :arrival", key);
+    return query.asList(FetchOptions.Builder.withDefaults());
   }
 
   public int deleteOldEntries(final Calendar time) {
-    return operations.execute(new JpaCallback<Integer>() {
-
-      @Override
-      public Integer doInJpa(final EntityManager em) throws PersistenceException {
-        Query query = em.createQuery("delete from " + BookingEntity.class.getName() + " t where date < :time");
-        query.setParameter("time", DateUtil.toDate(time));
-
-        return query.executeUpdate();
-      }
-    });
-
+    PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_BOOKING)
+        .addFilter("date", FilterOperator.LESS_THAN, DateUtil.toDate(time)));
+    int counter = 0;
+    for (Entity e : query.asIterable()) {
+      Transaction transaction = datastore.beginTransaction();
+      datastore.delete(transaction, e.getKey());
+      transaction.commit();
+      counter++;
+    }
+    return counter;
   }
 }

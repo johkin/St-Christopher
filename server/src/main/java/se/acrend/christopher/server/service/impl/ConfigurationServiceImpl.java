@@ -7,10 +7,11 @@ import org.springframework.stereotype.Component;
 
 import se.acrend.christopher.server.dao.ProductDao;
 import se.acrend.christopher.server.dao.ServerDataDao;
-import se.acrend.christopher.server.entity.ProductEntity;
-import se.acrend.christopher.server.entity.ServerDataEntity;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Transaction;
 
 @Component
 public class ConfigurationServiceImpl {
@@ -21,31 +22,38 @@ public class ConfigurationServiceImpl {
   @Autowired
   private ProductDao productDao;
 
-  public ServerDataEntity getConfiguration() {
+  @Autowired
+  private DatastoreService datastore;
+
+  public Entity getConfiguration() {
     return dao.findData();
   }
 
-  public void updateConfiguration(final ServerDataEntity entity) {
-    dao.update(entity);
+  public void updateConfiguration(final Entity entity) {
+    Transaction transaction = datastore.beginTransaction();
+    datastore.put(entity);
+    transaction.commit();
   }
 
-  public void addProduct(final ProductEntity product) {
-    productDao.create(product);
+  public void addProduct(final Entity product) {
+    Transaction transaction = datastore.beginTransaction();
+    datastore.put(product);
+    transaction.commit();
   }
 
-  public void updateProduct(final ProductEntity product) {
-    productDao.update(product);
+  public void updateProduct(final Entity product) {
+    Transaction transaction = datastore.beginTransaction();
+    datastore.put(product);
+    transaction.commit();
   }
 
   public void deleteProduct(final Key key) {
-
-    ProductEntity product = productDao.findByKey(ProductEntity.class, key);
-    if (product != null) {
-      productDao.delete(product);
-    }
+    Transaction transaction = datastore.beginTransaction();
+    datastore.delete(key);
+    transaction.commit();
   }
 
-  public List<ProductEntity> getProducts() {
+  public List<Entity> getProducts() {
     return productDao.findProducts();
   }
 

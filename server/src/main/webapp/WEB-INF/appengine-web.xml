@@ -8,7 +8,9 @@
 
 	<!-- Configure serving/caching of Vaadin files -->
 	<static-files>
-		<include path="VAADIN/**" />
+		<!--  
+    <include path="VAADIN/**" />
+    -->
 	</static-files>
 
 	<!-- Configure java.util.logging -->

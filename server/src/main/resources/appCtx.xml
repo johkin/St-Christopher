@@ -7,20 +7,22 @@
            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<context:component-scan base-package="se.acrend.christopher.server" />
+  
+  <bean
+    class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
 
+  <bean
+    class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+<!-- 
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
-
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+	
 
 	<bean id="jpaOperations" class="org.springframework.orm.jpa.JpaTemplate">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
-
+ -->
 	<bean id="userService"
 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
 		<property name="staticMethod"
@@ -31,6 +33,12 @@
 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
 		<property name="staticMethod"
 			value="com.google.appengine.api.memcache.MemcacheServiceFactory.getMemcacheService" />
+  </bean>
+  
+  <bean id="datastoreService"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod"
+      value="com.google.appengine.api.datastore.DatastoreServiceFactory.getDatastoreService" />    
 	</bean>
 
 </beans>

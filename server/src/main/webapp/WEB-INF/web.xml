@@ -9,7 +9,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:appCtx.xml</param-value>
 	</context-param>
-
+<!-- 
   <filter>
    <filter-name>openEntityManagerInViewFilter</filter-name>
    <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
@@ -23,7 +23,7 @@
     <filter-name>openEntityManagerInViewFilter</filter-name>
     <servlet-name>vaadinServlet</servlet-name>
   </filter-mapping>
-
+-->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
@@ -52,6 +52,10 @@
 		<servlet-name>vaadinServlet</servlet-name>
 		<url-pattern>/gui/*</url-pattern>
 	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>vaadinServlet</servlet-name>
+    <url-pattern>/VAADIN/*</url-pattern>
+  </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>

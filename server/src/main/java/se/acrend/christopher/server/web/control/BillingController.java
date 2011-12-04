@@ -24,7 +24,7 @@ public class BillingController {
   @Autowired
   private final BillingServiceImpl billingService = null;
 
-  @RequestMapping(value = "/billing/getSubScription")
+  @RequestMapping(value = "/billing/getSubscription")
   public void getSubscription(final HttpServletResponse response) throws IOException {
     try {
       SubscriptionInfo result = billingService.getSubscription();

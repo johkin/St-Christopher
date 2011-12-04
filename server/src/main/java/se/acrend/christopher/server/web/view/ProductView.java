@@ -1,7 +1,6 @@
 package se.acrend.christopher.server.web.view;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +81,7 @@ public class ProductView extends VerticalLayout {
           form.commit();
           ConfigurationServiceImpl service = ServiceLocator.getService(ConfigurationServiceImpl.class);
 
-          service.addProduct(formItem.getBean());
+          // service.addProduct(formItem.getBean());
           container.removeAllItems();
           loadProducts();
         } catch (Exception e) {
@@ -100,9 +99,9 @@ public class ProductView extends VerticalLayout {
 
   private void loadProducts() {
     ConfigurationServiceImpl service = ServiceLocator.getService(ConfigurationServiceImpl.class);
-    List<ProductEntity> products = service.getProducts();
-    for (ProductEntity p : products) {
-      container.addBean(p);
-    }
+    // List<ProductEntity> products = service.getProducts();
+    // for (ProductEntity p : products) {
+    // container.addBean(p);
+    // }
   }
 }

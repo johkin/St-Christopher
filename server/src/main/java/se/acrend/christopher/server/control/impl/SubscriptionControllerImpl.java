@@ -8,9 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import se.acrend.christopher.server.dao.SubscriptionDao;
-import se.acrend.christopher.server.entity.SubscriptionEntity;
 import se.acrend.christopher.server.util.DateUtil;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 
@@ -22,16 +27,22 @@ public class SubscriptionControllerImpl {
   private SubscriptionDao subscriptionDao;
   @Autowired
   private UserService userService;
+  @Autowired
+  private DatastoreService datastore;
 
-  public SubscriptionEntity findSubscription() {
+  public Entity findSubscription() {
     User user = userService.getCurrentUser();
 
-    SubscriptionEntity subscription = subscriptionDao.findByUser(user.getEmail());
+    PreparedQuery query = datastore.prepare(new Query("Subscription").addFilter("userEmail", FilterOperator.EQUAL,
+        user.getEmail()));
+    Entity subscription = query.asSingleEntity();
 
     if (subscription == null) {
-      subscription = new SubscriptionEntity();
-      subscription.setNotificationCount(5);
-      subscription.setTravelWarrantCount(5);
+      Transaction transaction = datastore.beginTransaction();
+
+      subscription = new Entity("Subscription");
+      subscription.setProperty("notificationCount", 5);
+      subscription.setProperty("travelWarrantCount", 5);
 
       Calendar calendar = DateUtil.createCalendar();
       calendar.add(Calendar.DAY_OF_YEAR, -1);
@@ -40,17 +51,21 @@ public class SubscriptionControllerImpl {
       calendar.set(Calendar.SECOND, 0);
       calendar.set(Calendar.MILLISECOND, 0);
 
-      subscription.setNotificationExpireDate(calendar.getTime());
-      subscription.setTravelWarrantExpireDate(calendar.getTime());
-      subscription.setUserEmail(user.getEmail());
-      subscriptionDao.create(subscription);
+      subscription.setProperty("notificationExpireDate", calendar.getTime());
+      subscription.setProperty("travelWarrantExpireDate", calendar.getTime());
+      subscription.setProperty("userEmail", user.getEmail());
+      datastore.put(subscription);
+
+      transaction.commit();
     }
 
     return subscription;
   }
 
-  public void update(final SubscriptionEntity subscription) {
-    subscriptionDao.update(subscription);
+  public void update(final Entity subscription) {
+    Transaction transaction = datastore.beginTransaction();
+    datastore.put(subscription);
+    transaction.commit();
   }
 
 }

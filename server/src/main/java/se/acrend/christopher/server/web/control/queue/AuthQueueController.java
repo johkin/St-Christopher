@@ -18,10 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import se.acrend.christopher.server.entity.ServerDataEntity;
 import se.acrend.christopher.server.service.impl.ConfigurationServiceImpl;
 import se.acrend.christopher.server.util.Constants;
 
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.urlfetch.HTTPMethod;
@@ -46,8 +46,8 @@ public class AuthQueueController {
       String auth = callGoogleServers();
       if (auth != null) {
 
-        ServerDataEntity data = configurationService.getConfiguration();
-        data.setAuthString(auth);
+        Entity data = configurationService.getConfiguration();
+        data.setProperty("authString", auth);
         configurationService.updateConfiguration(data);
       }
       Queue queue = QueueFactory.getQueue(Constants.AUTH_QUEUE_NAME);

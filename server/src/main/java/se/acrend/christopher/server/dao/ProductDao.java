@@ -2,25 +2,37 @@ package se.acrend.christopher.server.dao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import se.acrend.christopher.server.entity.ProductEntity;
+import se.acrend.christopher.server.persistence.DataConstants;
 
-@Repository
-public class ProductDao extends AbstractDao<ProductEntity> {
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 
-  public ProductEntity findByProductId(final String productId) {
-    List resultList = operations.find("select b from " + ProductEntity.class.getName()
-        + " b where productId = :productId", productId);
+@Component
+public class ProductDao {
 
-    if (resultList.isEmpty()) {
-      return null;
-    }
+  @Autowired
+  private DatastoreService datastore;
 
-    return (ProductEntity) resultList.get(0);
+  public Entity findByProductId(final String productId) {
+
+    PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_PRODUCT)
+        .addFilter("productId", FilterOperator.EQUAL, productId));
+    Entity product = query.asSingleEntity();
+
+    return product;
+
   }
 
-  public List<ProductEntity> findProducts() {
-    return operations.find("select b from " + ProductEntity.class.getName() + " b");
+  public List<Entity> findProducts() {
+    PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_PRODUCT));
+
+    return query.asList(FetchOptions.Builder.withDefaults());
   }
 }
