@@ -43,6 +43,7 @@ public class FindCurrentTrainsCronController {
       Calendar from = DateUtil.createCalendar();
       Calendar to = DateUtil.createCalendar();
       to.add(Calendar.HOUR, 2);
+      log.debug("Hämtar avgångar mellan {} och {}", DateUtil.toDate(from), DateUtil.toDate(to));
       List<Entity> departures = trainStopDao.findDepartures(from, to);
       result.addAll(departures);
 
@@ -51,10 +52,12 @@ public class FindCurrentTrainsCronController {
       from.add(Calendar.HOUR, -4);
       to = DateUtil.createCalendar();
       to.add(Calendar.HOUR, -1);
+      log.debug("Hämtar ankomster mellan {} och {}", DateUtil.toDate(from), DateUtil.toDate(to));
       List<Entity> arrivals = trainStopDao.findArrivalsNotArrived(from, to);
       result.addAll(arrivals);
 
       if (result.isEmpty()) {
+        log.debug("Hittade inga bokningar.");
         return;
       }
 

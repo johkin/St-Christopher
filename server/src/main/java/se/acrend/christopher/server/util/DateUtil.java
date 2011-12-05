@@ -82,7 +82,7 @@ public class DateUtil {
     if (cal == null) {
       return null;
     }
-    return new Date(cal.getTimeInMillis());
+    return new Date(cal.getTimeInMillis() + SWEDISH_TIMEZONE.getOffset(cal.getTimeInMillis()));
   }
 
   public static Calendar toCalendar(final Date date) {
