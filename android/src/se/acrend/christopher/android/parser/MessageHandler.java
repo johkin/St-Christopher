@@ -91,7 +91,7 @@ public class MessageHandler {
 
   private void notifyMessage() {
     Notification notification = new Notification();
-    notification.icon = R.drawable.sj2cal_bw;
+    notification.icon = R.drawable.ic_launcher_logo_bw;
     notification.when = System.currentTimeMillis();
     notification.flags = Notification.FLAG_AUTO_CANCEL;
     notification.tickerText = "Nya biljetter mottagna.";

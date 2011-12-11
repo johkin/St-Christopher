@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
-
 public class StationInfo implements Serializable, Comparable<StationInfo> {
 
   private static final long serialVersionUID = 1L;
@@ -36,13 +33,11 @@ public class StationInfo implements Serializable, Comparable<StationInfo> {
     departure = null;
   }
 
-  @XmlTransient
   @Override
   public int compareTo(final StationInfo o) {
     return getSortTime().compareTo(o.getSortTime());
   }
 
-  @XmlElement(name = "info")
   public List<String> getInfo() {
     return info;
   }
@@ -55,7 +50,6 @@ public class StationInfo implements Serializable, Comparable<StationInfo> {
     this.info.add(info);
   }
 
-  @XmlElement(name = "name")
   public String getName() {
     return name;
   }
@@ -64,7 +58,6 @@ public class StationInfo implements Serializable, Comparable<StationInfo> {
     this.name = name;
   }
 
-  @XmlElement(name = "arrival")
   public TimeInfo getArrival() {
     return arrival;
   }
@@ -73,7 +66,6 @@ public class StationInfo implements Serializable, Comparable<StationInfo> {
     this.arrival = arrival;
   }
 
-  @XmlElement(name = "departure")
   public TimeInfo getDeparture() {
     return departure;
   }

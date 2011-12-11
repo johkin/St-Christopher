@@ -1,5 +1,6 @@
 package se.acrend.christopher.android.service;
 
+import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,7 +21,6 @@ import se.acrend.christopher.android.content.ProviderTypes;
 import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.model.DbModel;
 import se.acrend.christopher.android.model.DbModel.TimeModel;
-import se.acrend.christopher.android.parser.xml.BookingInfoParser;
 import se.acrend.christopher.android.preference.PrefsHelper;
 import se.acrend.christopher.android.util.DateUtil;
 import se.acrend.christopher.android.util.HttpUtil;
@@ -28,6 +28,7 @@ import se.acrend.christopher.android.util.TimeSource;
 import se.acrend.christopher.shared.model.BookingInformation;
 import se.acrend.christopher.shared.model.ErrorCode;
 import se.acrend.christopher.shared.model.ReturnCode;
+import se.acrend.christopher.shared.parser.ParserFactory;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -40,6 +41,7 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 
 public class RegistrationService extends RoboService {
@@ -53,8 +55,6 @@ public class RegistrationService extends RoboService {
   private ProviderHelper providerHelper;
   @Inject
   private TimeSource timeSource;
-  @Inject
-  private BookingInfoParser bookingInfoParser;
   @Inject
   private ConnectivityManager connectivityManager;
   @Inject
@@ -181,7 +181,9 @@ public class RegistrationService extends RoboService {
 
       HttpResponse response = communicationHelper.callServer(post, nameValuePairs);
 
-      BookingInformation information = bookingInfoParser.parser(response.getEntity().getContent());
+      Gson gson = ParserFactory.createParser();
+      BookingInformation information = gson.fromJson(new InputStreamReader(response.getEntity().getContent()),
+          BookingInformation.class);
 
       if (information.getReturnCode() == ReturnCode.Success) {
         model.setRegistered(true);
@@ -207,7 +209,7 @@ public class RegistrationService extends RoboService {
           Notification notification = new Notification();
           notification.defaults = Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS
               | Notification.DEFAULT_VIBRATE;
-          notification.icon = R.drawable.sj2cal_bw;
+          notification.icon = R.drawable.ic_launcher_logo_bw;
           notification.when = System.currentTimeMillis();
           notification.flags = Notification.FLAG_AUTO_CANCEL;
           notification.tickerText = "Saknar giltig prenumeration.";
@@ -224,7 +226,7 @@ public class RegistrationService extends RoboService {
           Notification notification = new Notification();
           notification.defaults = Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS
               | Notification.DEFAULT_VIBRATE;
-          notification.icon = R.drawable.sj2cal_bw;
+          notification.icon = R.drawable.ic_launcher_logo_bw;
           notification.when = System.currentTimeMillis();
           notification.flags = Notification.FLAG_AUTO_CANCEL;
           notification.tickerText = "Kunde inte hitta information om tåg " + model.getTrain();
@@ -271,7 +273,7 @@ public class RegistrationService extends RoboService {
 
   private void notifyConnectivity(final Context context, final Calendar scheduleTime) {
     Notification notification = new Notification();
-    notification.icon = R.drawable.sj2cal_bw;
+    notification.icon = R.drawable.ic_launcher_logo_bw;
     notification.when = System.currentTimeMillis();
     notification.flags = Notification.FLAG_AUTO_CANCEL;
     notification.tickerText = "Saknar koppling till nät vid registrering.";

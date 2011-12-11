@@ -14,10 +14,9 @@
  <name>Christopher Shared</name>
 
  <dependencies>
-  <dependency>
-   <groupId>javax.xml.bind</groupId>
-   <artifactId>jaxb-api</artifactId>
-   <version>2.2.5</version>
-  </dependency>
+   <dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+   </dependency>
  </dependencies>
 </project>

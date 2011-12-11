@@ -8,7 +8,7 @@
     <string name="common.exit">Stäng</string>
     <string name="common.next">Nästa</string>
     <string name="gosms.header">Go SMS Pro installerad</string>
-    <string name="gosms.text">Du verkar tyvärr ha Go SMS Pro installerad, vilket gör att SJ2Cal inte kan ta emot biljetterna från SJ.\n
+    <string name="gosms.text">Du verkar tyvärr ha Go SMS Pro installerad, vilket gör att St Christopher inte kan ta emot biljetterna från SJ.\n
     För att Christopher ska kunna fungera korrekt måste Go SMS Pro avinstalleras eller deaktiveras.\n
     Läs mer om problemet genom att klicka på knappen nedan.
     </string>

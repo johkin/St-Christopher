@@ -33,21 +33,11 @@ public class SmsTicketParser extends MessageParserBase implements MessageParser 
     format = DateUtil.createDateFormat("yyyydd MMMHH.mm");
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see se.acrend.sj2cal.parser.MessageParser#supports(java.lang.String)
-   */
   @Override
   public boolean supports(final String message) {
     return message.contains("+'") && message.contains("'+") && message.contains("Tåg:");
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see se.acrend.sj2cal.parser.MessageParser#parse(java.lang.String)
-   */
   @Override
   public MessageWrapper parse(final String message) {
     MessageWrapper ticket = new MessageWrapper(TicketType.SmsTicket);

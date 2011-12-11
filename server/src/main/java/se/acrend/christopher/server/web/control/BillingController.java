@@ -3,7 +3,6 @@ package se.acrend.christopher.server.web.control;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.JAXB;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +15,9 @@ import se.acrend.christopher.server.service.impl.BillingServiceImpl;
 import se.acrend.christopher.shared.model.PrepareBillingInfo;
 import se.acrend.christopher.shared.model.ProductList;
 import se.acrend.christopher.shared.model.SubscriptionInfo;
+import se.acrend.christopher.shared.parser.ParserFactory;
+
+import com.google.gson.Gson;
 
 @Controller
 public class BillingController {
@@ -29,7 +31,11 @@ public class BillingController {
     try {
       SubscriptionInfo result = billingService.getSubscription();
 
-      JAXB.marshal(result, response.getOutputStream());
+      response.setContentType("application/json");
+      response.setCharacterEncoding("UTF-8");
+
+      Gson gson = ParserFactory.createParser();
+      gson.toJson(result, response.getWriter());
     } catch (Exception e) {
       log.error("Kunde inte hämta prenumeration.", e);
       response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -41,7 +47,11 @@ public class BillingController {
     try {
       ProductList result = billingService.getProductList();
 
-      JAXB.marshal(result, response.getOutputStream());
+      response.setContentType("application/json");
+      response.setCharacterEncoding("UTF-8");
+
+      Gson gson = ParserFactory.createParser();
+      gson.toJson(result, response.getWriter());
     } catch (Exception e) {
       log.error("Kunde inte hämta prenumeration.", e);
       response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -53,7 +63,11 @@ public class BillingController {
     try {
       PrepareBillingInfo result = billingService.getMarketLicenseKey();
 
-      JAXB.marshal(result, response.getOutputStream());
+      response.setContentType("application/json");
+      response.setCharacterEncoding("UTF-8");
+
+      Gson gson = ParserFactory.createParser();
+      gson.toJson(result, response.getWriter());
     } catch (Exception e) {
       log.error("Kunde inte hämta prenumeration.", e);
       response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -66,7 +80,11 @@ public class BillingController {
     try {
       SubscriptionInfo result = billingService.billingCompleted(productId);
 
-      JAXB.marshal(result, response.getOutputStream());
+      response.setContentType("application/json");
+      response.setCharacterEncoding("UTF-8");
+
+      Gson gson = ParserFactory.createParser();
+      gson.toJson(result, response.getWriter());
     } catch (Exception e) {
       log.error("Kunde inte hämta prenumeration.", e);
       response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

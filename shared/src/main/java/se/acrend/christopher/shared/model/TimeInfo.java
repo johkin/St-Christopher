@@ -3,9 +3,6 @@ package se.acrend.christopher.shared.model;
 import java.io.Serializable;
 import java.util.Calendar;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
-
 public class TimeInfo implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -42,7 +39,6 @@ public class TimeInfo implements Serializable {
     track = null;
   }
 
-  @XmlElement(name = "track")
   public String getTrack() {
     return track;
   }
@@ -51,7 +47,6 @@ public class TimeInfo implements Serializable {
     this.track = track;
   }
 
-  @XmlElement(name = "original")
   public Calendar getOriginal() {
     return original;
   }
@@ -60,7 +55,6 @@ public class TimeInfo implements Serializable {
     original = time;
   }
 
-  @XmlElement(name = "actual")
   public Calendar getActual() {
     return actual;
   }
@@ -69,7 +63,6 @@ public class TimeInfo implements Serializable {
     this.actual = actual;
   }
 
-  @XmlElement(name = "estimated")
   public Calendar getEstimated() {
     return estimated;
   }
@@ -78,7 +71,6 @@ public class TimeInfo implements Serializable {
     this.estimated = estimated;
   }
 
-  @XmlElement(name = "status")
   public Status getStatus() {
     return status;
   }
@@ -87,7 +79,6 @@ public class TimeInfo implements Serializable {
     this.status = status;
   }
 
-  @XmlElement(name = "guessed")
   public Calendar getGuessed() {
     return guessed;
   }
@@ -96,7 +87,6 @@ public class TimeInfo implements Serializable {
     this.guessed = guessed;
   }
 
-  @XmlTransient
   public long getDelayedMillis() {
     long millis = 0;
     if (original == null) {

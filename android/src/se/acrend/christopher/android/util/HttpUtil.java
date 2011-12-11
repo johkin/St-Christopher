@@ -21,14 +21,6 @@ public class HttpUtil {
     }
     builder.append("\n");
 
-    // HttpEntity entity = response.getEntity();
-    // BufferedReader reader = new BufferedReader(new
-    // InputStreamReader(entity.getContent(), "UTF-8"));
-    //
-    // String line = "";
-    // while ((line = reader.readLine()) != null) {
-    // builder.append(line).append("\n");
-    // }
     return builder.toString();
   }
 

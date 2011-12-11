@@ -16,7 +16,6 @@
 	<name>Christopher Shared</name>
 
 	<properties>
-		<gae.version>1.5.5</gae.version>
 		<gae.application.version>test</gae.application.version>
 	</properties>
 

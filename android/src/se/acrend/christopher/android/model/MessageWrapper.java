@@ -9,7 +9,7 @@ public class MessageWrapper {
   private static final String TAG = "MessageWrapper";
 
   public static enum TicketType {
-    Confirmation("SJ2Cal.Bokningsbekräftelse"), SmsTicket("SJ2Cal.Mobilbiljett");
+    Confirmation("Christopher.Bokningsbekräftelse"), SmsTicket("Christopher.Mobilbiljett");
 
     private String displayName;
 

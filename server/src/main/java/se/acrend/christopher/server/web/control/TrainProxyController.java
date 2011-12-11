@@ -7,7 +7,6 @@ import java.util.Calendar;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.JAXB;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import se.acrend.christopher.server.control.impl.TrafikVerketControllerImpl;
 import se.acrend.christopher.server.util.DateUtil;
 import se.acrend.christopher.shared.model.TrainInfo;
+import se.acrend.christopher.shared.parser.ParserFactory;
 
 import com.google.appengine.api.memcache.Expiration;
 import com.google.appengine.api.memcache.MemcacheService;
+import com.google.gson.Gson;
 
 @Controller
 public class TrainProxyController {
@@ -45,7 +46,9 @@ public class TrainProxyController {
 
       StringWriter writer = new StringWriter();
 
-      JAXB.marshal(info, writer);
+      Gson gson = ParserFactory.createParser();
+      gson.toJson(info, writer);
+
       xml = writer.getBuffer().toString();
 
       memcacheService.put(cacheKey, xml, expiration);
@@ -53,7 +56,7 @@ public class TrainProxyController {
       xml = (String) memcacheService.get(cacheKey);
     }
 
-    resp.setContentType("text/xml");
+    resp.setContentType("application/json");
     resp.setCharacterEncoding("UTF-8");
 
     PrintWriter writer = resp.getWriter();

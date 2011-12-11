@@ -3,15 +3,10 @@ package se.acrend.christopher.shared.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement(name = "productList")
 public class ProductList extends AbstractResponse {
 
   private final List<Product> products = new ArrayList<ProductList.Product>();
 
-  @XmlElement(name = "product")
   public List<Product> getProducts() {
     return products;
   }
@@ -26,7 +21,6 @@ public class ProductList extends AbstractResponse {
     private String name;
     private String description;
 
-    @XmlElement(name = "productId")
     public String getProductId() {
       return productId;
     }
@@ -35,7 +29,6 @@ public class ProductList extends AbstractResponse {
       this.productId = productId;
     }
 
-    @XmlElement(name = "name")
     public String getName() {
       return name;
     }
@@ -44,7 +37,6 @@ public class ProductList extends AbstractResponse {
       this.name = name;
     }
 
-    @XmlElement(name = "description")
     public String getDescription() {
       return description;
     }

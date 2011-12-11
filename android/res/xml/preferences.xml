@@ -5,13 +5,13 @@
 
 		<CheckBoxPreference android:key="processIncomingMessages"
 			android:title="@string/prefs.category.sms.processIncomingMessages" 
-			android:summary="@string/prefs.category.sms.processIncomingMessages.summary"/>
+			android:summary="@string/prefs.category.sms.processIncomingMessages.summary" android:defaultValue="true" />
 		<CheckBoxPreference android:key="deleteProcessedMessage"
 			android:title="@string/prefs.category.sms.deleteProcessedMessage" 
 			android:summary="@string/prefs.category.sms.deleteProcessedMessage.summary" />
       <CheckBoxPreference android:key="replaceTicket"
       android:title="@string/prefs.category.calendar.replaceTicket" 
-      android:summary="@string/prefs.category.calendar.replaceTicket.summary" />
+      android:summary="@string/prefs.category.calendar.replaceTicket.summary" android:defaultValue="true" />
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/prefs.category.serverservices" 

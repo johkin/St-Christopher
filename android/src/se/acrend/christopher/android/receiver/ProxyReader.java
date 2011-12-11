@@ -8,9 +8,9 @@ import se.acrend.christopher.R;
 import se.acrend.christopher.android.content.ProviderHelper;
 import se.acrend.christopher.android.content.ProviderTypes;
 import se.acrend.christopher.android.model.DbModel;
-import se.acrend.christopher.android.parser.xml.ProxyParser;
 import se.acrend.christopher.android.trafficinfo.provider.TrafficInfoProviderTypes;
 import se.acrend.christopher.android.util.DateUtil;
+import se.acrend.christopher.android.util.HttpUtil;
 import se.acrend.christopher.android.util.TimeSource;
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -33,7 +33,7 @@ import com.google.inject.Inject;
 public class ProxyReader extends RoboBroadcastReceiver {
 
   private static final String TAG = "ProxyReader";
-  private static final String URL = "http://sj2calproxy.appspot.com/proxy?trainNo=%s&date=%s";
+  private static final String URL = HttpUtil.SERVER_URL + "/proxy?trainNo=%s&date=%s";
 
   public static final long FIVE_MINUTES_IN_MILLIS = 5 * 60 * 1000;
   public static final long ONE_MINUTE_IN_MILLIS = 1 * 60 * 1000;
@@ -50,8 +50,6 @@ public class ProxyReader extends RoboBroadcastReceiver {
   private AlarmManager alarmManager;
   @Inject
   private Context context;
-  @Inject
-  private ProxyParser proxyParser;
   @Inject
   private ContentResolver contentResolver;
 
@@ -101,7 +99,7 @@ public class ProxyReader extends RoboBroadcastReceiver {
 
   private void notify(final String message, final Intent intent) {
     Notification notification = new Notification();
-    notification.icon = R.drawable.sj2cal_bw;
+    notification.icon = R.drawable.ic_launcher_logo_bw;
     notification.when = System.currentTimeMillis();
     notification.flags = Notification.FLAG_AUTO_CANCEL;
     notification.tickerText = message;

@@ -41,9 +41,9 @@ public class Consts {
 
   // Intent actions that we send from the BillingReceiver to the
   // BillingService. Defined by this application.
-  public static final String ACTION_CONFIRM_NOTIFICATION = "se.acrend.sj2cal.billing.CONFIRM_NOTIFICATION";
-  public static final String ACTION_GET_PURCHASE_INFORMATION = "se.acrend.sj2cal.billing.GET_PURCHASE_INFORMATION";
-  public static final String ACTION_RESTORE_TRANSACTIONS = "se.acrend.sj2cal.billing.RESTORE_TRANSACTIONS";
+  public static final String ACTION_CONFIRM_NOTIFICATION = "se.acrend.christopher.billing.CONFIRM_NOTIFICATION";
+  public static final String ACTION_GET_PURCHASE_INFORMATION = "se.acrend.christopher.billing.GET_PURCHASE_INFORMATION";
+  public static final String ACTION_RESTORE_TRANSACTIONS = "se.acrend.christopher.billing.RESTORE_TRANSACTIONS";
 
   // Intent actions that we receive in the BillingReceiver from Market.
   // These are defined by Market and cannot be changed.

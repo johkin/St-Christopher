@@ -4,31 +4,27 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import se.acrend.christopher.shared.util.SharedDateUtil;
+
 public class DateUtil {
 
   private static Logger log = LoggerFactory.getLogger(DateUtil.class);
-
-  private static final TimeZone SWEDISH_TIMEZONE = TimeZone.getTimeZone("Europe/Stockholm");
-
-  private static final Locale SWEDISH_LOCALE = new Locale("sv", "SE");
 
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
   private static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyyMMdd HH:mm");
 
   static {
-    dateFormat.setTimeZone(SWEDISH_TIMEZONE);
-    timeFormat.setTimeZone(SWEDISH_TIMEZONE);
+    dateFormat.setTimeZone(SharedDateUtil.SWEDISH_TIMEZONE);
+    timeFormat.setTimeZone(SharedDateUtil.SWEDISH_TIMEZONE);
   }
 
   public static Calendar createCalendar() {
-    return Calendar.getInstance(SWEDISH_TIMEZONE);
+    return Calendar.getInstance(SharedDateUtil.SWEDISH_TIMEZONE);
   }
 
   public static String formatDate(final Date date) {
@@ -41,7 +37,7 @@ public class DateUtil {
 
   public static Calendar parseDate(final String dateString) {
     try {
-      Calendar cal = Calendar.getInstance(SWEDISH_TIMEZONE);
+      Calendar cal = createCalendar();
       Date date = dateFormat.parse(dateString);
       cal.setTime(date);
       cal.set(Calendar.HOUR, 0);
@@ -71,7 +67,7 @@ public class DateUtil {
 
   public static Calendar parseTime(final String timeString) {
     try {
-      Calendar cal = Calendar.getInstance(SWEDISH_TIMEZONE);
+      Calendar cal = createCalendar();
       Date date = timeFormat.parse(timeString);
       cal.setTime(date);
       return cal;

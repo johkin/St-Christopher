@@ -1,18 +1,15 @@
 package se.acrend.christopher.server.web.view;
 
 import java.util.Arrays;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import se.acrend.christopher.server.service.impl.ConfigurationServiceImpl;
 import se.acrend.christopher.server.util.ServiceLocator;
+import se.acrend.christopher.server.web.util.EntityItem;
 
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.vaadin.data.util.ObjectProperty;
-import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -32,12 +29,9 @@ public class ConfigurationView extends VerticalLayout {
 
     Entity data = service.getConfiguration();
 
-    final PropertysetItem formItem = new PropertysetItem();
-    Map<String, Object> properties = data.getProperties();
-    for (String id : properties.keySet()) {
-      formItem.addItemProperty(id, new ObjectProperty<Object>(properties.get(id)));
-    }
-    formItem.addItemProperty("key", new ObjectProperty<Key>(data.getKey()));
+    final EntityItem formItem = new EntityItem(data);
+    formItem.addItemProperty("authString", String.class, "");
+    formItem.addItemProperty("marketLicenseKey", String.class, "");
 
     // Create the Form
     final Form form = new Form();
@@ -73,7 +67,7 @@ public class ConfigurationView extends VerticalLayout {
           form.commit();
           ConfigurationServiceImpl service = ServiceLocator.getService(ConfigurationServiceImpl.class);
 
-          // service.updateConfiguration(formItem.getBean());
+          service.updateConfiguration(formItem.getEntity());
         } catch (Exception e) {
           log.error("Kunde inte spara konfiguration", e);
         }

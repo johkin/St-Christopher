@@ -100,7 +100,7 @@ public class UpdateService extends RoboIntentService {
       if (message.length() > 0) {
         Notification notification = new Notification();
         notification.defaults = Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE;
-        notification.icon = R.drawable.sj2cal_bw;
+        notification.icon = R.drawable.ic_launcher_logo_bw;
         notification.when = System.currentTimeMillis();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
         notification.tickerText = "Tåg " + model.getTrain() + " uppdaterat";

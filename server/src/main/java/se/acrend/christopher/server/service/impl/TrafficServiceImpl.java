@@ -121,13 +121,13 @@ public class TrafficServiceImpl {
       Entity arrivalStop = findStopByName(to, stops);
 
       if (departureStop != null) {
-        result.setDepartureTrack((String) departureStop.getProperty("track"));
+        result.setDepartureTrack((String) departureStop.getProperty("departureTrack"));
         result.setActualDeparture(DateUtil.toCalendar((Date) departureStop.getProperty("actualDeparture")));
         result.setEstimatedDeparture(DateUtil.toCalendar((Date) departureStop.getProperty("estimatedDeparture")));
         result.setGuessedDeparture(DateUtil.toCalendar((Date) departureStop.getProperty("guessedDeparture")));
       }
       if (arrivalStop != null) {
-        result.setArrivalTrack((String) arrivalStop.getProperty("track"));
+        result.setArrivalTrack((String) arrivalStop.getProperty("arrivalTrack"));
         result.setActualArrival(DateUtil.toCalendar((Date) arrivalStop.getProperty("actualDeparture")));
         result.setEstimatedArrival(DateUtil.toCalendar((Date) arrivalStop.getProperty("estimatedDeparture")));
         result.setGuessedArrival(DateUtil.toCalendar((Date) arrivalStop.getProperty("guessedArrival")));
@@ -135,26 +135,26 @@ public class TrafficServiceImpl {
 
       if (booking == null) {
         booking = new Entity(DataConstants.KIND_BOOKING, subscription.getKey());
-        if (departureStop != null) {
-          log.debug("Bokning från {}", departureStop.getProperty("stationName"));
-          booking.setProperty("departure", departureStop.getKey());
-        }
-        if (arrivalStop != null) {
-          log.debug("Bokning till {}", arrivalStop.getProperty("stationName"));
-          booking.setProperty("arrival", arrivalStop.getKey());
-        }
-        booking.setProperty("userEmail", user.getEmail());
-        booking.setProperty("date", new Date(cal.getTimeInMillis()));
-        booking.setProperty("trainNo", trainNo);
-        booking.setProperty("code", code);
-        booking.setProperty("registrationId", registrationId);
-
-        transaction = datastore.beginTransaction();
-
-        datastore.put(booking);
-
-        transaction.commit();
       }
+      if (departureStop != null) {
+        log.debug("Bokning från {}", departureStop.getProperty("stationName"));
+        booking.setProperty("departure", departureStop.getKey());
+      }
+      if (arrivalStop != null) {
+        log.debug("Bokning till {}", arrivalStop.getProperty("stationName"));
+        booking.setProperty("arrival", arrivalStop.getKey());
+      }
+      booking.setProperty("userEmail", user.getEmail());
+      booking.setProperty("date", new Date(cal.getTimeInMillis()));
+      booking.setProperty("trainNo", trainNo);
+      booking.setProperty("code", code);
+      booking.setProperty("registrationId", registrationId);
+
+      transaction = datastore.beginTransaction();
+
+      datastore.put(booking);
+
+      transaction.commit();
 
       subscriptionController.update(subscription);
 

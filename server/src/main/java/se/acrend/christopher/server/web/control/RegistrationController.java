@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.JAXB;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import se.acrend.christopher.server.service.impl.TrafficServiceImpl;
 import se.acrend.christopher.server.util.DateUtil;
 import se.acrend.christopher.shared.model.AbstractResponse;
+import se.acrend.christopher.shared.parser.ParserFactory;
+
+import com.google.gson.Gson;
 
 @Controller
 public class RegistrationController {
@@ -36,7 +38,11 @@ public class RegistrationController {
 
       AbstractResponse result = trafficService.registerBooking(code, trainNo, cal.getTime(), from, to, registrationId);
 
-      JAXB.marshal(result, resp.getOutputStream());
+      resp.setContentType("application/json");
+      resp.setCharacterEncoding("UTF-8");
+
+      Gson gson = ParserFactory.createParser();
+      gson.toJson(result, resp.getWriter());
 
     } catch (Exception e) {
       log.error("Kunde inte registrera bokning.", e);

@@ -2,16 +2,17 @@ package se.acrend.christopher.android.trafficinfo.provider;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ConnectTimeoutException;
 
-import se.acrend.christopher.android.parser.xml.ProxyParser;
 import se.acrend.christopher.shared.model.StationInfo;
 import se.acrend.christopher.shared.model.TimeInfo;
 import se.acrend.christopher.shared.model.TrainInfo;
+import se.acrend.christopher.shared.parser.ParserFactory;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -21,6 +22,8 @@ import android.database.MatrixCursor.RowBuilder;
 import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 import android.util.Log;
+
+import com.google.gson.Gson;
 
 public class TrafficInfoProvider extends ContentProvider {
 
@@ -56,20 +59,22 @@ public class TrafficInfoProvider extends ContentProvider {
 
     List<String> segments = uri.getPathSegments();
 
-    ProxyParser parser = new ProxyParser();
-
     String url = String.format(URL, segments.get(1), segments.get(0));
     AndroidHttpClient client = null;
     try {
       Log.d(TAG, "Reading from Url: " + url);
 
-      client = AndroidHttpClient.newInstance("sj2cal");
+      client = AndroidHttpClient.newInstance("christopher");
 
       HttpGet get = new HttpGet(url);
 
       HttpResponse response = client.execute(get);
       InputStream content = response.getEntity().getContent();
-      TrainInfo trainInfo = parser.parse(content);
+
+      Gson gson = ParserFactory.createParser();
+      TrainInfo trainInfo = gson.fromJson(new InputStreamReader(response.getEntity().getContent()),
+          TrainInfo.class);
+
       content.close();
 
       cursor = new MatrixCursor(PROJECTION);

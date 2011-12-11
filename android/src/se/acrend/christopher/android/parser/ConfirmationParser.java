@@ -21,21 +21,11 @@ public class ConfirmationParser extends MessageParserBase implements MessagePars
     format = DateUtil.createDateFormat("yyMMddHH.mm");
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see se.acrend.sj2cal.parser.MessageParser#supports(java.lang.String)
-   */
   @Override
   public boolean supports(final String message) {
     return message.contains("* SJ *");
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see se.acrend.sj2cal.parser.MessageParser#parse(java.lang.String)
-   */
   @Override
   public MessageWrapper parse(final String message) {
     MessageWrapper ticket = new MessageWrapper(TicketType.Confirmation);
