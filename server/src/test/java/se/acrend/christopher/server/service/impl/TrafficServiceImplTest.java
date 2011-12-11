@@ -16,6 +16,7 @@ public class TrafficServiceImplTest {
 
   @Test
   public void test() {
+
     TrainStopField f = TrainStopField.ActualArrival;
   }
 

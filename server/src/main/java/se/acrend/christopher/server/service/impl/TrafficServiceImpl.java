@@ -8,16 +8,18 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import se.acrend.christopher.server.control.TrafikverketController;
 import se.acrend.christopher.server.control.impl.SubscriptionControllerImpl;
-import se.acrend.christopher.server.control.impl.TrafikVerketControllerImpl;
 import se.acrend.christopher.server.dao.BookingDao;
 import se.acrend.christopher.server.dao.TrainStopDao;
 import se.acrend.christopher.server.persistence.DataConstants;
 import se.acrend.christopher.server.service.impl.TrafficServiceImpl.TrainStopField.Type;
 import se.acrend.christopher.server.util.Constants;
 import se.acrend.christopher.server.util.DateUtil;
+import se.acrend.christopher.shared.exception.PermanentException;
 import se.acrend.christopher.shared.exception.TemporaryException;
 import se.acrend.christopher.shared.model.AbstractResponse;
 import se.acrend.christopher.shared.model.BookingInformation;
@@ -44,7 +46,8 @@ public class TrafficServiceImpl {
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   @Autowired
-  private TrafikVerketControllerImpl trafikVerketController;
+  @Qualifier("TrafikVerketJsonController")
+  private TrafikverketController trafikVerketController;
   @Autowired
   private SubscriptionControllerImpl subscriptionController;
   @Autowired
@@ -75,6 +78,8 @@ public class TrafficServiceImpl {
 
       Entity subscription = subscriptionController.findSubscription();
 
+      subscription.setProperty("registrationId", registrationId);
+
       if (!isValid(subscription)) {
         result.setReturnCode(ReturnCode.Failure);
         result.setErrorCode(ErrorCode.UpdateNotificationSubscription);
@@ -92,9 +97,14 @@ public class TrafficServiceImpl {
           result.setReturnCode(ReturnCode.Failure);
           result.setErrorCode(ErrorCode.ParseError);
           return result;
+        } catch (PermanentException e) {
+          log.error("Kunde inte registrera bokning för tåg {}, datum {}.", trainNo, DateUtil.formatDate(cal));
+          result.setReturnCode(ReturnCode.Failure);
+          result.setErrorCode(ErrorCode.TrainNotFound);
+          return result;
         }
 
-        log.debug("Parsat xml: {}", info);
+        log.debug("Hämtat information för tåg {}", trainNo);
 
         stops = convert(info.getStations(), cal, trainNo);
         for (Entity stop : stops) {
@@ -124,7 +134,7 @@ public class TrafficServiceImpl {
       }
 
       if (booking == null) {
-        booking = new Entity(DataConstants.KIND_BOOKING);
+        booking = new Entity(DataConstants.KIND_BOOKING, subscription.getKey());
         if (departureStop != null) {
           log.debug("Bokning från {}", departureStop.getProperty("stationName"));
           booking.setProperty("departure", departureStop.getKey());
@@ -276,7 +286,7 @@ public class TrafficServiceImpl {
         TaskOptions options = TaskOptions.Builder.withParam("registrationId",
             (String) booking.getProperty("registrationId"));
         options.param("trainNo", (String) currentStop.getProperty("trainNo"));
-        options.param("code", (String) currentStop.getProperty("Code"));
+        options.param("code", (String) booking.getProperty("code"));
         options.param("bookingKey", KeyFactory.keyToString(booking.getKey()));
 
         Type type = null;
@@ -349,8 +359,6 @@ public class TrafficServiceImpl {
     private final String messageFieldName;
     private final Type type;
 
-    // private Field field;
-
     private TrainStopField(final String fieldName, final Type type) {
       this(fieldName, fieldName, type);
     }
@@ -359,14 +367,6 @@ public class TrafficServiceImpl {
       this.fieldName = fieldName;
       this.messageFieldName = messageFieldName;
       this.type = type;
-      // try {
-      // field = TrainStopEntity.class.getDeclaredField(fieldName);
-      // field.setAccessible(true);
-      // } catch (SecurityException e) {
-      // throw new RuntimeException("Kunde inte hämta fält: " + fieldName);
-      // } catch (NoSuchFieldException e) {
-      // throw new RuntimeException("Felaktigt fältnamn: " + fieldName);
-      // }
     }
 
     public String getMessageFieldName() {
@@ -419,6 +419,7 @@ public class TrafficServiceImpl {
         stop.setProperty("originalArrival", DateUtil.toDate(arrival.getOriginal()));
         stop.setProperty("guessedArrival", DateUtil.toDate(arrival.getGuessed()));
         stop.setProperty("arrivalStatus", arrival.getStatus().name());
+        stop.setProperty("arrivalTrack", arrival.getTrack());
       }
       if (info.getDeparture() != null) {
         TimeInfo departure = info.getDeparture();
@@ -427,8 +428,9 @@ public class TrafficServiceImpl {
         stop.setProperty("originalDeparture", DateUtil.toDate(departure.getOriginal()));
         stop.setProperty("guessedDeparture", DateUtil.toDate(departure.getGuessed()));
         stop.setProperty("departureStatus", departure.getStatus().name());
+        stop.setProperty("departureTrack", departure.getTrack());
       }
-      stop.setProperty("track", info.getTrack());
+
       stop.setProperty("stationName", info.getName());
       stop.setProperty("date", DateUtil.toDate(date));
       stop.setProperty("trainNo", trainNo);

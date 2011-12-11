@@ -1,0 +1,7 @@
+for (String id : TimeZone.getAvailableIDs()) {
+System.out.println(id);
+}
+
+for (Locale l : Locale.getAvailableLocales()) {
+System.out.println(l.getLanguage() + ", " + l.getCountry());
+}

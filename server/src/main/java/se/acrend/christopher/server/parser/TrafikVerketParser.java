@@ -65,7 +65,14 @@ public class TrafikVerketParser {
 
       station.setDeparture(parseTime(cells.get(2).text(), info.getDate()));
 
-      station.setTrack(cells.get(3).text());
+      String track = cells.get(3).text();
+      if (station.getArrival() != null) {
+        station.getArrival().setTrack(track);
+      }
+      if (station.getDeparture() != null) {
+        station.getDeparture().setTrack(track);
+      }
+
       Elements infoDivs = cells.get(4).select("div");
       for (Element infoDiv : infoDivs) {
         String infoString = null;

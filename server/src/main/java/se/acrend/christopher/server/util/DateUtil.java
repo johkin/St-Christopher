@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.slf4j.Logger;
@@ -13,7 +14,9 @@ public class DateUtil {
 
   private static Logger log = LoggerFactory.getLogger(DateUtil.class);
 
-  private static final TimeZone SWEDISH_TIMEZONE = TimeZone.getTimeZone("sv_SE");
+  private static final TimeZone SWEDISH_TIMEZONE = TimeZone.getTimeZone("Europe/Stockholm");
+
+  private static final Locale SWEDISH_LOCALE = new Locale("sv", "SE");
 
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
@@ -82,7 +85,7 @@ public class DateUtil {
     if (cal == null) {
       return null;
     }
-    return new Date(cal.getTimeInMillis() + SWEDISH_TIMEZONE.getOffset(cal.getTimeInMillis()));
+    return new Date(cal.getTimeInMillis());
   }
 
   public static Calendar toCalendar(final Date date) {

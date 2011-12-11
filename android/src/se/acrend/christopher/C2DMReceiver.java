@@ -1,6 +1,7 @@
 package se.acrend.christopher;
 
 import se.acrend.christopher.android.intent.Intents;
+import se.acrend.christopher.shared.util.SharedConstants;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import com.google.android.c2dm.C2DMBaseReceiver;
 public class C2DMReceiver extends C2DMBaseReceiver {
 
   public C2DMReceiver() {
-    super("c2dm@acrend.se");
+    super(SharedConstants.C2DM_ACCOUNT);
   }
 
   @Override

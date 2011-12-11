@@ -80,7 +80,7 @@ public class MessageHandler {
 
     Intent intent = new Intent(Intents.PREPARE_REGISTRATION, ContentUris.withAppendedId(ProviderTypes.CONTENT_URI,
         ticketId));
-    context.sendBroadcast(intent);
+    context.startService(intent);
 
     Log.d(TAG, "Start service for ticket: " + wrapper.getCode());
 

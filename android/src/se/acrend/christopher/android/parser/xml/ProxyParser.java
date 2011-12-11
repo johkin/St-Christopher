@@ -68,12 +68,6 @@ public class ProxyParser extends AbstactResponseParser {
         stationModel.setName(body);
       }
     });
-    station.getChild("track").setEndTextElementListener(new EndTextElementListener() {
-      @Override
-      public void end(final String body) {
-        stationModel.setTrack(body);
-      }
-    });
     Element arrivalElmt = station.getChild("arrival");
     arrivalElmt.getChild("original").setEndTextElementListener(new EndTextElementListener() {
       @Override
@@ -91,6 +85,12 @@ public class ProxyParser extends AbstactResponseParser {
       @Override
       public void end(final String body) {
         arrival.setEstimated(parseTime(body));
+      }
+    });
+    arrivalElmt.getChild("track").setEndTextElementListener(new EndTextElementListener() {
+      @Override
+      public void end(final String body) {
+        arrival.setTrack(body);
       }
     });
     arrivalElmt.setElementListener(new ElementListener() {
@@ -122,6 +122,12 @@ public class ProxyParser extends AbstactResponseParser {
       @Override
       public void end(final String body) {
         departure.setEstimated(parseTime(body));
+      }
+    });
+    departureElmt.getChild("track").setEndTextElementListener(new EndTextElementListener() {
+      @Override
+      public void end(final String body) {
+        departure.setTrack(body);
       }
     });
     departureElmt.setElementListener(new ElementListener() {

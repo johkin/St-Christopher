@@ -220,6 +220,23 @@ public class RegistrationService extends RoboService {
               "Uppdatera din prenumeration för att kunna registrera din resa.", contentIntent);
 
           notificationManager.notify(model.getTrain(), 1, notification);
+        } else if (errorCode == ErrorCode.TrainNotFound) {
+          Notification notification = new Notification();
+          notification.defaults = Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS
+              | Notification.DEFAULT_VIBRATE;
+          notification.icon = R.drawable.sj2cal_bw;
+          notification.when = System.currentTimeMillis();
+          notification.flags = Notification.FLAG_AUTO_CANCEL;
+          notification.tickerText = "Kunde inte hitta information om tåg " + model.getTrain();
+
+          Intent notificationIntent = new Intent(context, SubscriptionDetails.class);
+          notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+          PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+
+          notification.setLatestEventInfo(context, "Tåg-information saknas.",
+              "Servern kunde inte hämta information för det tåg som angivits i biljetten.", contentIntent);
+
+          notificationManager.notify(model.getTrain(), 1, notification);
         } else {
           // TODO Notifiera beroende på antal försök?
           scheduleNewRegistration(model);
@@ -246,8 +263,9 @@ public class RegistrationService extends RoboService {
 
     Log.d(TAG, "Schemalägger ny registrering för id " + model.getId() + " vid " + DateUtil.formatTime(fiveMinutes));
 
-    PendingIntent pendingIntent = PendingIntent.getService(context, 0, new Intent(Intents.REGISTER_BOOKING,
-        ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, model.getId())), PendingIntent.FLAG_ONE_SHOT);
+    PendingIntent pendingIntent = PendingIntent.getService(context, 0,
+        new Intent(Intents.REGISTER_BOOKING, ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, model.getId())),
+        PendingIntent.FLAG_ONE_SHOT);
     alarmManager.set(AlarmManager.RTC_WAKEUP, fiveMinutes.getTimeInMillis(), pendingIntent);
   }
 
@@ -289,8 +307,9 @@ public class RegistrationService extends RoboService {
     Log.d(TAG, "Schemalägger registrering för id " + model.getId() + " vid " + DateUtil.formatTime(registrationTime));
     Log.d(TAG, "Klockan är nu " + DateUtil.formatTime(DateUtil.createCalendar()));
 
-    PendingIntent pendingIntent = PendingIntent.getService(context, 0, new Intent(Intents.REGISTER_BOOKING,
-        ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, model.getId())), PendingIntent.FLAG_ONE_SHOT);
+    PendingIntent pendingIntent = PendingIntent.getService(context, 0,
+        new Intent(Intents.REGISTER_BOOKING, ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, model.getId())),
+        PendingIntent.FLAG_ONE_SHOT);
     alarmManager.set(AlarmManager.RTC_WAKEUP, registrationTime.getTimeInMillis(), pendingIntent);
   }
 

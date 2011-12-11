@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import se.acrend.christopher.server.service.impl.ConfigurationServiceImpl;
 import se.acrend.christopher.server.util.Constants;
+import se.acrend.christopher.shared.util.SharedConstants;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.taskqueue.Queue;
@@ -63,10 +64,10 @@ public class AuthQueueController {
     try {
 
       Map<String, String> params = new HashMap<String, String>();
-      params.put("Email", "c2dm@acrend.se");
+      params.put("Email", SharedConstants.C2DM_ACCOUNT);
       params.put("Passwd", "AndroidApp");
       params.put("accountType", "GOOGLE");
-      params.put("source", "sjtrafficserver");
+      params.put("source", "st-christopher-server");
       params.put("service", "ac2dm");
 
       String formData = encodeFormParams(params);

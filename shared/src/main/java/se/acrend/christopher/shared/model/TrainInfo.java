@@ -14,6 +14,9 @@ public class TrainInfo implements Serializable {
 
   private String trainNo;
   private String date;
+  private String lastKnownPosition;
+  private String lastKnownTime;
+  private String lastKnownActivity;
 
   @XmlElement(name = "trainNo")
   public String getTrainNo() {
@@ -32,13 +35,45 @@ public class TrainInfo implements Serializable {
   public void setDate(final String date) {
     this.date = date;
   }
+
   @XmlElement(name = "station")
   public List<StationInfo> getStations() {
     return stations;
   }
-  
+
+  @XmlElement(name = "lastKnownPosition")
+  public String getLastKnownPosition() {
+    return lastKnownPosition;
+  }
+
+  public void setLastKnownPosition(final String lastKnownPosition) {
+    this.lastKnownPosition = lastKnownPosition;
+  }
+
+  @XmlElement(name = "lastKnownTime")
+  public String getLastKnownTime() {
+    return lastKnownTime;
+  }
+
+  public void setLastKnownTime(final String lastKnownTime) {
+    this.lastKnownTime = lastKnownTime;
+  }
+
+  @XmlElement(name = "lastKnownActivity")
+  public String getLastKnownActivity() {
+    return lastKnownActivity;
+  }
+
+  public void setLastKnownActivity(final String lastKnownActivity) {
+    this.lastKnownActivity = lastKnownActivity;
+  }
+
   public void clear() {
     trainNo = null;
+    date = null;
+    lastKnownActivity = null;
+    lastKnownPosition = null;
+    lastKnownTime = null;
     stations.clear();
   }
 }

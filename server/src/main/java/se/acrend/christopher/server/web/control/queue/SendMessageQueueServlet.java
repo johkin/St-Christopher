@@ -53,7 +53,7 @@ public class SendMessageQueueServlet {
     try {
       Entity data = dataDao.findData();
 
-      if (data == null) {
+      if (!data.hasProperty("authString")) {
         sendAuthMessage();
 
         resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
@@ -124,7 +124,13 @@ public class SendMessageQueueServlet {
       for (HTTPHeader header : headers) {
         if ("update-client-auth".equals(header.getName())) {
           log.debug("Försöker uppdatera auth för server");
-          sendAuthMessage();
+          Entity data = dataDao.findData();
+          data.setProperty("authString", header.getValue());
+
+          Transaction transaction = datastore.beginTransaction();
+          datastore.put(data);
+          transaction.commit();
+          // sendAuthMessage();
         }
       }
 

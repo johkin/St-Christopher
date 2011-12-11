@@ -25,11 +25,11 @@ import android.util.Log;
 public class TrafficInfoProvider extends ContentProvider {
 
   public static final String[] PROJECTION = new String[] { TrafficInfoProviderTypes.Columns.TRAIN_NO,
-      TrafficInfoProviderTypes.Columns.NAME, TrafficInfoProviderTypes.Columns.TRACK,
-      TrafficInfoProviderTypes.Columns.INFO, TrafficInfoProviderTypes.Columns.DEPARTURE_TIME,
-      TrafficInfoProviderTypes.Columns.DEPARTURE_CALCULATED, TrafficInfoProviderTypes.Columns.DEPARTURE_ACTUAL,
+      TrafficInfoProviderTypes.Columns.NAME, TrafficInfoProviderTypes.Columns.INFO,
+      TrafficInfoProviderTypes.Columns.DEPARTURE_TIME, TrafficInfoProviderTypes.Columns.DEPARTURE_CALCULATED,
+      TrafficInfoProviderTypes.Columns.DEPARTURE_ACTUAL, TrafficInfoProviderTypes.Columns.DEPARTURE_TRACK,
       TrafficInfoProviderTypes.Columns.ARRIVAL_TIME, TrafficInfoProviderTypes.Columns.ARRIVAL_CALCULATED,
-      TrafficInfoProviderTypes.Columns.ARRIVAL_ACTUAL };
+      TrafficInfoProviderTypes.Columns.ARRIVAL_ACTUAL, TrafficInfoProviderTypes.Columns.ARRIVAL_TRACK };
 
   private static final String TAG = "TrafficInfoProvider";
   private static final String URL = "http://sjtrafficserver.appspot.com/proxy?trainNo=%s&date=%s";
@@ -113,7 +113,6 @@ public class TrafficInfoProvider extends ContentProvider {
 
   private void convert(final StationInfo station, final RowBuilder newRow) {
     newRow.add(station.getName());
-    newRow.add(station.getTrack());
     convert(station.getDeparture(), newRow);
     convert(station.getArrival(), newRow);
   }
@@ -124,7 +123,9 @@ public class TrafficInfoProvider extends ContentProvider {
       newRow.add(time.getEstimated());
       newRow.add(time.getActual());
       newRow.add(time.getGuessed());
+      newRow.add(time.getTrack());
     } else {
+      newRow.add(null);
       newRow.add(null);
       newRow.add(null);
       newRow.add(null);

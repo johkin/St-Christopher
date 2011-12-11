@@ -5,7 +5,7 @@ import roboguice.inject.InjectView;
 import se.acrend.christopher.R;
 import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.preference.PrefsHelper;
-import se.acrend.christopher.android.util.Constants;
+import se.acrend.christopher.shared.util.SharedConstants;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -47,14 +47,13 @@ public class RegisterDevice extends RoboActivity {
 
         String message = context.getResources().getString(R.string.prefs_category_c2dmregistration_wait);
 
-        dialog = ProgressDialog.show(RegisterDevice.this, "",
-            message, true, false);
+        dialog = ProgressDialog.show(RegisterDevice.this, "", message, true, false);
 
         Intent registrationIntent = new Intent("com.google.android.c2dm.intent.REGISTER");
 
         registrationIntent.putExtra("app", PendingIntent.getBroadcast(context, 0, new Intent(), 0));
 
-        registrationIntent.putExtra("sender", Constants.C2DM_EMAIL);
+        registrationIntent.putExtra("sender", SharedConstants.C2DM_ACCOUNT);
 
         context.startService(registrationIntent);
       }

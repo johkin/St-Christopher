@@ -18,6 +18,7 @@ public class TimeInfo implements Serializable {
   private Calendar estimated;
   private Calendar guessed;
   private Status status;
+  private String track;
 
   public TimeInfo copy() {
     TimeInfo copy = new TimeInfo();
@@ -27,6 +28,7 @@ public class TimeInfo implements Serializable {
     copy.estimated = estimated;
     copy.guessed = guessed;
     copy.status = status;
+    copy.track = track;
 
     return copy;
   }
@@ -37,6 +39,16 @@ public class TimeInfo implements Serializable {
     estimated = null;
     guessed = null;
     status = null;
+    track = null;
+  }
+
+  @XmlElement(name = "track")
+  public String getTrack() {
+    return track;
+  }
+
+  public void setTrack(final String track) {
+    this.track = track;
   }
 
   @XmlElement(name = "original")

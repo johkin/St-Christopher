@@ -43,7 +43,7 @@ public class TrafikVerketParserTest {
   @Test
   public void testParseDelayed() throws Exception {
     String content = IOUtils.toString(this.getClass().getResourceAsStream("/trafikverket/542-delayed.html"), "UTF-8");
-    TrainInfo info = parser.parse(content, "20111005", "284");
+    TrainInfo info = parser.parse(content, "20111005", "542");
 
     for (StationInfo station : info.getStations()) {
       if ("Alvesta".equals(station.getName())) {

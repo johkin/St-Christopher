@@ -24,7 +24,7 @@ public class ServerDataDao {
     try {
       entity = datastore.get(key);
     } catch (EntityNotFoundException e) {
-      entity = new Entity(DataConstants.KIND_SERVER_DATA, key);
+      entity = new Entity(key);
     }
     return entity;
   }

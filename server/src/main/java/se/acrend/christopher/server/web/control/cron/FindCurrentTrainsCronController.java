@@ -42,16 +42,16 @@ public class FindCurrentTrainsCronController {
       // Hämta det som kommer att avgå inom två timmar
       Calendar from = DateUtil.createCalendar();
       Calendar to = DateUtil.createCalendar();
-      to.add(Calendar.HOUR, 2);
+      to.add(Calendar.HOUR, 1);
       log.debug("Hämtar avgångar mellan {} och {}", DateUtil.toDate(from), DateUtil.toDate(to));
       List<Entity> departures = trainStopDao.findDepartures(from, to);
       result.addAll(departures);
 
       // Hämta det som skulle ha ankommit för minst en timme sedan
       from = DateUtil.createCalendar();
-      from.add(Calendar.HOUR, -4);
+      from.add(Calendar.HOUR, -1);
       to = DateUtil.createCalendar();
-      to.add(Calendar.HOUR, -1);
+      // to.add(Calendar.HOUR, -1);
       log.debug("Hämtar ankomster mellan {} och {}", DateUtil.toDate(from), DateUtil.toDate(to));
       List<Entity> arrivals = trainStopDao.findArrivalsNotArrived(from, to);
       result.addAll(arrivals);

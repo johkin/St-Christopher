@@ -14,7 +14,6 @@ public class StationInfo implements Serializable, Comparable<StationInfo> {
   private String name;
   private TimeInfo arrival;
   private TimeInfo departure;
-  private String track;
   private List<String> info;
 
   public StationInfo() {
@@ -24,7 +23,6 @@ public class StationInfo implements Serializable, Comparable<StationInfo> {
   public StationInfo copy() {
     StationInfo copy = new StationInfo();
     copy.name = name;
-    copy.track = track;
     copy.info = info;
     copy.arrival = arrival.copy();
     copy.departure = departure.copy();
@@ -33,7 +31,6 @@ public class StationInfo implements Serializable, Comparable<StationInfo> {
 
   public void clear() {
     name = null;
-    track = null;
     info = null;
     arrival = null;
     departure = null;
@@ -56,15 +53,6 @@ public class StationInfo implements Serializable, Comparable<StationInfo> {
 
   public void addInfo(final String info) {
     this.info.add(info);
-  }
-
-  @XmlElement(name = "track")
-  public String getTrack() {
-    return track;
-  }
-
-  public void setTrack(final String track) {
-    this.track = track;
   }
 
   @XmlElement(name = "name")

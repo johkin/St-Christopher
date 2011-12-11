@@ -19,13 +19,15 @@ public class TrafficInfoProviderTypes {
   public static class Columns {
     public static String TRAIN_NO = "trainNo";
     public static String NAME = "name";
-    public static String TRACK = "track";
+
     public static String INFO = "info";
     public static String DEPARTURE_TIME = "departureTime";
     public static String DEPARTURE_CALCULATED = "calculatedDepartureTime";
     public static String DEPARTURE_ACTUAL = "actualDepartureTime";
+    public static String DEPARTURE_TRACK = "departureTrack";
     public static String ARRIVAL_TIME = "arrivalTime";
     public static String ARRIVAL_CALCULATED = "calculatedArrivalTime";
     public static String ARRIVAL_ACTUAL = "actualArrivalTime";
+    public static String ARRIVAL_TRACK = "arrivalTrack";
   }
 }
