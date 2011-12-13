@@ -15,11 +15,14 @@ public class DateUtil {
 
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", SharedDateUtil.SWEDISH_LOCALE);
 
-  private static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyyMMdd HH:mm",
+  private static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyyMMdd HH:mm",
       SharedDateUtil.SWEDISH_LOCALE);
+
+  private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", SharedDateUtil.SWEDISH_LOCALE);
 
   static {
     dateFormat.setTimeZone(SharedDateUtil.SWEDISH_TIMEZONE);
+    dateTimeFormat.setTimeZone(SharedDateUtil.SWEDISH_TIMEZONE);
     timeFormat.setTimeZone(SharedDateUtil.SWEDISH_TIMEZONE);
   }
 
@@ -62,13 +65,27 @@ public class DateUtil {
     if (cal == null) {
       return null;
     }
-    return timeFormat.format(cal.getTime());
+    return formatTime(cal.getTime());
   }
 
-  public static Calendar parseTime(final String timeString) {
+  public static String formatDateTime(final Date date) {
+    if (date == null) {
+      return null;
+    }
+    return dateTimeFormat.format(date);
+  }
+
+  public static String formatDateTime(final Calendar cal) {
+    if (cal == null) {
+      return null;
+    }
+    return dateTimeFormat.format(cal.getTime());
+  }
+
+  public static Calendar parseDateTime(final String timeString) {
     try {
       Calendar cal = createCalendar();
-      Date date = timeFormat.parse(timeString);
+      Date date = dateTimeFormat.parse(timeString);
       cal.setTime(date);
       return cal;
     } catch (ParseException e) {

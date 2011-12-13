@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.preference.PreferenceManager;
 
 import com.google.inject.Inject;
@@ -40,11 +39,6 @@ public class PrefsHelper {
   public static boolean isProcessIncommingMessages(final Context context) {
     SharedPreferences prefs = getPrefs(context);
     return prefs.getBoolean("processIncomingMessages", false);
-  }
-
-  public long getCalendarId() {
-    SharedPreferences prefs = getPrefs(context);
-    return Long.parseLong(prefs.getString("calendarId", "-1"));
   }
 
   public int getReadAheadMinutes() {
@@ -94,17 +88,6 @@ public class PrefsHelper {
     SharedPreferences prefs = getPrefs(context);
     Editor editor = prefs.edit();
     editor.putString(Constants.REGISTRATION_KEY, registrationId);
-    editor.commit();
-  }
-
-  public boolean supportsBilling() {
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
-  }
-
-  public void setCalendarId(final long calendarId) {
-    SharedPreferences prefs = getPrefs(context);
-    Editor editor = prefs.edit();
-    editor.putString(Constants.CALENDAR_KEY, Long.toString(calendarId));
     editor.commit();
   }
 }

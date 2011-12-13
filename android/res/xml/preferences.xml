@@ -1,42 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<PreferenceCategory android:title="@string/prefs.category.sms">
+ <PreferenceCategory android:title="@string/prefs.category.sms">
 
-		<CheckBoxPreference android:key="processIncomingMessages"
-			android:title="@string/prefs.category.sms.processIncomingMessages" 
-			android:summary="@string/prefs.category.sms.processIncomingMessages.summary" android:defaultValue="true" />
-		<CheckBoxPreference android:key="deleteProcessedMessage"
-			android:title="@string/prefs.category.sms.deleteProcessedMessage" 
-			android:summary="@string/prefs.category.sms.deleteProcessedMessage.summary" />
-      <CheckBoxPreference android:key="replaceTicket"
-      android:title="@string/prefs.category.calendar.replaceTicket" 
-      android:summary="@string/prefs.category.calendar.replaceTicket.summary" android:defaultValue="true" />
-	</PreferenceCategory>
+  <CheckBoxPreference android:key="processIncomingMessages" android:title="@string/prefs.category.sms.processIncomingMessages"
+   android:summary="@string/prefs.category.sms.processIncomingMessages.summary" android:defaultValue="true" />
+  <CheckBoxPreference android:key="deleteProcessedMessage" android:title="@string/prefs.category.sms.deleteProcessedMessage"
+   android:summary="@string/prefs.category.sms.deleteProcessedMessage.summary" />
+  <CheckBoxPreference android:key="replaceTicket" android:title="@string/prefs.category.sms.replaceTicket"
+   android:summary="@string/prefs.category.sms.replaceTicket.summary" android:defaultValue="true" />
+ </PreferenceCategory>
 
-	<PreferenceCategory android:title="@string/prefs.category.serverservices" 
-	    android:summary="@string/prefs.category.serverservices.summary">
-		
-   <CheckBoxPreference android:key="useServerServices"
-      android:title="@string/prefs.category.serverservices.useServerServices.title" 
-      android:summary="@string/prefs.category.serverservices.useServerServices.summary" android:defaultValue="true" />
-	    
-      <ListPreference android:title="@string/prefs.category.serverservices.account.title"
-      android:summary="@string/prefs.category.serverservices.account.summary"
-      android:key="account" />
-   
-		<ListPreference android:title="@string/prefs.category.serverservices.readAhead.title"
-			android:summary="@string/prefs.category.serverservices.readAhead.summary"
-			android:key="readAheadMinutes" android:entries="@array/train_info_readAhead_names"
-			android:entryValues="@array/train_info_readAhead_minutes"
-			android:defaultValue="60" />
-	</PreferenceCategory>
-	    
-	<PreferenceCategory android:title="@string/prefs.category.suggestions">
-    <se.acrend.christopher.android.preference.LinkPreference 
-    android:title="@string/prefs.category.suggestions.getSatisfaction.title"
-    android:summary="@string/prefs.category.suggestions.getSatisfaction.summary"
-    android:value="http://getsatisfaction.com/acrend/products/acrend_christopher"/>
-	</PreferenceCategory>
+ <PreferenceCategory android:title="@string/prefs.category.serverservices" android:summary="@string/prefs.category.serverservices.summary">
+
+  <ListPreference android:title="@string/prefs.category.serverservices.account.title" android:summary="@string/prefs.category.serverservices.account.summary"
+   android:key="account" />
+
+  <ListPreference android:title="@string/prefs.category.serverservices.readAhead.title" android:summary="@string/prefs.category.serverservices.readAhead.summary"
+   android:key="readAheadMinutes" android:entries="@array/train_info_readAhead_names" android:entryValues="@array/train_info_readAhead_minutes"
+   android:defaultValue="60" />
+ </PreferenceCategory>
+
+ <PreferenceCategory android:title="@string/prefs.category.subscription">
+  <se.acrend.christopher.android.preference.OpenSubscriptionPreference
+   android:title="@string/prefs.category.subscription.title" android:summary="@string/prefs.category.subscription.summary" />
+ </PreferenceCategory>
+
+ <PreferenceCategory android:title="@string/prefs.category.suggestions">
+  <se.acrend.christopher.android.preference.LinkPreference
+   android:title="@string/prefs.category.suggestions.getSatisfaction.title" android:summary="@string/prefs.category.suggestions.getSatisfaction.summary"
+   android:value="http://getsatisfaction.com/acrend/products/acrend_christopher" />
+ </PreferenceCategory>
 
 </PreferenceScreen>

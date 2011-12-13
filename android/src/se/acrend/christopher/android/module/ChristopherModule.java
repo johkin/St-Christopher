@@ -2,7 +2,6 @@ package se.acrend.christopher.android.module;
 
 import se.acrend.christopher.android.application.ChristopherApp;
 import se.acrend.christopher.android.content.ProviderHelper;
-import se.acrend.christopher.android.parser.ConfirmationParser;
 import se.acrend.christopher.android.parser.MessageHandler;
 import se.acrend.christopher.android.parser.SmsTicketParser;
 import se.acrend.christopher.android.preference.PrefsHelper;
@@ -19,7 +18,6 @@ public class ChristopherModule implements Module {
     binder.bind(ProviderHelper.class);
     binder.bind(PrefsHelper.class);
 
-    binder.bind(ConfirmationParser.class);
     binder.bind(SmsTicketParser.class);
     binder.bind(MessageHandler.class);
 

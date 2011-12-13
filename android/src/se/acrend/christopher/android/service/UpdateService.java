@@ -11,9 +11,11 @@ import se.acrend.christopher.android.model.DbModel;
 import se.acrend.christopher.android.model.DbModel.TimeModel;
 import se.acrend.christopher.android.preference.PrefsHelper;
 import se.acrend.christopher.android.util.DateUtil;
+import se.acrend.christopher.android.widget.TicketWidgetProvider;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -52,15 +54,15 @@ public class UpdateService extends RoboIntentService {
     TimeModel departure = model.getDeparture();
     boolean changedDepartureTime = false;
     if (extras.containsKey("actualDeparture")) {
-      departure.setActual(DateUtil.parseTime(extras.getString("actualDeparture")));
+      departure.setActual(DateUtil.parseDateTime(extras.getString("actualDeparture")));
       changedDepartureTime = true;
     }
     if (extras.containsKey("estimatedDeparture")) {
-      departure.setEstimated(DateUtil.parseTime(extras.getString("estimatedDeparture")));
+      departure.setEstimated(DateUtil.parseDateTime(extras.getString("estimatedDeparture")));
       changedDepartureTime = true;
     }
     if (extras.containsKey("guessedDeparture")) {
-      departure.setGuessed(DateUtil.parseTime(extras.getString("guessedDeparture")));
+      departure.setGuessed(DateUtil.parseDateTime(extras.getString("guessedDeparture")));
       changedDepartureTime = true;
     }
     if (changedDepartureTime) {
@@ -70,15 +72,15 @@ public class UpdateService extends RoboIntentService {
     TimeModel arrival = model.getArrival();
     boolean changedArrivalTime = false;
     if (extras.containsKey("actualArrival")) {
-      arrival.setActual(DateUtil.parseTime(extras.getString("actualArrival")));
+      arrival.setActual(DateUtil.parseDateTime(extras.getString("actualArrival")));
       changedArrivalTime = true;
     }
     if (extras.containsKey("estimatedArrival")) {
-      arrival.setEstimated(DateUtil.parseTime(extras.getString("estimatedArrival")));
+      arrival.setEstimated(DateUtil.parseDateTime(extras.getString("estimatedArrival")));
       changedArrivalTime = true;
     }
     if (extras.containsKey("guessedArrival")) {
-      arrival.setGuessed(DateUtil.parseTime(extras.getString("guessedArrival")));
+      arrival.setGuessed(DateUtil.parseDateTime(extras.getString("guessedArrival")));
       changedArrivalTime = true;
     }
     if (changedArrivalTime) {
@@ -117,6 +119,8 @@ public class UpdateService extends RoboIntentService {
       }
     }
 
+    context.sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).setClass(context,
+        TicketWidgetProvider.class));
   }
 
   private String getTimeInfo(final TimeModel timeModel) {
@@ -130,7 +134,7 @@ public class UpdateService extends RoboIntentService {
     } else {
       selectedTime = timeModel.getOriginal();
     }
-    return DateUtil.formatTime(selectedTime);
+    return DateUtil.formatDateTime(selectedTime);
   }
 
   private void appendToMessage(final StringBuilder message, final String part) {

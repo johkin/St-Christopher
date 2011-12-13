@@ -164,7 +164,7 @@ public class SubscriptionDetails extends RoboActivity {
       @Override
       protected void onPostExecute(final SubscriptionInfo result) {
         String info = context.getString(R.string.subscription_details_info,
-            DateUtil.formatTime(result.getNotificationExpireDate()), result.getNotificationCount());
+            DateUtil.formatDateTime(result.getNotificationExpireDate()), result.getNotificationCount());
         detailsInfo.setText(info);
 
         getProductTask.execute();

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ android:id="@+id/FrameLayout01"
+ android:layout_width="fill_parent"
+ android:layout_height="fill_parent"
+ android:padding="@dimen/widget_margin" 
+ android:background="@drawable/appwidget_dark_bg" android:clickable="true">
+
+ <RelativeLayout
+  android:id="@+id/widgetlayout"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent" >
+
+  <TextView
+   android:id="@+id/widget.header"
+   style="@style/Label"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content" 
+   android:layout_centerInParent="true"
+   android:text="@string/widget.no.ticket.found"/>
+
+ </RelativeLayout>
+
+</FrameLayout>

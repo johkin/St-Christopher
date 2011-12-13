@@ -111,14 +111,14 @@ public class TicketAdapter extends SimpleCursorAdapter {
 
   private void setDateField(final Calendar orgTime, final Calendar actualTime, final TextView view) {
     if (actualTime != null) {
-      view.setText(DateUtil.formatTime(actualTime.getTime()));
+      view.setText(DateUtil.formatDateTime(actualTime.getTime()));
       if (actualTime.equals(orgTime)) {
         view.setTextAppearance(context, R.style.OnTime);
       } else {
         view.setTextAppearance(context, R.style.Delayed);
       }
     } else {
-      view.setText(DateUtil.formatTime(orgTime.getTime()));
+      view.setText(DateUtil.formatDateTime(orgTime.getTime()));
     }
   }
 }

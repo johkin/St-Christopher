@@ -12,16 +12,19 @@ import se.acrend.christopher.android.content.ProviderTypes;
 import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.model.DbModel;
 import se.acrend.christopher.android.model.DbModel.TimeModel;
+import se.acrend.christopher.android.service.RegistrationService;
 import se.acrend.christopher.android.util.DateUtil;
 import se.acrend.christopher.android.util.TimeSource;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.ContextThemeWrapper;
@@ -62,13 +65,14 @@ public class TicketDetails extends RoboActivity {
 
   @Inject
   private ProviderHelper providerHelper;
-
   @Inject
   private Context context;
   @Inject
   private ContentResolver contentResolver;
   @Inject
   private TimeSource timeSource;
+  @Inject
+  private RegistrationService registrationService;
 
   private ContentObserver contentObserver;
 
@@ -80,10 +84,15 @@ public class TicketDetails extends RoboActivity {
 
   private DbModel model;
 
+  private ProgressDialog dialog;
+
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.ticket_details);
+
+    startService(new Intent(context, RegistrationService.class));
+
     handler = new Handler();
 
     final Intent intent = getIntent();
@@ -157,10 +166,10 @@ public class TicketDetails extends RoboActivity {
 
   private void addQuickAction(final View view, final TimeModel timeModel) {
     final QuickAction action = new QuickAction(this);
-    action.addActionItem(new ActionItem(0, "Ordinarie", DateUtil.formatTime(timeModel.getOriginal())));
-    action.addActionItem(new ActionItem(0, "Faktisk", DateUtil.formatTime(timeModel.getActual())));
-    action.addActionItem(new ActionItem(0, "Uppskattad", DateUtil.formatTime(timeModel.getEstimated())));
-    action.addActionItem(new ActionItem(0, "Gissad", DateUtil.formatTime(timeModel.getGuessed())));
+    action.addActionItem(new ActionItem(0, "Ordinarie", DateUtil.formatDateTime(timeModel.getOriginal())));
+    action.addActionItem(new ActionItem(0, "Faktisk", DateUtil.formatDateTime(timeModel.getActual())));
+    action.addActionItem(new ActionItem(0, "Uppskattad", DateUtil.formatDateTime(timeModel.getEstimated())));
+    action.addActionItem(new ActionItem(0, "Gissad", DateUtil.formatDateTime(timeModel.getGuessed())));
     view.setClickable(true);
     view.setOnClickListener(new View.OnClickListener() {
 
@@ -183,16 +192,16 @@ public class TicketDetails extends RoboActivity {
     Calendar selectedTime = null;
     if (timeModel.getActual() != null) {
       selectedTime = timeModel.getActual();
-      view.setText("= " + DateUtil.formatTime(selectedTime));
+      view.setText("= " + DateUtil.formatDateTime(selectedTime));
     } else if (timeModel.getEstimated() != null) {
       selectedTime = timeModel.getEstimated();
-      view.setText("~ " + DateUtil.formatTime(selectedTime));
+      view.setText("~ " + DateUtil.formatDateTime(selectedTime));
     } else if (timeModel.getGuessed() != null) {
       selectedTime = timeModel.getGuessed();
-      view.setText("? " + DateUtil.formatTime(selectedTime));
+      view.setText("? " + DateUtil.formatDateTime(selectedTime));
     } else {
       selectedTime = timeModel.getOriginal();
-      view.setText(DateUtil.formatTime(selectedTime));
+      view.setText(DateUtil.formatDateTime(selectedTime));
     }
     if (timeModel.getOriginal() == selectedTime) {
       return;
@@ -225,10 +234,56 @@ public class TicketDetails extends RoboActivity {
       getContentResolver().unregisterContentObserver(contentObserver);
       startService(new Intent(Intents.DELETE_BOOKING, data));
       finish();
+      AsyncTask<Uri, Void, Void> unregisterTask = new AsyncTask<Uri, Void, Void>() {
+
+        @Override
+        protected Void doInBackground(final Uri... params) {
+          registrationService.deleteBooking(params[0]);
+          return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+          String message = context.getResources().getString(R.string.ticket_details_unregister_wait);
+
+          dialog = ProgressDialog.show(TicketDetails.this, "", message, true, false);
+        }
+
+        @Override
+        protected void onPostExecute(final Void result) {
+          if (dialog != null) {
+            dialog.dismiss();
+          }
+          finish();
+        }
+      };
+      unregisterTask.execute(this.data);
+
       return true;
     case R.id.ticket_details_menu_register:
-      // TODO ProgressDialog
-      startService(new Intent(Intents.REGISTER_BOOKING, data));
+      AsyncTask<DbModel, Void, Boolean> registerTask = new AsyncTask<DbModel, Void, Boolean>() {
+
+        @Override
+        protected Boolean doInBackground(final DbModel... params) {
+          return registrationService.callRegistration(params[0]);
+        }
+
+        @Override
+        protected void onPreExecute() {
+          String message = context.getResources().getString(R.string.ticket_details_register_wait);
+
+          dialog = ProgressDialog.show(TicketDetails.this, "", message, true, false);
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean result) {
+          if (dialog != null) {
+            dialog.dismiss();
+          }
+        }
+      };
+      registerTask.execute(model);
+
       return true;
     default:
       return super.onOptionsItemSelected(item);

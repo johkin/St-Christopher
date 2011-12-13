@@ -29,11 +29,7 @@ public class Preferences extends RoboPreferenceActivity {
 
     // TODO Preference som pekar på köp-vy
 
-    // TODO Lägg kontroll av OS-version för att avgöra vad som ska vara aktivt,
-    // ställ in default-värden.
-
     // TODO Lägg till möjlighet att byta konto för inloggning, registrering.
-
   }
 
   void initAccount(final ListPreference account) {

@@ -59,9 +59,6 @@ public abstract class AbtractTicketList extends RoboListActivity {
     case R.id.preferences:
       startActivity(new Intent().setClass(this, Preferences.class));
       return true;
-    case R.id.subscription:
-      startActivity(new Intent().setClass(this, SubscriptionDetails.class));
-      return true;
     default:
       return super.onOptionsItemSelected(item);
     }

@@ -10,8 +10,6 @@ import se.acrend.christopher.android.content.ProviderTypes;
 import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.model.DbModel;
 import se.acrend.christopher.android.model.MessageWrapper;
-import se.acrend.christopher.android.preference.PrefsHelper;
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -32,16 +30,11 @@ public class MessageHandler {
   private Context context;
   @Inject
   private NotificationManager notificationManager;
-  @Inject
-  private AlarmManager alarmManager;
-  @Inject
-  private PrefsHelper prefsHelper;
 
   private final List<MessageParser> parsers;
 
   public MessageHandler() {
     parsers = new ArrayList<MessageParser>();
-    parsers.add(new ConfirmationParser());
     parsers.add(new SmsTicketParser());
   }
 

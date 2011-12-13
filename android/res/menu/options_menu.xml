@@ -4,8 +4,6 @@
 		android:title="@string/common.exit" />
 	<item android:id="@+id/preferences" android:icon="@drawable/ic_menu_preferences"
 		android:title="@string/menu.preferences" />
-	<item android:id="@+id/subscription" android:icon="@drawable/ic_menu_preferences"
-		android:title="@string/menu.subscription" />
 	<item android:id="@+id/about" android:icon="@drawable/ic_menu_help"
 		android:title="@string/menu.about" />
 </menu>

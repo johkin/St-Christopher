@@ -155,11 +155,11 @@ public class ProxyReader extends RoboBroadcastReceiver {
       Calendar currentEstimate = null;
 
       if (calculated != null) {
-        Log.d(TAG, "Hittade beräknade tid: " + DateUtil.formatTime(calculated));
+        Log.d(TAG, "Hittade beräknade tid: " + DateUtil.formatDateTime(calculated));
         // Lagra värdet
         currentEstimate = calculated;
       } else if (actual != null) {
-        Log.d(TAG, "Hittade faktisk tid: " + DateUtil.formatTime(actual));
+        Log.d(TAG, "Hittade faktisk tid: " + DateUtil.formatDateTime(actual));
         // Ta bort pollning
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         alarmManager.cancel(pendingIntent);

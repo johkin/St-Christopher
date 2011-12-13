@@ -25,6 +25,7 @@ import se.acrend.christopher.android.preference.PrefsHelper;
 import se.acrend.christopher.android.util.DateUtil;
 import se.acrend.christopher.android.util.HttpUtil;
 import se.acrend.christopher.android.util.TimeSource;
+import se.acrend.christopher.android.widget.TicketWidgetProvider;
 import se.acrend.christopher.shared.model.BookingInformation;
 import se.acrend.christopher.shared.model.ErrorCode;
 import se.acrend.christopher.shared.model.ReturnCode;
@@ -33,6 +34,7 @@ import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -90,7 +92,7 @@ public class RegistrationService extends RoboService {
         Log.d(
             TAG,
             "Schemalägger ny registrering för url " + intent.getDataString() + " vid "
-                + DateUtil.formatTime(fiveMinutes));
+                + DateUtil.formatDateTime(fiveMinutes));
 
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, fiveMinutes.getTimeInMillis(), pendingIntent);
@@ -246,6 +248,9 @@ public class RegistrationService extends RoboService {
       }
 
       providerHelper.update(model);
+
+      context.sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).setClass(context,
+          TicketWidgetProvider.class));
     } catch (Exception e) {
       Log.e(TAG, "Error in callRegistration.", e);
       // TODO Notifiera beroende på antal försök?
@@ -263,7 +268,7 @@ public class RegistrationService extends RoboService {
     Calendar fiveMinutes = Calendar.getInstance();
     fiveMinutes.add(Calendar.MINUTE, 5);
 
-    Log.d(TAG, "Schemalägger ny registrering för id " + model.getId() + " vid " + DateUtil.formatTime(fiveMinutes));
+    Log.d(TAG, "Schemalägger ny registrering för id " + model.getId() + " vid " + DateUtil.formatDateTime(fiveMinutes));
 
     PendingIntent pendingIntent = PendingIntent.getService(context, 0,
         new Intent(Intents.REGISTER_BOOKING, ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, model.getId())),
@@ -281,7 +286,7 @@ public class RegistrationService extends RoboService {
     PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
     notification.setLatestEventInfo(context, "Saknar koppling till nät vid registrering.",
-        "Har schemalagt nytt försök för registrering vid " + DateUtil.formatTime(scheduleTime), pendingIntent);
+        "Har schemalagt nytt försök för registrering vid " + DateUtil.formatDateTime(scheduleTime), pendingIntent);
 
     notificationManager.notify(1, notification);
   }
@@ -306,8 +311,9 @@ public class RegistrationService extends RoboService {
     Calendar registrationTime = model.getDeparture().getOriginal();
     registrationTime.add(Calendar.MINUTE, -prefsHelper.getReadAheadMinutes());
 
-    Log.d(TAG, "Schemalägger registrering för id " + model.getId() + " vid " + DateUtil.formatTime(registrationTime));
-    Log.d(TAG, "Klockan är nu " + DateUtil.formatTime(DateUtil.createCalendar()));
+    Log.d(TAG,
+        "Schemalägger registrering för id " + model.getId() + " vid " + DateUtil.formatDateTime(registrationTime));
+    Log.d(TAG, "Klockan är nu " + DateUtil.formatDateTime(DateUtil.createCalendar()));
 
     PendingIntent pendingIntent = PendingIntent.getService(context, 0,
         new Intent(Intents.REGISTER_BOOKING, ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, model.getId())),

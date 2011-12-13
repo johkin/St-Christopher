@@ -17,7 +17,6 @@
     <string name="button.register">Registrera bokning</string>
     <string name="about.header">Om St Christopher</string>
     <string name="about.text">
-    
     \n
     Applikationen har utvecklats för eget bruk, utan koppling till SJ.\n    
     Synpunkter, förslag på förbättringar eller felrapporter skickas till \'android.support@acrend.se\', 
@@ -43,13 +42,8 @@
 		<string name="prefs.category.sms.processIncomingMessages.summary">Tolkar inkommande SMS och lägger till information i vald kalender.</string>
 		<string name="prefs.category.sms.deleteProcessedMessage">Ta bort bearbetade SMS</string>
 		<string name="prefs.category.sms.deleteProcessedMessage.summary">Tar bort de SMS som har lagts till i kalendern, så att du slipper rensa själv.</string>
-		<string name="prefs.category.calendar">Kalender</string>
-		<string name="prefs.category.calendar.updateCalendar">Uppdatera kalender</string>
-		<string name="prefs.category.calendar.updateCalendar.summary">Välj detta om du vill lägga in dina resor som bokningar i kalendern.</string>
-		<string name="prefs.category.calendar.select_calendar">Välj kalender</string>
-		<string name="prefs.category.calendar.select_calendar.summary">Välj den kalendar du vill att biljetter ska skrivas i.</string>
-		<string name="prefs.category.calendar.replaceTicket">Ersätt biljetter</string>
-		<string name="prefs.category.calendar.replaceTicket.summary">Söker efter existerande kalenderposter och byter ut dem mot ny information för givet biljettnummer.</string>
+		<string name="prefs.category.sms.replaceTicket">Ersätt biljetter</string>
+		<string name="prefs.category.sms.replaceTicket.summary">Söker efter existerande biljetter och byter ut dem mot ny information för givet biljettnummer.</string>
 		<string name="prefs.category.serverservices">Server-tjänster</string>
 		<string name="prefs.category.serverservices.title">Tåginformation från Trafikverket</string>
 		<string name="prefs.category.serverservices.summary">Konfiguration för att hantera hur Live-uppdatering ska hanteras.</string>
@@ -59,6 +53,9 @@
 		<string name="prefs.category.serverservices.readAhead.summary">Välj hur långt innan avfärd som applikationen ska kontrollera eventuell försening.</string>
     <string name="prefs.category.serverservices.account.title">Konto för inloggning</string>
     <string name="prefs.category.serverservices.account.summary">Välj det konto som ska användas vid inloggning mot server.</string>
+    <string name="prefs.category.subscription">Prenumeration</string>
+    <string name="prefs.category.subscription.title">Information om prenumeration</string>
+    <string name="prefs.category.subscription.summary">Visa status för din prenumeration.</string>
 		<string name="prefs.category.suggestions">Synpunkter</string>
 		<string name="prefs.category.suggestions.getSatisfaction.title">Länk till getSatisfaction</string>
 		<string name="prefs.category.suggestions.getSatisfaction.summary">Synpunkter och eventuella felrapporter registreras med fördel hos getSatisfaction, klicka här för att komma till sajten.</string>
@@ -81,7 +78,14 @@
 		<string name="ticket.details.notify">Signalera vid ändrad tid</string>
 		<string name="ticket.details.checkTraffic">Kontrollera trafik</string>
 		<string name="ticket.details.showTicket">Visa biljett</string>
+    <string name="ticket.details.register.wait">Registrerar bokning, vänligen vänta...</string>
+    <string name="ticket.details.unregister.wait">Tar bort bokning, vänligen vänta...</string>
 		<string name="ticket.text.title">Mobilbiljett</string>
+    <string name="widget.track">Spår:</string>
+    <string name="widget.seat">Plats:</string>
+    <string name="widget.car">Vagn:</string>
+    <string name="widget.time">Tid:</string>
+    <string name="widget.no.ticket.found">Hittade ingen bokning.</string>
 		<string name="subscription.details.subscriptionloading">Hämtar prenumerations-information, vänligen vänta...</string>
     <string name="subscription.details.productsloading">Hämtar produkter, vänligen vänta...</string>
 		<string name="subscription.details.info">Din prenumeration är giltig t o m %1$s. Du har %2$d gratis-bevakningar kvar att använda.</string>

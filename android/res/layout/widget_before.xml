@@ -1,20 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:id="@+id/FrameLayout01"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout
-        android:id="@+id/LinearLayout01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:text="@string/ticket.details.trainNo"
-            style="@style/Label" />
-        <TextView
-            android:id="@+id/widget.trainNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ android:id="@+id/FrameLayout01"
+ android:layout_width="fill_parent"
+ android:layout_height="fill_parent"
+ android:padding="@dimen/widget_margin"
+ android:background="@drawable/appwidget_dark_bg" android:clickable="true">
+
+ <RelativeLayout
+  android:id="@+id/widgetlayout"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent" >
+
+  <TextView
+   android:id="@+id/widget.header"
+   style="@style/Label"
+   android:layout_width="fill_parent"
+   android:layout_height="wrap_content" />
+
+  <TextView
+   android:id="@+id/widget.trackLabel"
+   style="@style/Label"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_below="@id/widget.header"
+   android:text="@string/widget.track" />
+
+  <TextView
+   android:id="@+id/widget.track"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_alignBaseline="@id/widget.trackLabel"
+   android:layout_toRightOf="@id/widget.trackLabel" />
+
+  <TextView
+   android:id="@+id/widget.carLabel"
+   style="@style/Label"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_below="@id/widget.trackLabel"
+   android:text="@string/widget.car" />
+
+  <TextView
+   android:id="@+id/widget.car"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_alignBaseline="@id/widget.carLabel"
+   android:layout_toRightOf="@id/widget.carLabel" />
+
+  <TextView
+   android:id="@+id/widget.seatLabel"
+   style="@style/Label"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_below="@id/widget.carLabel"
+   android:text="@string/widget.seat" />
+
+  <TextView
+   android:id="@+id/widget.seat"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_alignBaseline="@id/widget.seatLabel"
+   android:layout_toRightOf="@id/widget.seatLabel" />
+  
+    <TextView
+   android:id="@+id/widget.timeLabel"
+   style="@style/Label"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_below="@id/widget.seatLabel"
+   android:text="@string/widget.time" />
+
+  <TextView
+   android:id="@+id/widget.time"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:layout_alignBaseline="@id/widget.timeLabel"
+   android:layout_toRightOf="@id/widget.timeLabel" />
+ </RelativeLayout>
+
 </FrameLayout>
