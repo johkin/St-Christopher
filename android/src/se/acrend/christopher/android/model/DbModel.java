@@ -156,6 +156,24 @@ public class DbModel {
     private Calendar estimated;
     private Calendar guessed;
     private Calendar actual;
+    private boolean cancelled = false;
+    private String info = null;
+
+    public boolean isCancelled() {
+      return cancelled;
+    }
+
+    public void setCancelled(final boolean cancelled) {
+      this.cancelled = cancelled;
+    }
+
+    public String getInfo() {
+      return info;
+    }
+
+    public void setInfo(final String info) {
+      this.info = info;
+    }
 
     public Calendar getOriginal() {
       return original;

@@ -5,7 +5,7 @@
  android:layout_height="match_parent"
  android:background="@drawable/appwidget_dark_bg"
  android:clickable="true"
- android:padding="@dimen/widget_margin" >
+ android:padding="@dimen/widget_margin" > 
 
  <TextView
   android:id="@+id/widget.header"
@@ -14,26 +14,11 @@
   android:layout_height="wrap_content" />
 
  <TextView
-  android:id="@+id/widget.trackLabel"
-  style="@style/Label"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:layout_below="@id/widget.header"
-  android:text="@string/widget.track" />
-
- <TextView
-  android:id="@+id/widget.track"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:layout_alignBaseline="@id/widget.trackLabel"
-  android:layout_toRightOf="@id/widget.trackLabel" />
-
- <TextView
   android:id="@+id/widget.carLabel"
   style="@style/Label"
   android:layout_width="wrap_content"
   android:layout_height="wrap_content"
-  android:layout_below="@id/widget.trackLabel"
+  android:layout_below="@id/widget.header"
   android:text="@string/widget.car" />
 
  <TextView
@@ -72,5 +57,19 @@
   android:layout_height="wrap_content"
   android:layout_alignBaseline="@id/widget.timeLabel"
   android:layout_toRightOf="@id/widget.timeLabel" />
+
+ <TextView
+  android:id="@+id/widget.codeLabel"
+  style="@style/Label"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:layout_below="@id/widget.timeLabel"
+  android:text="@string/widget.code" />
+
+ <TextView
+  android:id="@+id/widget.code"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:layout_below="@id/widget.codeLabel" />
 
 </RelativeLayout>

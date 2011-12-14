@@ -12,6 +12,7 @@ import se.acrend.christopher.android.model.DbModel.TimeModel;
 import se.acrend.christopher.android.preference.PrefsHelper;
 import se.acrend.christopher.android.util.DateUtil;
 import se.acrend.christopher.android.widget.TicketWidgetProvider;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -34,6 +35,8 @@ public class UpdateService extends RoboIntentService {
   private ProviderHelper providerHelper;
   @Inject
   private NotificationManager notificationManager;
+  @Inject
+  private AlarmManager alarmManager;
   @Inject
   private Context context;
 
@@ -66,7 +69,7 @@ public class UpdateService extends RoboIntentService {
       changedDepartureTime = true;
     }
     if (changedDepartureTime) {
-      message.append("Ny avgångstid: " + getTimeInfo(model.getDeparture()));
+      message.append("Ny avgångstid: " + DateUtil.formatTime(getMostSignificantTime(model.getDeparture())));
     }
 
     TimeModel arrival = model.getArrival();
@@ -84,7 +87,17 @@ public class UpdateService extends RoboIntentService {
       changedArrivalTime = true;
     }
     if (changedArrivalTime) {
-      message.append("Ny ankomsttid: " + getTimeInfo(model.getArrival()));
+      Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+      updateIntent.setClass(context, TicketWidgetProvider.class);
+      PendingIntent pending = PendingIntent.getBroadcast(context, 0, updateIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+      Calendar orgTime = getMostSignificantTime(arrival);
+      Calendar alarmTime = (Calendar) orgTime.clone();
+      alarmTime.add(Calendar.MINUTE, -15);
+
+      alarmManager.set(AlarmManager.RTC, alarmTime.getTimeInMillis(), pending);
+
+      message.append("Ny ankomsttid: " + DateUtil.formatTime(getMostSignificantTime(arrival)));
     }
 
     if (extras.containsKey("departureTrack")) {
@@ -121,9 +134,10 @@ public class UpdateService extends RoboIntentService {
 
     context.sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).setClass(context,
         TicketWidgetProvider.class));
+
   }
 
-  private String getTimeInfo(final TimeModel timeModel) {
+  private Calendar getMostSignificantTime(final TimeModel timeModel) {
     Calendar selectedTime = null;
     if (timeModel.getActual() != null) {
       selectedTime = timeModel.getActual();
@@ -134,7 +148,7 @@ public class UpdateService extends RoboIntentService {
     } else {
       selectedTime = timeModel.getOriginal();
     }
-    return DateUtil.formatDateTime(selectedTime);
+    return selectedTime;
   }
 
   private void appendToMessage(final StringBuilder message, final String part) {

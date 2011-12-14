@@ -10,9 +10,11 @@ import se.acrend.christopher.android.content.ProviderTypes;
 import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.model.DbModel;
 import se.acrend.christopher.android.model.MessageWrapper;
+import se.acrend.christopher.android.widget.TicketWidgetProvider;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -76,6 +78,9 @@ public class MessageHandler {
     context.startService(intent);
 
     Log.d(TAG, "Start service for ticket: " + wrapper.getCode());
+
+    context.sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).setClass(context,
+        TicketWidgetProvider.class));
 
     notifyMessage();
 

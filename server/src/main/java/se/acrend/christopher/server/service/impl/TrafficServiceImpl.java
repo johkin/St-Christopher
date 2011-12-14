@@ -345,8 +345,8 @@ public class TrafficServiceImpl {
   public static enum TrainStopField {
 
     ActualArrival("actualArrival", Type.Arrival), ActualDeparture("actualDeparture", Type.Departure), TrainInfo(
-        "trainInfo", Type.Both), Info("info", Type.Both), ArrivalTrack("track", "arrivalTrack", Type.Arrival), DepartureTrack(
-        "track", "departureTrack", Type.Departure), EstimatedArrival("estimatedArrival", Type.Arrival), EstimatedDeparture(
+        "trainInfo", Type.Both), Info("info", Type.Both), ArrivalTrack("arrivalTrack", Type.Arrival), DepartureTrack(
+        "departureTrack", Type.Departure), EstimatedArrival("estimatedArrival", Type.Arrival), EstimatedDeparture(
         "estimatedDeparture", Type.Departure), GuessedArrival("guessedArrival", Type.Arrival), GuessedDeparture(
         "guessedDeparture", Type.Departure), ArrivalStatus("arrivalStatus", Type.Arrival), DepartureStatus(
         "departureStatus", Type.Departure);

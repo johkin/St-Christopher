@@ -16,6 +16,8 @@ public class TimeInfo implements Serializable {
   private Calendar guessed;
   private Status status;
   private String track;
+  private boolean cancelled = false;
+  private String info = null;
 
   public TimeInfo copy() {
     TimeInfo copy = new TimeInfo();
@@ -37,6 +39,22 @@ public class TimeInfo implements Serializable {
     guessed = null;
     status = null;
     track = null;
+  }
+
+  public boolean isCancelled() {
+    return cancelled;
+  }
+
+  public void setCancelled(final boolean cancelled) {
+    this.cancelled = cancelled;
+  }
+
+  public String getInfo() {
+    return info;
+  }
+
+  public void setInfo(final String info) {
+    this.info = info;
   }
 
   public String getTrack() {

@@ -3,7 +3,6 @@
 
     <string name="app_name">St Christopher</string>
     <string name="menu.preferences">Inställningar</string>
-    <string name="menu.subscription">Prenumeration</string>
     <string name="menu.about">Om...</string>
     <string name="common.exit">Stäng</string>
     <string name="common.next">Nästa</string>
@@ -17,18 +16,23 @@
     <string name="button.register">Registrera bokning</string>
     <string name="about.header">Om St Christopher</string>
     <string name="about.text">
+    Applikationen är inget helgon som sin namne, men den kan ge dig lite hjälp vid tågresor! 
     \n
     Applikationen har utvecklats för eget bruk, utan koppling till SJ.\n    
     Synpunkter, förslag på förbättringar eller felrapporter skickas till \'android.support@acrend.se\', 
     eller registreras på getSatisfaction genom länken i inställningarna.\n
     St Christopher används på egen risk, Acrend tar inget ansvar för försvunna eller felaktiga biljetter.\n
+    Informationen om tid och spår hämtas från Trafikverket, kontrollera alltid när du kommer till stationen så att 
+    informationen i applikationen stämmer med informationen på tavlorna. Den tid som anges som 'Gissad tid' beräknas
+    från senast kända station och stämmer oftast bra, men ibland kan tågen köra ikapp på vissa sträckor. Här får man
+    ibland lita till sitt egna sunda förnuft, om man ska gå efter det gissade tiderna.  
     \n
     Instruktioner\n
-    \t1. Välj vilken kalender du vill att biljetterna ska läggas i.\n
-    \t2. För att aktivera funktionen, välj "Läs inkommande SMS".\n
-    \t3. I vissa fall får man både en bekräftelse på sin beställning och senare en mobilbiljett.\n 
-    \t\tFör att inte få dubletter av kalenderposter, välj "Ersätt kalenderposter för samma biljettnummer".\n
-    \t4. Om du känner dig trygg med att applikationen fungerar, välj "Ta bort bearbetade SMS".\n 
+    \t1. Välj vilket Google-konto du vill använda för registrering av dina bokningar.\n
+    \t2. Klicka för att registrera din telefon/enhet, så att du kan ta emot uppdateringar av information.\n
+    \t3. Placera ut en widget på någon av din hemskärm för att på ett enkelt sätt få den senaste informationen.
+    \t4. Inställningarna är nu klara och du kan invänta din första resa.\n
+    \t5. Om du känner dig trygg med att applikationen fungerar, välj "Ta bort bearbetade SMS".\n 
     \t\tApplikationen kommer då att ta bort meddelandet från inkorgen.\n
     \n
     \n
@@ -85,6 +89,7 @@
     <string name="widget.seat">Plats:</string>
     <string name="widget.car">Vagn:</string>
     <string name="widget.time">Tid:</string>
+    <string name="widget.code">Internetkod:</string>
     <string name="widget.no.ticket.found">Hittade ingen bokning.</string>
 		<string name="subscription.details.subscriptionloading">Hämtar prenumerations-information, vänligen vänta...</string>
     <string name="subscription.details.productsloading">Hämtar produkter, vänligen vänta...</string>

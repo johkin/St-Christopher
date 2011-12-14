@@ -84,11 +84,14 @@
           <versionRange>[3.0.0-alpha-14,)</versionRange>
           <goals>
            <goal>generate-sources</goal>
+           <!-- 
            <goal>unpack</goal>
+            -->
           </goals>
          </pluginExecutionFilter>
          <action>
-          <ignore></ignore>
+          <execute />
+          <!-- <ignore></ignore> -->
          </action>
         </pluginExecution>
        </pluginExecutions>
