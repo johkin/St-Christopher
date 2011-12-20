@@ -41,19 +41,18 @@ public class TrafikVerketJsonParser {
 
     Response response = gson.fromJson(content, Response.class);
 
-    Trafiklage firstLage = null;
     for (Trafiklage lage : response.getLpvTrafiklagen().getTrafiklage()) {
-      if (firstLage == null) {
-        firstLage = lage;
-      }
       StationInfo info = new StationInfo();
       if (lage.isArAvgangTag()) {
         TimeInfo time = new TimeInfo();
         time.setActual(lage.getVerkligTidpunktAvgang());
         time.setEstimated(lage.getBeraknadTidpunktAvgang());
         time.setOriginal(lage.getAnnonseradTidpunktAvgang());
+        time.setInfo(lage.getAnmarkningarAvgang());
         if (lage.isInstalldAvgang()) {
           time.setStatus(Status.Cancelled);
+          time.setInfo(lage.getAnmarkningarAvgang() + " Inställt från " + lage.getInstalltFran() + " till "
+              + lage.getInstalltTill());
         } else {
           if (isDelayed(time)) {
             time.setStatus(Status.Delayed);
@@ -69,8 +68,11 @@ public class TrafikVerketJsonParser {
         time.setActual(lage.getVerkligTidpunktAnkomst());
         time.setEstimated(lage.getBeraknadTidpunktAnkomst());
         time.setOriginal(lage.getAnnonseradTidpunktAnkomst());
+        time.setInfo(lage.getAnmarkningarAnkomst());
         if (lage.isInstalldAnkomst()) {
           time.setStatus(Status.Cancelled);
+          time.setInfo(lage.getAnmarkningarAnkomst() + " Inställt från " + lage.getInstalltFran() + " till "
+              + lage.getInstalltTill());
         } else {
           if (isDelayed(time)) {
             time.setStatus(Status.Delayed);
@@ -82,12 +84,14 @@ public class TrafikVerketJsonParser {
         info.setArrival(time);
       }
       info.setName(lage.getTrafikplatsNamn());
-      // TODO Spår för både avgång och ankomst
+
+      if (lage.getSenasteTidrapportTrafikplats() != null) {
+        trainInfo.setLastKnownPosition(lage.getSenasteTidrapportTrafikplats());
+        trainInfo.setLastKnownTime(lage.getSenasteTidrapportTidpunkt());
+      }
 
       trainInfo.getStations().add(info);
     }
-    trainInfo.setLastKnownPosition(firstLage.getSenasteTidrapportTrafikplats());
-    trainInfo.setLastKnownTime(DateUtil.formatTime(firstLage.getSenasteTidrapportTidpunkt()));
 
     return trainInfo;
   }
@@ -207,12 +211,16 @@ public class TrafikVerketJsonParser {
         private boolean arAvgangTag;
         private boolean installdAnkomst;
         private boolean installdAvgang;
+        private String installtFran;
+        private String installtTill;
         private String sparangivelseAnkomst;
         private String sparangivelseAvgang;
         private String senasteTidrapportAktivitet;
         private Calendar senasteTidrapportTidpunkt;
         private String senasteTidrapportTrafikplats;
         private String tagGrupp;
+        private String anmarkningarAnkomst;
+        private String anmarkningarAvgang;
 
         public String getTagGrupp() {
           return tagGrupp;
@@ -364,6 +372,38 @@ public class TrafikVerketJsonParser {
 
         public void setArAvgangTag(final boolean arAvgangTag) {
           this.arAvgangTag = arAvgangTag;
+        }
+
+        public String getInstalltFran() {
+          return installtFran;
+        }
+
+        public void setInstalltFran(final String installtFran) {
+          this.installtFran = installtFran;
+        }
+
+        public String getInstalltTill() {
+          return installtTill;
+        }
+
+        public void setInstalltTill(final String installtTill) {
+          this.installtTill = installtTill;
+        }
+
+        public String getAnmarkningarAnkomst() {
+          return anmarkningarAnkomst;
+        }
+
+        public void setAnmarkningarAnkomst(final String anmarkningarAnkomst) {
+          this.anmarkningarAnkomst = anmarkningarAnkomst;
+        }
+
+        public String getAnmarkningarAvgang() {
+          return anmarkningarAvgang;
+        }
+
+        public void setAnmarkningarAvgang(final String anmarkningarAvgang) {
+          this.anmarkningarAvgang = anmarkningarAvgang;
         }
       }
     }

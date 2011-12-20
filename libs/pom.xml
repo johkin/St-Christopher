@@ -75,6 +75,20 @@
 							<packaging>jar</packaging>
 						</configuration>
 					</execution>
+          <execution>
+            <id>support-package</id>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <configuration>
+              <file>${basedir}/lib/android-support-v4.jar</file>
+              <groupId>com.google.android</groupId>
+              <artifactId>android-support-v4</artifactId>
+              <version>1.0.0</version>
+              <packaging>jar</packaging>
+            </configuration>
+          </execution>
 				</executions>
 			</plugin>
 		</plugins>

@@ -1,9 +1,7 @@
 package se.acrend.christopher.shared.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class StationInfo implements Serializable, Comparable<StationInfo> {
 
@@ -11,11 +9,7 @@ public class StationInfo implements Serializable, Comparable<StationInfo> {
   private String name;
   private TimeInfo arrival;
   private TimeInfo departure;
-  private List<String> info;
-
-  public StationInfo() {
-    info = new ArrayList<String>();
-  }
+  private String info;
 
   public StationInfo copy() {
     StationInfo copy = new StationInfo();
@@ -38,16 +32,12 @@ public class StationInfo implements Serializable, Comparable<StationInfo> {
     return getSortTime().compareTo(o.getSortTime());
   }
 
-  public List<String> getInfo() {
+  public String getInfo() {
     return info;
   }
 
-  public void setInfo(final List<String> info) {
+  public void setInfo(final String info) {
     this.info = info;
-  }
-
-  public void addInfo(final String info) {
-    this.info.add(info);
   }
 
   public String getName() {

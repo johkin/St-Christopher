@@ -17,9 +17,6 @@ public class DbModel {
   private String message;
   private String departureTrack;
   private String arrivalTrack;
-  private String departureInfo;
-  private String arrivalInfo;
-  private String calendarEventUri;
   private boolean notify;
   private boolean registered;
 
@@ -53,14 +50,6 @@ public class DbModel {
 
   public void setId(final long id) {
     this.id = id;
-  }
-
-  public String getCalendarEventUri() {
-    return calendarEventUri;
-  }
-
-  public void setCalendarEventUri(final String calendarEventUri) {
-    this.calendarEventUri = calendarEventUri;
   }
 
   public String getFrom() {
@@ -133,22 +122,6 @@ public class DbModel {
 
   public void setArrivalTrack(final String arrivalTrack) {
     this.arrivalTrack = arrivalTrack;
-  }
-
-  public String getDepartureInfo() {
-    return departureInfo;
-  }
-
-  public void setDepartureInfo(final String departureInfo) {
-    this.departureInfo = departureInfo;
-  }
-
-  public String getArrivalInfo() {
-    return arrivalInfo;
-  }
-
-  public void setArrivalInfo(final String arrivalInfo) {
-    this.arrivalInfo = arrivalInfo;
   }
 
   public static class TimeModel {

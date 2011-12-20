@@ -265,7 +265,7 @@ public class TicketDetails extends RoboActivity {
 
         @Override
         protected Boolean doInBackground(final DbModel... params) {
-          return registrationService.callRegistration(params[0]);
+          return registrationService.callRegistration(params[0], 0);
         }
 
         @Override

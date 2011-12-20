@@ -38,11 +38,6 @@
    <version>1.1.1</version>
   </dependency>
   <dependency>
-   <groupId>com.google.ads</groupId>
-   <artifactId>google-admob</artifactId>
-   <version>4.0.4</version>
-  </dependency>
-  <dependency>
    <groupId>com.google.c2dm</groupId>
    <artifactId>google-c2dm</artifactId>
    <version>1.0.0</version>
@@ -50,6 +45,11 @@
   <dependency>
    <groupId>com.google.analytics</groupId>
    <artifactId>google-analytics</artifactId>
+   <version>1.0.0</version>
+  </dependency>
+  <dependency>
+   <groupId>com.google.android</groupId>
+   <artifactId>android-support-v4</artifactId>
    <version>1.0.0</version>
   </dependency>
   <dependency>
@@ -84,14 +84,12 @@
           <versionRange>[3.0.0-alpha-14,)</versionRange>
           <goals>
            <goal>generate-sources</goal>
-           <!-- 
-           <goal>unpack</goal>
-            -->
+           <!-- <goal>unpack</goal> -->
           </goals>
          </pluginExecutionFilter>
          <action>
-          <execute />
-          <!-- <ignore></ignore> -->
+          <!-- <execute /> -->
+          <ignore></ignore>
          </action>
         </pluginExecution>
        </pluginExecutions>
@@ -224,12 +222,7 @@
         <inputApk>${project.build.directory}/${project.artifactId}.apk</inputApk>
         <outputApk>${project.build.directory}/${project.artifactId}-signed-aligned.apk</outputApk>
        </zipalign>
-	   <!--
-       <manifest>
-        <debuggable>false</debuggable>
-        <versionCodeAutoIncrement>true</versionCodeAutoIncrement>
-       </manifest>
-	   -->
+       <!-- <manifest> <debuggable>false</debuggable> <versionCodeAutoIncrement>true</versionCodeAutoIncrement> </manifest> -->
        <proguard>
         <skip>false</skip>
        </proguard>
@@ -251,31 +244,10 @@
        </execution>
       </executions>
      </plugin>
-	 <!--
-	 <plugin>
-        <groupId>com.pyx4me</groupId>
-        <artifactId>proguard-maven-plugin</artifactId>
-        <version>2.0.4</version>
-        <executions>
-          <execution>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>proguard</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <injar>android-classes</injar>
-          <libs>
-            <lib>${java.home}/lib/rt.jar</lib>
-          </libs>
-          <obfuscate>false</obfuscate>
-          <options>
-            <option>@proguard.cfg</option>
-          </options>
-        </configuration>
-      </plugin>
-	  -->
+     <!-- <plugin> <groupId>com.pyx4me</groupId> <artifactId>proguard-maven-plugin</artifactId> <version>2.0.4</version> 
+      <executions> <execution> <phase>process-classes</phase> <goals> <goal>proguard</goal> </goals> </execution> </executions> 
+      <configuration> <injar>android-classes</injar> <libs> <lib>${java.home}/lib/rt.jar</lib> </libs> <obfuscate>false</obfuscate> 
+      <options> <option>@proguard.cfg</option> </options> </configuration> </plugin> -->
      <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>build-helper-maven-plugin</artifactId>
@@ -286,20 +258,20 @@
         <goals>
          <goal>attach-artifact</goal>
         </goals>
-		<configuration>
-       <artifacts>
-        <artifact>
-         <file>${project.build.directory}/${project.artifactId}-signed-aligned.apk</file>
-         <type>apk</type>
-         <classifier>signed-aligned</classifier>
-        </artifact>
-        <artifact>
-         <file>${project.build.directory}/proguard/mapping.txt</file>
-         <type>map</type>
-         <classifier>release</classifier>
-        </artifact>
-       </artifacts>
-      </configuration>
+        <configuration>
+         <artifacts>
+          <artifact>
+           <file>${project.build.directory}/${project.artifactId}-signed-aligned.apk</file>
+           <type>apk</type>
+           <classifier>signed-aligned</classifier>
+          </artifact>
+          <artifact>
+           <file>${project.build.directory}/proguard/mapping.txt</file>
+           <type>map</type>
+           <classifier>release</classifier>
+          </artifact>
+         </artifacts>
+        </configuration>
        </execution>
       </executions>
      </plugin>

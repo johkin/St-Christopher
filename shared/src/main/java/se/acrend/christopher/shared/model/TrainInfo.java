@@ -2,6 +2,7 @@ package se.acrend.christopher.shared.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class TrainInfo implements Serializable {
@@ -11,7 +12,7 @@ public class TrainInfo implements Serializable {
   private String trainNo;
   private String date;
   private String lastKnownPosition;
-  private String lastKnownTime;
+  private Calendar lastKnownTime;
   private String lastKnownActivity;
 
   public String getTrainNo() {
@@ -42,11 +43,11 @@ public class TrainInfo implements Serializable {
     this.lastKnownPosition = lastKnownPosition;
   }
 
-  public String getLastKnownTime() {
+  public Calendar getLastKnownTime() {
     return lastKnownTime;
   }
 
-  public void setLastKnownTime(final String lastKnownTime) {
+  public void setLastKnownTime(final Calendar lastKnownTime) {
     this.lastKnownTime = lastKnownTime;
   }
 

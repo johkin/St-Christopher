@@ -9,11 +9,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import se.acrend.christopher.server.control.impl.TrafikVerketControllerImpl;
+import se.acrend.christopher.server.control.TrafikverketController;
 import se.acrend.christopher.server.util.DateUtil;
 import se.acrend.christopher.shared.model.TrainInfo;
 import se.acrend.christopher.shared.parser.ParserFactory;
@@ -28,8 +29,10 @@ public class TrainProxyController {
   @Autowired
   private final MemcacheService memcacheService = null;
   private final Expiration expiration = Expiration.byDeltaSeconds(60);
+
   @Autowired
-  private TrafikVerketControllerImpl trafikVerketController;
+  @Qualifier("TrafikVerketJsonController")
+  private TrafikverketController trafikVerketController;
 
   @RequestMapping(value = "/proxy")
   protected void doGet(@RequestParam final String trainNo, @RequestParam final String date,

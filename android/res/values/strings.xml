@@ -23,7 +23,7 @@
     eller registreras på getSatisfaction genom länken i inställningarna.\n
     St Christopher används på egen risk, Acrend tar inget ansvar för försvunna eller felaktiga biljetter.\n
     Informationen om tid och spår hämtas från Trafikverket, kontrollera alltid när du kommer till stationen så att 
-    informationen i applikationen stämmer med informationen på tavlorna. Den tid som anges som 'Gissad tid' beräknas
+    informationen i applikationen stämmer med informationen på tavlorna. Den tid som anges som \'Gissad tid\' beräknas
     från senast kända station och stämmer oftast bra, men ibland kan tågen köra ikapp på vissa sträckor. Här får man
     ibland lita till sitt egna sunda förnuft, om man ska gå efter det gissade tiderna.  
     \n
@@ -88,7 +88,8 @@
     <string name="widget.track">Spår:</string>
     <string name="widget.seat">Plats:</string>
     <string name="widget.car">Vagn:</string>
-    <string name="widget.time">Tid:</string>
+    <string name="widget.departure">Avgång:</string>
+    <string name="widget.arrival">Ankomst:</string>
     <string name="widget.code">Internetkod:</string>
     <string name="widget.no.ticket.found">Hittade ingen bokning.</string>
 		<string name="subscription.details.subscriptionloading">Hämtar prenumerations-information, vänligen vänta...</string>

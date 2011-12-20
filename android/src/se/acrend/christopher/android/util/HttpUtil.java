@@ -12,6 +12,7 @@ public class HttpUtil {
   public static final String REGISTRATION_PATH = "/registration";
   public static final String BILLING_PATH = "/billing";
   public static final String LOGIN_PATH = "/_ah/login?continue=";
+  public static final String PROXY_PATH = "/proxy";
 
   public static String toString(final HttpResponse response) throws UnsupportedEncodingException, IOException {
     StringBuilder builder = new StringBuilder();

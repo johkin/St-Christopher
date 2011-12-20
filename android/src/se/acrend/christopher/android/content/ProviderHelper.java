@@ -47,11 +47,10 @@ public class ProviderHelper {
         ProviderTypes.Columns.ACTUAL_DEPARTURE, ProviderTypes.Columns.ESTIMATED_DEPARTURE,
         ProviderTypes.Columns.GUESSED_DEPARTURE, ProviderTypes.Columns.FROM, ProviderTypes.Columns.TO,
         ProviderTypes.Columns.TRAIN_NO, ProviderTypes.Columns.TICKET_CODE, ProviderTypes.Columns.TICKET_TEXT,
-        ProviderTypes.Columns.REGISTERED,
-        ProviderTypes.Columns.NOTIFY, ProviderTypes.Columns.CAR, ProviderTypes.Columns.SEAT,
-        ProviderTypes.Columns.DEPARTURE_TRACK, ProviderTypes.Columns.ARRIVAL_TRACK,
+        ProviderTypes.Columns.REGISTERED, ProviderTypes.Columns.NOTIFY, ProviderTypes.Columns.CAR,
+        ProviderTypes.Columns.SEAT, ProviderTypes.Columns.DEPARTURE_TRACK, ProviderTypes.Columns.ARRIVAL_TRACK,
         ProviderTypes.Columns.DEPARTURE_INFO, ProviderTypes.Columns.ARRIVAL_INFO,
-        ProviderTypes.Columns.CALENDAR_EVENT_URI };
+        ProviderTypes.Columns.DEPARTURE_CANCELLED, ProviderTypes.Columns.ARRIVAL_CANCELLED, };
     Cursor cursor = contentResolver.query(uri, projection, selection, selectionArgs, null);
     List<DbModel> result = new ArrayList<DbModel>();
     while (cursor.moveToNext()) {
@@ -81,9 +80,12 @@ public class ProviderHelper {
       model.setSeat(cursor.getString(17));
       model.setDepartureTrack(cursor.getString(18));
       model.setArrivalTrack(cursor.getString(19));
-      model.setDepartureInfo(cursor.getString(20));
-      model.setArrivalInfo(cursor.getString(21));
-      model.setCalendarEventUri(cursor.getString(22));
+      departure.setInfo(cursor.getString(20));
+      arrival.setInfo(cursor.getString(21));
+      int departureCancelled = cursor.getInt(22);
+      departure.setCancelled(departureCancelled == 1);
+      int arrivalCancelled = cursor.getInt(23);
+      arrival.setCancelled(arrivalCancelled == 1);
 
       result.add(model);
     }
@@ -151,10 +153,10 @@ public class ProviderHelper {
       event.put("registered", ticket.isRegistered());
       event.put("departureTrack", ticket.getDepartureTrack());
       event.put("arrivalTrack", ticket.getArrivalTrack());
-      event.put("departureInfo", ticket.getDepartureInfo());
-      event.put("arrivalInfo", ticket.getArrivalInfo());
-      Log.d(TAG, "Update CalendarEventUri: " + ticket.getCalendarEventUri());
-      event.put("calendarEventUri", ticket.getCalendarEventUri());
+      event.put("departureInfo", ticket.getDeparture().getInfo());
+      event.put("departureCancelled", ticket.getDeparture().isCancelled());
+      event.put("arrivalInfo", ticket.getArrival().getInfo());
+      event.put("arrivalCancelled", ticket.getArrival().isCancelled());
 
       Uri eventsUri = ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, ticket.getId());
       count = contentResolver.update(eventsUri, event, null, null);

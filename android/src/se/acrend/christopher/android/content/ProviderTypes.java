@@ -37,11 +37,12 @@ public class ProviderTypes {
     public static final String TO = "toStation";
     public static final String NOTIFY = "notify";
     public static final String REGISTERED = "registered";
-    public static final String CALENDAR_EVENT_URI = "calendarEventUri";
     public static final String DEPARTURE_TRACK = "departureTrack";
     public static final String ARRIVAL_TRACK = "arrivalTrack";
     public static final String DEPARTURE_INFO = "departureInfo";
     public static final String ARRIVAL_INFO = "arrivalInfo";
+    public static final String DEPARTURE_CANCELLED = "departureCancelled";
+    public static final String ARRIVAL_CANCELLED = "arrivalCancelled";
 
   }
 }

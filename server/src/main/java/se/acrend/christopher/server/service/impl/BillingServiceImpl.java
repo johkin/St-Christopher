@@ -87,7 +87,7 @@ public class BillingServiceImpl {
       }
       if (type == ProductType.Count) {
 
-        long currentCount = (Long) subscription.getProperty("notificationCount");
+        int currentCount = (Integer) subscription.getProperty("notificationCount");
 
         int count = Integer.parseInt(value);
 

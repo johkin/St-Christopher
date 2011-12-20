@@ -4,7 +4,6 @@ import se.acrend.christopher.android.db.TicketDatabaseHelper;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -47,12 +46,10 @@ public class TicketProvider extends ContentProvider {
       if (!TextUtils.isEmpty(selection)) {
         whereSql += "AND (" + selection + ")";
       }
-      deleteCalendarEvents(whereSql, selectionArgs);
 
       count = getDatabaseHelper().getWritableDatabase().delete("ticket", whereSql, selectionArgs);
       break;
     case TICKETS:
-      deleteCalendarEvents(selection, selectionArgs);
 
       count = getDatabaseHelper().getWritableDatabase().delete("ticket", selection, selectionArgs);
       break;
@@ -162,48 +159,6 @@ public class TicketProvider extends ContentProvider {
 
     return count;
   }
-
-  private void deleteCalendarEvents(final String whereSql, final String[] selectionArgs) {
-
-    String[] projection = { ProviderTypes.Columns.CALENDAR_EVENT_URI };
-
-    Cursor cursor = query(ProviderTypes.CONTENT_URI, projection, whereSql, selectionArgs, null);
-    if ((cursor != null) && cursor.moveToFirst()) {
-      Context context = getContext();
-      do {
-        String calendarEventUri = cursor.getString(0);
-        if (calendarEventUri != null) {
-          Uri calendarEvent = Uri.parse(calendarEventUri);
-          Log.d(TAG, "Tar bort kalenderpost för uri: " + calendarEvent);
-          int count = context.getContentResolver().delete(calendarEvent, null, null);
-          Log.d(TAG, "Tar bort " + count + " poster.");
-        }
-      } while (cursor.moveToNext());
-    }
-  }
-
-  // private void handleTimers(final String whereSql, final String[]
-  // selectionArgs, final boolean register) {
-  // String[] projection = { BaseColumns._ID,
-  // ProviderTypes.Columns.CHECK_TRAFFIC };
-  //
-  // Cursor cursor = query(ProviderTypes.CONTENT_URI, projection, whereSql,
-  // selectionArgs, null);
-  // if ((cursor != null) && cursor.moveToFirst()) {
-  // Context context = getContext();
-  // do {
-  // Uri data = ContentUris.withAppendedId(ProviderTypes.CONTENT_URI,
-  // cursor.getLong(0));
-  // if (register != (cursor.getInt(1) == 1)) {
-  // if (register) {
-  // context.startService(new Intent(Intents.REGISTER_TIMER, data));
-  // } else {
-  // context.startService(new Intent(Intents.UNREGISTER_TIMER, data));
-  // }
-  // }
-  // } while (cursor.moveToNext());
-  // }
-  // }
 
   TicketDatabaseHelper getDatabaseHelper() {
     if (ticketDatabaseHelper == null) {

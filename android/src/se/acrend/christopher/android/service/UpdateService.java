@@ -1,6 +1,15 @@
 package se.acrend.christopher.android.service;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
 
 import roboguice.service.RoboIntentService;
 import se.acrend.christopher.R;
@@ -11,7 +20,13 @@ import se.acrend.christopher.android.model.DbModel;
 import se.acrend.christopher.android.model.DbModel.TimeModel;
 import se.acrend.christopher.android.preference.PrefsHelper;
 import se.acrend.christopher.android.util.DateUtil;
+import se.acrend.christopher.android.util.HttpUtil;
 import se.acrend.christopher.android.widget.TicketWidgetProvider;
+import se.acrend.christopher.shared.model.StationInfo;
+import se.acrend.christopher.shared.model.TimeInfo;
+import se.acrend.christopher.shared.model.TimeInfo.Status;
+import se.acrend.christopher.shared.model.TrainInfo;
+import se.acrend.christopher.shared.parser.ParserFactory;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -22,7 +37,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 
 public class UpdateService extends RoboIntentService {
@@ -39,6 +56,8 @@ public class UpdateService extends RoboIntentService {
   private AlarmManager alarmManager;
   @Inject
   private Context context;
+  @Inject
+  private ServerCommunicationHelper communicationHelper;
 
   public UpdateService() {
     super(TAG);
@@ -97,7 +116,7 @@ public class UpdateService extends RoboIntentService {
 
       alarmManager.set(AlarmManager.RTC, alarmTime.getTimeInMillis(), pending);
 
-      message.append("Ny ankomsttid: " + DateUtil.formatTime(getMostSignificantTime(arrival)));
+      message.append("Ny ankomsttid: " + DateUtil.formatTime(orgTime));
     }
 
     if (extras.containsKey("departureTrack")) {
@@ -107,6 +126,36 @@ public class UpdateService extends RoboIntentService {
     if (extras.containsKey("arrivalTrack")) {
       model.setArrivalTrack(extras.getString("arrivalTrack"));
       appendToMessage(message, "Nytt ankomstspår: " + extras.getString("arrivalTrack"));
+    }
+
+    Status departureStatus = Status.valueOf(extras.getString("departureStatus"));
+    Status arrivalStatus = Status.valueOf(extras.getString("arrivalStatus"));
+
+    if (arrivalStatus == Status.Cancelled) {
+      model.getArrival().setCancelled(true);
+    } else {
+      model.getArrival().setCancelled(false);
+
+    }
+    if (departureStatus == Status.Cancelled) {
+      model.getDeparture().setCancelled(true);
+    } else {
+      model.getDeparture().setCancelled(false);
+    }
+
+    if (extras.containsKey("info")) {
+      // TODO Skicka intent för att hämta information
+    }
+
+    boolean cancelled = model.getDeparture().isCancelled() || model.getArrival().isCancelled();
+    if (cancelled) {
+      message = new StringBuilder();
+      if (model.getDeparture().isCancelled()) {
+        message.append("Avgång inställd!");
+      }
+      if (model.getArrival().isCancelled()) {
+        message.append("Ankomst inställd!");
+      }
     }
 
     providerHelper.update(model);
@@ -135,6 +184,68 @@ public class UpdateService extends RoboIntentService {
     context.sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).setClass(context,
         TicketWidgetProvider.class));
 
+  }
+
+  public void updateFromProxy(final DbModel model) {
+
+    try {
+      HttpPost post = communicationHelper.createPostRequest(HttpUtil.REGISTRATION_PATH + "/");
+
+      List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+      nameValuePairs.add(new BasicNameValuePair("trainNo", model.getTrain()));
+      nameValuePairs.add(new BasicNameValuePair("date", DateUtil.formatDate(model.getDeparture().getOriginal())));
+
+      HttpResponse response = communicationHelper.callServer(post, nameValuePairs);
+
+      Gson gson = ParserFactory.createParser();
+      TrainInfo information = gson.fromJson(new InputStreamReader(response.getEntity().getContent()), TrainInfo.class);
+
+      updateModel(model, information);
+
+    } catch (IOException e) {
+      Log.e(TAG, "Kunde inte uppdatera bokning", e);
+      // TODO Notifiera om fel vid uppdatering
+    }
+
+  }
+
+  void updateModel(final DbModel model, final TrainInfo information) {
+    String departureName = model.getFrom();
+    String arrivalName = model.getTo();
+
+    StationInfo departureStation = getStation(departureName, information.getStations());
+    StationInfo arrivalStation = getStation(arrivalName, information.getStations());
+    if (departureStation != null) {
+      TimeInfo departure = departureStation.getDeparture();
+      model.setDepartureTrack(departure.getTrack());
+      TimeModel modelDeparture = model.getDeparture();
+      modelDeparture.setActual(departure.getActual());
+      modelDeparture.setCancelled(departure.getStatus() == Status.Cancelled);
+      modelDeparture.setEstimated(departure.getEstimated());
+      modelDeparture.setGuessed(departure.getGuessed());
+      modelDeparture.setInfo(departure.getInfo());
+      modelDeparture.setOriginal(departure.getOriginal());
+    }
+    if (arrivalStation != null) {
+      TimeInfo arrival = arrivalStation.getArrival();
+      model.setArrivalTrack(arrival.getTrack());
+      TimeModel modelArrival = model.getArrival();
+      modelArrival.setActual(arrival.getActual());
+      modelArrival.setCancelled(arrival.getStatus() == Status.Cancelled);
+      modelArrival.setEstimated(arrival.getEstimated());
+      modelArrival.setGuessed(arrival.getGuessed());
+      modelArrival.setInfo(arrival.getInfo());
+      modelArrival.setOriginal(arrival.getOriginal());
+    }
+  }
+
+  private StationInfo getStation(final String name, final List<StationInfo> stations) {
+    for (StationInfo info : stations) {
+      if (name.equals(info.getName())) {
+        return info;
+      }
+    }
+    return null;
   }
 
   private Calendar getMostSignificantTime(final TimeModel timeModel) {

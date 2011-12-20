@@ -37,6 +37,7 @@ public class SubscriptionControllerImpl {
       Transaction transaction = datastore.beginTransaction();
 
       subscription = new Entity(DataConstants.KIND_SUBSCRIPTION);
+      // TODO Long?
       subscription.setProperty("notificationCount", 5);
       subscription.setProperty("travelWarrantCount", 5);
 

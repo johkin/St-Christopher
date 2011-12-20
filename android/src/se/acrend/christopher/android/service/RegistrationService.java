@@ -15,6 +15,7 @@ import org.apache.http.message.BasicNameValuePair;
 import roboguice.service.RoboService;
 import se.acrend.christopher.R;
 import se.acrend.christopher.android.activity.SubscriptionDetails;
+import se.acrend.christopher.android.activity.TicketDetails;
 import se.acrend.christopher.android.activity.TicketTabActivity;
 import se.acrend.christopher.android.content.ProviderHelper;
 import se.acrend.christopher.android.content.ProviderTypes;
@@ -66,8 +67,6 @@ public class RegistrationService extends RoboService {
   @Inject
   private NotificationManager notificationManager;
 
-  private int retryCount = 0;
-
   private static final int MAX_RETRY_COUNT = 5;
 
   @Override
@@ -77,6 +76,7 @@ public class RegistrationService extends RoboService {
     if (Intents.DELETE_BOOKING.equals(intent.getAction())) {
       deleteBooking(intent.getData());
     } else if (Intents.REGISTER_BOOKING.equals(intent.getAction())) {
+      int retryCount = intent.getIntExtra("retryCount", 0);
       // Kontrollera bakgrundsdata
       if (!connectivityManager.getBackgroundDataSetting()) {
         notifyBackgroundData(context);
@@ -102,7 +102,7 @@ public class RegistrationService extends RoboService {
 
       DbModel model = providerHelper.findTicket(intent.getData());
 
-      callRegistration(model);
+      callRegistration(model, retryCount);
     } else if (Intents.PREPARE_REGISTRATION.equals(intent.getAction())) {
       DbModel model = providerHelper.findTicket(intent.getData());
 
@@ -136,6 +136,9 @@ public class RegistrationService extends RoboService {
       callUnRegister(model);
 
       providerHelper.delete(data);
+
+      context.sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).setClass(context,
+          TicketWidgetProvider.class));
     } catch (Exception e) {
       Log.e(TAG, "Error in delete.", e);
     }
@@ -165,7 +168,7 @@ public class RegistrationService extends RoboService {
     }
   }
 
-  public boolean callRegistration(final DbModel model) {
+  public boolean callRegistration(final DbModel model, final int retryCount) {
     Log.d(TAG, "Registrera bokning");
 
     try {
@@ -189,6 +192,7 @@ public class RegistrationService extends RoboService {
 
       if (information.getReturnCode() == ReturnCode.Success) {
         model.setRegistered(true);
+
         model.setDepartureTrack(information.getDepartureTrack());
         model.setArrivalTrack(information.getArrivalTrack());
 
@@ -201,8 +205,6 @@ public class RegistrationService extends RoboService {
         arrival.setEstimated(information.getActualArrival());
         arrival.setEstimated(information.getEstimatedArrival());
         arrival.setGuessed(information.getGuessedArrival());
-
-        retryCount = 0;
       } else {
         Log.w(TAG, "Tog emot fel från server: " + information.getErrorCode());
         model.setRegistered(false);
@@ -243,7 +245,7 @@ public class RegistrationService extends RoboService {
           notificationManager.notify(model.getTrain(), 1, notification);
         } else {
           // TODO Notifiera beroende på antal försök?
-          scheduleNewRegistration(model);
+          scheduleNewRegistration(model, retryCount);
         }
       }
 
@@ -254,25 +256,27 @@ public class RegistrationService extends RoboService {
     } catch (Exception e) {
       Log.e(TAG, "Error in callRegistration.", e);
       // TODO Notifiera beroende på antal försök?
-      scheduleNewRegistration(model);
+      scheduleNewRegistration(model, retryCount);
     }
     return model.isRegistered();
   }
 
-  private void scheduleNewRegistration(final DbModel model) {
+  private void scheduleNewRegistration(final DbModel model, int retryCount) {
+    Uri data = ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, model.getId());
     if (retryCount > MAX_RETRY_COUNT) {
       Log.e(TAG, "Har uppnått max antal försök, avbryter registrering.");
-      // TODO Notifiera?
+      notifyMaxRetry(context, data);
+      return;
     }
     retryCount++;
     Calendar fiveMinutes = Calendar.getInstance();
     fiveMinutes.add(Calendar.MINUTE, 5);
 
     Log.d(TAG, "Schemalägger ny registrering för id " + model.getId() + " vid " + DateUtil.formatDateTime(fiveMinutes));
+    Intent intent = new Intent(Intents.REGISTER_BOOKING, data);
+    intent.putExtra("retryCount", retryCount);
 
-    PendingIntent pendingIntent = PendingIntent.getService(context, 0,
-        new Intent(Intents.REGISTER_BOOKING, ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, model.getId())),
-        PendingIntent.FLAG_ONE_SHOT);
+    PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
     alarmManager.set(AlarmManager.RTC_WAKEUP, fiveMinutes.getTimeInMillis(), pendingIntent);
   }
 
@@ -282,11 +286,31 @@ public class RegistrationService extends RoboService {
     notification.when = System.currentTimeMillis();
     notification.flags = Notification.FLAG_AUTO_CANCEL;
     notification.tickerText = "Saknar koppling till nät vid registrering.";
+    // TODO Intent för nätverk?
     Intent notificationIntent = new Intent("Dummy");
     PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
     notification.setLatestEventInfo(context, "Saknar koppling till nät vid registrering.",
         "Har schemalagt nytt försök för registrering vid " + DateUtil.formatDateTime(scheduleTime), pendingIntent);
+
+    notificationManager.notify(1, notification);
+  }
+
+  private void notifyMaxRetry(final Context context, final Uri data) {
+    Notification notification = new Notification();
+    notification.icon = R.drawable.ic_launcher_logo_bw;
+    notification.when = System.currentTimeMillis();
+    notification.flags = Notification.FLAG_AUTO_CANCEL;
+    notification.tickerText = "Max antal försök till registrering har uppnåtts.";
+    Intent notificationIntent = new Intent(context, TicketDetails.class).setData(data);
+    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+
+    notification
+        .setLatestEventInfo(
+            context,
+            "Fel vid registrering.",
+            "Ett fel inträffade vid registrering av din bokning, max antal försök har uppnåtts. Välj att registrera din bokning manuellt.",
+            pendingIntent);
 
     notificationManager.notify(1, notification);
   }
@@ -297,7 +321,7 @@ public class RegistrationService extends RoboService {
     notification.when = System.currentTimeMillis();
     notification.flags = Notification.FLAG_AUTO_CANCEL;
     notification.tickerText = "Kan inte registrera resa hos server.";
-    // TODO Rätt action/class
+    // TODO Intent för bakgrundsdata?
     Intent notificationIntent = new Intent(context, TicketTabActivity.class);
     PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 

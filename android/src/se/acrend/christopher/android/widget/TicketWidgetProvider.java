@@ -6,8 +6,8 @@ import java.util.List;
 
 import roboguice.receiver.RoboBroadcastReceiver;
 import se.acrend.christopher.R;
-import se.acrend.christopher.android.activity.ComingTicketList;
 import se.acrend.christopher.android.activity.TicketDetails;
+import se.acrend.christopher.android.activity.TicketTabActivity;
 import se.acrend.christopher.android.content.ProviderHelper;
 import se.acrend.christopher.android.content.ProviderTypes;
 import se.acrend.christopher.android.model.DbModel;
@@ -68,7 +68,7 @@ public class TicketWidgetProvider extends RoboBroadcastReceiver {
       if (ticket == null) {
         RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.widget_empty);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-            new Intent(context, ComingTicketList.class), PendingIntent.FLAG_UPDATE_CURRENT);
+            new Intent(context, TicketTabActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         remoteView.setOnClickPendingIntent(R.id.widgetlayout, pendingIntent);
         widgetManager.updateAppWidget(widgetId, remoteView);
       } else {

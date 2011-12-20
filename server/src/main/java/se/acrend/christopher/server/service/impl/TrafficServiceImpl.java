@@ -125,12 +125,16 @@ public class TrafficServiceImpl {
         result.setActualDeparture(DateUtil.toCalendar((Date) departureStop.getProperty("actualDeparture")));
         result.setEstimatedDeparture(DateUtil.toCalendar((Date) departureStop.getProperty("estimatedDeparture")));
         result.setGuessedDeparture(DateUtil.toCalendar((Date) departureStop.getProperty("guessedDeparture")));
+      } else {
+        log.warn("Kunde inte hitta station {} för tåg {}", from, trainNo);
       }
       if (arrivalStop != null) {
         result.setArrivalTrack((String) arrivalStop.getProperty("arrivalTrack"));
         result.setActualArrival(DateUtil.toCalendar((Date) arrivalStop.getProperty("actualDeparture")));
         result.setEstimatedArrival(DateUtil.toCalendar((Date) arrivalStop.getProperty("estimatedDeparture")));
         result.setGuessedArrival(DateUtil.toCalendar((Date) arrivalStop.getProperty("guessedArrival")));
+      } else {
+        log.warn("Kunde inte hitta station {} för tåg {}", to, trainNo);
       }
 
       if (booking == null) {
@@ -180,7 +184,7 @@ public class TrafficServiceImpl {
       return true;
     }
 
-    long graceNotification = (Long) subscription.getProperty("notificationCount");
+    int graceNotification = (Integer) subscription.getProperty("notificationCount");
     if (graceNotification > 0) {
       graceNotification--;
       subscription.setProperty("notificationCount", graceNotification);
@@ -345,11 +349,12 @@ public class TrafficServiceImpl {
   public static enum TrainStopField {
 
     ActualArrival("actualArrival", Type.Arrival), ActualDeparture("actualDeparture", Type.Departure), TrainInfo(
-        "trainInfo", Type.Both), Info("info", Type.Both), ArrivalTrack("arrivalTrack", Type.Arrival), DepartureTrack(
-        "departureTrack", Type.Departure), EstimatedArrival("estimatedArrival", Type.Arrival), EstimatedDeparture(
-        "estimatedDeparture", Type.Departure), GuessedArrival("guessedArrival", Type.Arrival), GuessedDeparture(
-        "guessedDeparture", Type.Departure), ArrivalStatus("arrivalStatus", Type.Arrival), DepartureStatus(
-        "departureStatus", Type.Departure);
+        "trainInfo", Type.Both, true), ArrivalInfo("arrivalInfo", Type.Arrival, true), DepartureInfo("departureInfo",
+        Type.Departure, true), ArrivalTrack("arrivalTrack", Type.Arrival), DepartureTrack("departureTrack",
+        Type.Departure), EstimatedArrival("estimatedArrival", Type.Arrival), EstimatedDeparture("estimatedDeparture",
+        Type.Departure), GuessedArrival("guessedArrival", Type.Arrival), GuessedDeparture("guessedDeparture",
+        Type.Departure), ArrivalStatus("arrivalStatus", Type.Arrival), DepartureStatus("departureStatus",
+        Type.Departure);
 
     public static enum Type {
       Arrival, Departure, Both
@@ -358,15 +363,26 @@ public class TrafficServiceImpl {
     private final String fieldName;
     private final String messageFieldName;
     private final Type type;
+    private final boolean markerOnly;
 
     private TrainStopField(final String fieldName, final Type type) {
       this(fieldName, fieldName, type);
     }
 
     private TrainStopField(final String fieldName, final String messageFieldName, final Type type) {
+      this(fieldName, messageFieldName, type, false);
+    }
+
+    private TrainStopField(final String fieldName, final Type type, final boolean markerOnly) {
+      this(fieldName, fieldName, type, markerOnly);
+    }
+
+    private TrainStopField(final String fieldName, final String messageFieldName, final Type type,
+        final boolean markerOnly) {
       this.fieldName = fieldName;
       this.messageFieldName = messageFieldName;
       this.type = type;
+      this.markerOnly = markerOnly;
     }
 
     public String getMessageFieldName() {
@@ -386,6 +402,13 @@ public class TrafficServiceImpl {
         return DateUtil.formatTime((Date) value);
       }
       return value.toString();
+    }
+
+    public String getMessageValue(final Entity stop) {
+      if (markerOnly) {
+        return Boolean.TRUE.toString();
+      }
+      return getValue(stop);
     }
 
     public boolean isModified(final Entity oldStop, final Entity newStop) {
@@ -420,6 +443,7 @@ public class TrafficServiceImpl {
         stop.setProperty("guessedArrival", DateUtil.toDate(arrival.getGuessed()));
         stop.setProperty("arrivalStatus", arrival.getStatus().name());
         stop.setProperty("arrivalTrack", arrival.getTrack());
+        stop.setProperty("arrivalInfo", arrival.getInfo());
       }
       if (info.getDeparture() != null) {
         TimeInfo departure = info.getDeparture();
@@ -429,6 +453,7 @@ public class TrafficServiceImpl {
         stop.setProperty("guessedDeparture", DateUtil.toDate(departure.getGuessed()));
         stop.setProperty("departureStatus", departure.getStatus().name());
         stop.setProperty("departureTrack", departure.getTrack());
+        stop.setProperty("departureInfo", departure.getInfo());
       }
 
       stop.setProperty("stationName", info.getName());

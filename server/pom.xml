@@ -13,7 +13,7 @@
 	<artifactId>christopher-server</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>Christopher Shared</name>
+	<name>Christopher Server</name>
 
 	<properties>
 		<gae.application.version>test</gae.application.version>
