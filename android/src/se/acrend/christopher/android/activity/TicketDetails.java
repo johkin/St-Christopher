@@ -36,6 +36,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.inject.Inject;
 
 public class TicketDetails extends RoboActivity {
@@ -73,6 +74,8 @@ public class TicketDetails extends RoboActivity {
   private TimeSource timeSource;
   @Inject
   private RegistrationService registrationService;
+  @Inject
+  private GoogleAnalyticsTracker tracker;
 
   private ContentObserver contentObserver;
 
