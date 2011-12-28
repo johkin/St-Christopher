@@ -93,7 +93,7 @@ public class SmsTicketParser extends MessageParserBase implements MessageParser 
     try {
       cal.setTime(format.parse(currentYear + date + time));
       // Om biljetten utfärdades före idag har vi gjort fel, lägg på ett år
-      if (cal.before(now.getTime())) {
+      if (cal.before(now)) {
         cal.add(Calendar.YEAR, 1);
       }
     } catch (ParseException e) {
