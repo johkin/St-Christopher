@@ -20,6 +20,19 @@ import se.acrend.christopher.android.model.DbModel.TimeModel;
 import se.acrend.christopher.android.service.RegistrationService;
 import se.acrend.christopher.android.util.DateUtil;
 import se.acrend.christopher.android.util.TimeSource;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.Intent;
+import android.database.ContentObserver;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.ContextThemeWrapper;
+import android.view.MenuInflater;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.inject.Inject;
@@ -100,6 +113,8 @@ public class TicketDetails extends RoboActivity {
 
     };
     contentResolver.registerContentObserver(data, false, contentObserver);
+
+    tracker.trackPageView("TicketDetails");
 
     updateView();
   }
