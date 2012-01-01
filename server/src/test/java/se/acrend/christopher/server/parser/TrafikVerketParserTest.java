@@ -29,12 +29,10 @@ public class TrafikVerketParserTest {
       if ("Norrköping C".equals(station.getName())) {
         assertEquals(Status.Cancelled, station.getArrival().getStatus());
         assertEquals(Status.Cancelled, station.getDeparture().getStatus());
-        assertEquals(4, station.getInfo().size());
       }
       if ("Stockholm C".equals(station.getName())) {
         assertEquals(Status.Cancelled, station.getArrival().getStatus());
         assertEquals(Status.Ok, station.getDeparture().getStatus());
-        assertEquals(3, station.getInfo().size());
       }
     }
 
@@ -49,17 +47,14 @@ public class TrafikVerketParserTest {
       if ("Alvesta".equals(station.getName())) {
         assertEquals(Status.Ok, station.getArrival().getStatus());
         assertEquals(Status.Delayed, station.getDeparture().getStatus());
-        assertEquals(1, station.getInfo().size());
       }
       if ("Norrköping C".equals(station.getName())) {
         assertEquals(Status.Delayed, station.getArrival().getStatus());
         assertEquals(Status.Delayed, station.getDeparture().getStatus());
-        assertEquals(0, station.getInfo().size());
       }
       if ("Stockholm C".equals(station.getName())) {
         assertEquals(Status.Delayed, station.getArrival().getStatus());
         assertEquals(null, station.getDeparture());
-        assertEquals(0, station.getInfo().size());
       }
     }
 
@@ -74,17 +69,14 @@ public class TrafikVerketParserTest {
       if ("Nässjö C".equals(station.getName())) {
         assertEquals(Status.Delayed, station.getArrival().getStatus());
         assertEquals(Status.Delayed, station.getDeparture().getStatus());
-        assertEquals(3, station.getInfo().size());
       }
       if ("Hässleholm".equals(station.getName())) {
         assertEquals(Status.Delayed, station.getArrival().getStatus());
         assertEquals(Status.Delayed, station.getDeparture().getStatus());
-        assertEquals(1, station.getInfo().size());
       }
       if ("Lund C".equals(station.getName())) {
         assertEquals(Status.Delayed, station.getArrival().getStatus());
         assertEquals(null, station.getDeparture());
-        assertEquals(1, station.getInfo().size());
       }
     }
 

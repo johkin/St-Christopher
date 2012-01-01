@@ -80,9 +80,6 @@
      <sdk>
       <platform>8</platform>
      </sdk>
-       <sign>
-        <debug>false</debug>
-       </sign>
     </configuration>
     <executions>
      <execution>
@@ -101,33 +98,6 @@
      </execution>
     </executions>
    </plugin>
-   <!-- 
-   <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-jarsigner-plugin</artifactId>
-      <version>1.2</version>
-      <executions>
-       <execution>
-        <id>signing-debug</id>
-        <goals>
-         <goal>sign</goal>
-        </goals>
-        <phase>package</phase>
-        <inherited>true</inherited>
-        <configuration>
-         <archiveDirectory></archiveDirectory>
-         <includes>
-          <include>target/*.apk</include>
-         </includes>
-         <keystore>${android.debug.keystore.path}</keystore>
-         <storepass>${android.debug.keystore.password}</storepass>
-         <keypass>${android.debug.key.password}</keypass>
-         <alias>${android.debug.key.alias}</alias>
-        </configuration>
-       </execution>
-      </executions>
-     </plugin>
-      -->
   </plugins>
  </build>
 

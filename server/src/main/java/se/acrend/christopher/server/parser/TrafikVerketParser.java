@@ -85,9 +85,9 @@ public class TrafikVerketParser {
         } else {
           infoString = infoDiv.text();
         }
-        if ((infoString != null) && !infoString.isEmpty()) {
-          station.addInfo(infoString);
-        }
+        // if ((infoString != null) && !infoString.isEmpty()) {
+        // station.addInfo(infoString);
+        // }
       }
 
       info.getStations().add(station);
