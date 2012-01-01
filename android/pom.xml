@@ -69,33 +69,7 @@
      <version>3.0.0-alpha-14</version>
      <extensions>true</extensions>
     </plugin>
-    <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
-    <plugin>
-     <groupId>org.eclipse.m2e</groupId>
-     <artifactId>lifecycle-mapping</artifactId>
-     <version>1.0.0</version>
-     <configuration>
-      <lifecycleMappingMetadata>
-       <pluginExecutions>
-        <pluginExecution>
-         <pluginExecutionFilter>
-          <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-          <artifactId>android-maven-plugin</artifactId>
-          <versionRange>[3.0.0-alpha-14,)</versionRange>
-          <goals>
-           <goal>generate-sources</goal>
-           <!-- <goal>unpack</goal> -->
-          </goals>
-         </pluginExecutionFilter>
-         <action>
-          <!-- <execute /> -->
-          <ignore></ignore>
-         </action>
-        </pluginExecution>
-       </pluginExecutions>
-      </lifecycleMappingMetadata>
-     </configuration>
-    </plugin>
+   
    </plugins>
   </pluginManagement>
   <plugins>
@@ -106,6 +80,9 @@
      <sdk>
       <platform>8</platform>
      </sdk>
+       <sign>
+        <debug>false</debug>
+       </sign>
     </configuration>
     <executions>
      <execution>
@@ -124,6 +101,33 @@
      </execution>
     </executions>
    </plugin>
+   <!-- 
+   <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-jarsigner-plugin</artifactId>
+      <version>1.2</version>
+      <executions>
+       <execution>
+        <id>signing-debug</id>
+        <goals>
+         <goal>sign</goal>
+        </goals>
+        <phase>package</phase>
+        <inherited>true</inherited>
+        <configuration>
+         <archiveDirectory></archiveDirectory>
+         <includes>
+          <include>target/*.apk</include>
+         </includes>
+         <keystore>${android.debug.keystore.path}</keystore>
+         <storepass>${android.debug.keystore.password}</storepass>
+         <keypass>${android.debug.key.password}</keypass>
+         <alias>${android.debug.key.alias}</alias>
+        </configuration>
+       </execution>
+      </executions>
+     </plugin>
+      -->
   </plugins>
  </build>
 

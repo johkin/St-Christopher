@@ -41,6 +41,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -72,6 +73,23 @@ public class RegistrationService extends RoboService {
   @Override
   public void onStart(final Intent intent, final int startId) {
     super.onStart(intent, startId);
+
+    if (intent == null) {
+      return;
+    }
+    AsyncTask<Void, Void, Void> intentTask = new AsyncTask<Void, Void, Void>() {
+
+      @Override
+      protected Void doInBackground(final Void... params) {
+        runIntent(intent);
+        return null;
+      }
+    };
+
+    intentTask.execute();
+  }
+
+  private void runIntent(final Intent intent) {
 
     if (Intents.DELETE_BOOKING.equals(intent.getAction())) {
       deleteBooking(intent.getData());
@@ -261,20 +279,19 @@ public class RegistrationService extends RoboService {
     return model.isRegistered();
   }
 
-  private void scheduleNewRegistration(final DbModel model, int retryCount) {
+  private void scheduleNewRegistration(final DbModel model, final int retryCount) {
     Uri data = ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, model.getId());
     if (retryCount > MAX_RETRY_COUNT) {
       Log.e(TAG, "Har uppnått max antal försök, avbryter registrering.");
       notifyMaxRetry(context, data);
       return;
     }
-    retryCount++;
     Calendar fiveMinutes = Calendar.getInstance();
     fiveMinutes.add(Calendar.MINUTE, 5);
 
     Log.d(TAG, "Schemalägger ny registrering för id " + model.getId() + " vid " + DateUtil.formatDateTime(fiveMinutes));
     Intent intent = new Intent(Intents.REGISTER_BOOKING, data);
-    intent.putExtra("retryCount", retryCount);
+    intent.putExtra("retryCount", retryCount + 1);
 
     PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
     alarmManager.set(AlarmManager.RTC_WAKEUP, fiveMinutes.getTimeInMillis(), pendingIntent);

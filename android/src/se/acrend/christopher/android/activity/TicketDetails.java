@@ -1,11 +1,6 @@
 package se.acrend.christopher.android.activity;
 
-import java.awt.Button;
-import java.awt.Menu;
-import java.awt.MenuItem;
 import java.util.Calendar;
-
-import javax.swing.text.View;
 
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
@@ -21,16 +16,23 @@ import se.acrend.christopher.android.service.RegistrationService;
 import se.acrend.christopher.android.util.DateUtil;
 import se.acrend.christopher.android.util.TimeSource;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.ContextThemeWrapper;
+import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
