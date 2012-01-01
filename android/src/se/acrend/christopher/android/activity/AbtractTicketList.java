@@ -2,6 +2,7 @@ package se.acrend.christopher.android.activity;
 
 import roboguice.activity.RoboListActivity;
 import se.acrend.christopher.R;
+import se.acrend.christopher.android.activity.actionbar.ActionBarHelper;
 import se.acrend.christopher.android.activity.help.About;
 import se.acrend.christopher.android.content.TicketAdapter;
 import android.content.Intent;
@@ -13,9 +14,13 @@ import android.view.MenuItem;
 import android.widget.SimpleCursorAdapter;
 
 public abstract class AbtractTicketList extends RoboListActivity {
+
+  final ActionBarHelper actionBarHelper = ActionBarHelper.createInstance(this);
+
   @Override
   public void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    actionBarHelper.onCreate(savedInstanceState);
 
     setContentView(R.layout.ticket_list);
 
@@ -41,8 +46,11 @@ public abstract class AbtractTicketList extends RoboListActivity {
 
   @Override
   public boolean onCreateOptionsMenu(final Menu menu) {
-    MenuInflater inflater = getMenuInflater();
+    MenuInflater inflater = actionBarHelper.getMenuInflater(getMenuInflater());
     inflater.inflate(R.menu.options_menu, menu);
+
+    actionBarHelper.onCreateOptionsMenu(menu);
+    super.onCreateOptionsMenu(menu);
     return true;
   }
 

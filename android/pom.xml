@@ -29,7 +29,7 @@
   <dependency>
    <groupId>com.google.android</groupId>
    <artifactId>android</artifactId>
-   <version>2.2.1</version>
+   <version>4.0.1.2</version>
    <scope>provided</scope>
   </dependency>
   <dependency>
@@ -78,7 +78,7 @@
     <artifactId>android-maven-plugin</artifactId>
     <configuration>
      <sdk>
-      <platform>8</platform>
+      <platform>15</platform>
      </sdk>
     </configuration>
     <executions>

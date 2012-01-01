@@ -26,7 +26,7 @@ public class DoneTicketList extends AbtractTicketList {
     Uri tickets = providerHelper.getTicketsUrl();
 
     Cursor cursor = getContentResolver().query(tickets, TicketAdapter.PROJECTION, "originalArrival < datetime('now')",
-        null, "originalDeparture ASC");
+        null, "originalDeparture DESC");
     return cursor;
   }
 }

@@ -1,69 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="OnTime" parent="@android:style/TextAppearance">
-        <item name="android:textColor">#00FF00</item>
-        <item name="android:textStyle">bold</item>
-    </style>
+ <style name="OnTime" parent="@android:style/TextAppearance">
+  <item name="android:textColor">#00FF00</item>
+  <item name="android:textStyle">bold</item>
+ </style>
 
-    <style name="Delayed" parent="@android:style/TextAppearance">
-        <item name="android:textColor">#FF0000</item>
-        <item name="android:textStyle">bold</item>
-    </style>
+ <style name="Delayed" parent="@android:style/TextAppearance">
+  <item name="android:textColor">#FF0000</item>
+  <item name="android:textStyle">bold</item>
+ </style>
 
-    <style name="Label" parent="@android:style/TextAppearance">
-        <item name="android:padding">2dp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
+ <style name="Label" parent="@android:style/TextAppearance">
+  <item name="android:padding">2dp</item>
+  <item name="android:textStyle">bold</item>
+ </style>
 
-    <style name="ListItemText" parent="@android:style/TextAppearance">
-        <item name="android:paddingLeft">4dp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
+ <style name="ListItemText" parent="@android:style/TextAppearance">
+  <item name="android:paddingLeft">4dp</item>
+  <item name="android:textStyle">bold</item>
+ </style>
 
-    <style name="TicketText" parent="@android:style/TextAppearance">
-        <item name="android:padding">2dp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:background">#FFFFFF</item>
-        <item name="android:textColor">#000000</item>
-    </style>
+ <style name="TicketText" parent="@android:style/TextAppearance">
+  <item name="android:padding">2dp</item>
+  <item name="android:textStyle">normal</item>
+  <item name="android:background">#FFFFFF</item>
+  <item name="android:textColor">#000000</item>
+ </style>
 
-    <style name="Animations" />
+ <style name="Animations" />
 
-    <!-- PopDownMenu -->
-    <style name="Animations.PopDownMenu" />
+ <!-- PopDownMenu -->
+ <style name="Animations.PopDownMenu" />
 
-    <style name="Animations.PopDownMenu.Left">
-        <item name="@android:windowEnterAnimation">@anim/grow_from_topleft_to_bottomright</item>
-        <item name="@android:windowExitAnimation">@anim/shrink_from_bottomright_to_topleft</item>
-    </style>
+ <style name="Animations.PopDownMenu.Left">
+  <item name="@android:windowEnterAnimation">@anim/grow_from_topleft_to_bottomright</item>
+  <item name="@android:windowExitAnimation">@anim/shrink_from_bottomright_to_topleft</item>
+ </style>
 
-    <style name="Animations.PopDownMenu.Right">
-        <item name="@android:windowEnterAnimation">@anim/grow_from_topright_to_bottomleft</item>
-        <item name="@android:windowExitAnimation">@anim/shrink_from_bottomleft_to_topright</item>
-    </style>
+ <style name="Animations.PopDownMenu.Right">
+  <item name="@android:windowEnterAnimation">@anim/grow_from_topright_to_bottomleft</item>
+  <item name="@android:windowExitAnimation">@anim/shrink_from_bottomleft_to_topright</item>
+ </style>
 
-    <style name="Animations.PopDownMenu.Center">
-        <item name="@android:windowEnterAnimation">@anim/grow_from_top</item>
-        <item name="@android:windowExitAnimation">@anim/shrink_from_bottom</item>
-    </style>
+ <style name="Animations.PopDownMenu.Center">
+  <item name="@android:windowEnterAnimation">@anim/grow_from_top</item>
+  <item name="@android:windowExitAnimation">@anim/shrink_from_bottom</item>
+ </style>
 
-    <!-- PopUpMenu -->
-    <style name="Animations.PopUpMenu" />
+ <!-- PopUpMenu -->
+ <style name="Animations.PopUpMenu" />
 
-    <style name="Animations.PopUpMenu.Left">
-        <item name="@android:windowEnterAnimation">@anim/grow_from_bottomleft_to_topright</item>
-        <item name="@android:windowExitAnimation">@anim/shrink_from_topright_to_bottomleft</item>
-    </style>
+ <style name="Animations.PopUpMenu.Left">
+  <item name="@android:windowEnterAnimation">@anim/grow_from_bottomleft_to_topright</item>
+  <item name="@android:windowExitAnimation">@anim/shrink_from_topright_to_bottomleft</item>
+ </style>
 
-    <style name="Animations.PopUpMenu.Right">
-        <item name="@android:windowEnterAnimation">@anim/grow_from_bottomright_to_topleft</item>
-        <item name="@android:windowExitAnimation">@anim/shrink_from_topleft_to_bottomright</item>
-    </style>
+ <style name="Animations.PopUpMenu.Right">
+  <item name="@android:windowEnterAnimation">@anim/grow_from_bottomright_to_topleft</item>
+  <item name="@android:windowExitAnimation">@anim/shrink_from_topleft_to_bottomright</item>
+ </style>
 
-    <style name="Animations.PopUpMenu.Center">
-        <item name="@android:windowEnterAnimation">@anim/grow_from_bottom</item>
-        <item name="@android:windowExitAnimation">@anim/shrink_from_top</item>
-    </style>
+ <style name="Animations.PopUpMenu.Center">
+  <item name="@android:windowEnterAnimation">@anim/grow_from_bottom</item>
+  <item name="@android:windowExitAnimation">@anim/shrink_from_top</item>
+ </style>
+
+ <style name="AppTheme" parent="android:style/Theme.Light">
+  <item name="android:windowTitleSize">@dimen/actionbar_compat_height</item>
+  <item name="android:windowTitleBackgroundStyle">@style/ActionBarCompat</item>
+  <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
+
+  <!-- for programmatic instantiation -->
+  <item name="actionbarCompatTitleStyle">@style/ActionBarCompatTitle</item>
+  <item name="actionbarCompatItemStyle">@style/ActionBarCompatItem</item>
+  <item name="actionbarCompatItemHomeStyle">@style/ActionBarCompatHomeItem</item>
+  <item name="actionbarCompatProgressIndicatorStyle">@style/ActionBarCompatProgressIndicator</item>
+ </style>
+
+ <style name="ActionBarCompat">
+  <item name="android:background">#eee</item>
+ </style>
+
+ <style name="ActionBarCompatItemBase">
+
+  <!-- layout_width/height must be set in code -->
+  <item name="android:scaleType">center</item>
+  <item name="android:background">@drawable/actionbar_compat_item</item>
+ </style>
+
+ <style name="ActionBarCompatProgressIndicator" parent="android:style/Widget.ProgressBar.Large">
+  <item name="android:indeterminate">true</item>
+ </style>
+
+ <style name="ActionBarCompatTitleBase">
+  <item name="android:id">@id/actionbar_compat_title</item>
+  <!-- layout_width/height/weight must be set in code -->
+  <item name="android:gravity">center_vertical</item>
+  <item name="android:textSize">18sp</item>
+  <item name="android:paddingLeft">6dp</item>
+  <item name="android:paddingRight">6dp</item>
+  <item name="android:singleLine">true</item>
+  <item name="android:ellipsize">marquee</item>
+ </style>
+
+ <style name="ActionBarCompatTitle" parent="style/ActionBarCompatTitleBase">
+  <item name="android:textColor">@color/actionbar_title_color</item>
+ </style>
+
+ <style name="ActionBarCompatItem" parent="style/ActionBarCompatItemBase"></style>
+
+ <style name="ActionBarCompatHomeItem" parent="style/ActionBarCompatItemBase"></style>
 
 </resources>
