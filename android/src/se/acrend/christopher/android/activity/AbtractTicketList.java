@@ -8,12 +8,15 @@ import se.acrend.christopher.android.content.TicketAdapter;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.SimpleCursorAdapter;
 
 public abstract class AbtractTicketList extends RoboListActivity {
+
+  private static final String TAG = "AbtractTicketList";
 
   final ActionBarHelper actionBarHelper = ActionBarHelper.createInstance(this);
 
@@ -46,11 +49,11 @@ public abstract class AbtractTicketList extends RoboListActivity {
 
   @Override
   public boolean onCreateOptionsMenu(final Menu menu) {
+    Log.d(TAG, "Anropar onCreateOptionsMenu");
     MenuInflater inflater = actionBarHelper.getMenuInflater(getMenuInflater());
     inflater.inflate(R.menu.options_menu, menu);
 
     actionBarHelper.onCreateOptionsMenu(menu);
-    super.onCreateOptionsMenu(menu);
     return true;
   }
 

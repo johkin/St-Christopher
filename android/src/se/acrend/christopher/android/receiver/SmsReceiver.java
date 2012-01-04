@@ -32,12 +32,14 @@ public class SmsReceiver extends RoboBroadcastReceiver {
 
     Object messages[] = (Object[]) bundle.get("pdus");
     String msgBody = "";
+    String sender = null;
     for (Object message2 : messages) {
       SmsMessage message = SmsMessage.createFromPdu((byte[]) message2);
+      sender = message.getDisplayOriginatingAddress();
       msgBody += message.getDisplayMessageBody();
     }
 
-    boolean success = messageHandler.handleMessage(msgBody);
+    boolean success = messageHandler.handleMessage(sender, msgBody);
 
     if (success) {
       tracker.trackEvent("Ticket", "Received", "SMS", 0);

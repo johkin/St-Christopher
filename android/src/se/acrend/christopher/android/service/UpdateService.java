@@ -128,9 +128,15 @@ public class UpdateService extends RoboIntentService {
       appendToMessage(message, "Nytt ankomstspår: " + extras.getString("arrivalTrack"));
     }
 
-    Status departureStatus = Status.valueOf(extras.getString("departureStatus"));
-    Status arrivalStatus = Status.valueOf(extras.getString("arrivalStatus"));
+    Status departureStatus = null;
+    if (extras.containsKey("departureStatus")) {
+      departureStatus = Status.valueOf(extras.getString("departureStatus"));
+    }
 
+    Status arrivalStatus = null;
+    if (extras.containsKey("arrivalStatus")) {
+      arrivalStatus = Status.valueOf(extras.getString("arrivalStatus"));
+    }
     if (arrivalStatus == Status.Cancelled) {
       model.getArrival().setCancelled(true);
     } else {

@@ -40,9 +40,9 @@ public class MessageHandler {
     parsers.add(new SmsTicketParser());
   }
 
-  public boolean handleMessage(final String msgBody) {
+  public boolean handleMessage(final String sender, final String msgBody) {
 
-    MessageParser parser = getMessageParser(msgBody);
+    MessageParser parser = getMessageParser(sender, msgBody);
     if (parser == null) {
       return false;
     }
@@ -102,9 +102,9 @@ public class MessageHandler {
     notificationManager.notify(1, notification);
   }
 
-  private MessageParser getMessageParser(final String message) {
+  private MessageParser getMessageParser(final String sender, final String message) {
     for (MessageParser parser : parsers) {
-      if (parser.supports(message)) {
+      if (parser.supports(sender, message)) {
         return parser;
       }
     }

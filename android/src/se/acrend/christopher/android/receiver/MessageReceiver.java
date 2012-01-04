@@ -22,9 +22,10 @@ public class MessageReceiver extends RoboBroadcastReceiver {
   protected void handleReceive(final Context context, final Intent intent) {
     Log.d(TAG, "Received Intent: " + intent);
 
+    String sender = intent.getStringExtra("sender");
     String msgBody = intent.getStringExtra("message");
 
-    messageHandler.handleMessage(msgBody);
+    messageHandler.handleMessage(sender, msgBody);
 
     tracker.trackEvent("Ticket", "Received", "Test", 0);
     tracker.dispatch();

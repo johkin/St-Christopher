@@ -4,8 +4,8 @@ import se.acrend.christopher.android.model.MessageWrapper;
 
 public interface MessageParser {
 
-  boolean supports(final String message);
+  boolean supports(String sender, String message);
 
-  MessageWrapper parse(final String message);
+  MessageWrapper parse(String message);
 
 }

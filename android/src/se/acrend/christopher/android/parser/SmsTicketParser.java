@@ -34,8 +34,8 @@ public class SmsTicketParser extends MessageParserBase implements MessageParser 
   }
 
   @Override
-  public boolean supports(final String message) {
-    return message.contains("+'") && message.contains("'+") && message.contains("Tåg:");
+  public boolean supports(final String sender, final String message) {
+    return "SJ Biljett".equalsIgnoreCase(sender);
   }
 
   @Override

@@ -9,7 +9,7 @@
  <item
   android:id="@+id/preferences"
   android:icon="@drawable/ic_menu_preferences"
-  android:showAsAction="always"
+  android:showAsAction="never"
   android:title="@string/menu.preferences"/>
  <item
   android:id="@+id/about"
