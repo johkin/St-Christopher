@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -222,10 +223,20 @@ public class TicketDetails extends RoboActivity {
   public boolean onCreateOptionsMenu(final Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.details_menu, menu);
-    MenuItem registrationMenu = menu.getItem(0);
+
+    return true;
+  }
+
+  @Override
+  public boolean onPrepareOptionsMenu(final Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+    MenuItem registrationMenu = menu.findItem(R.id.ticket_details_menu_register);
+    Log.d(TAG, "Timesource:" + timeSource);
+    Log.d(TAG, "Departure:" + model.getDeparture());
+    Log.d(TAG, "Original:" + model.getDeparture().getOriginal());
     long millis = model.getDeparture().getOriginal().getTimeInMillis() - timeSource.getCurrentMillis();
     if (model.isRegistered() || (millis > REGISTER_BEFORE_DEPARTURE_MILLIS)) {
-      // registrationMenu.setEnabled(false);
+      registrationMenu.setEnabled(false);
     }
     return true;
   }
