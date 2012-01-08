@@ -82,7 +82,7 @@ public class ActionBarHelperBase extends ActionBarHelper {
     SimpleMenu tempMenu = new SimpleMenu(mActivity);
     SimpleMenuItem homeItem = new SimpleMenuItem(
         tempMenu, android.R.id.home, 0, mActivity.getString(R.string.app_name));
-    homeItem.setIcon(R.drawable.ic_launcher_logo);
+    homeItem.setIcon(R.drawable.ic_logo);
     addActionItemCompatFromMenuItem(homeItem);
 
     // Add title text
