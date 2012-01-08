@@ -7,6 +7,7 @@ import net.londatiga.android.QuickAction;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 import se.acrend.christopher.R;
+import se.acrend.christopher.android.activity.actionbar.ActionBarHelper;
 import se.acrend.christopher.android.content.ProviderHelper;
 import se.acrend.christopher.android.content.ProviderTypes;
 import se.acrend.christopher.android.intent.Intents;
@@ -84,23 +85,22 @@ public class TicketDetails extends RoboActivity {
 
   private AlertDialog ticketTextDialog;
 
-  private Uri data;
-
   private DbModel model;
 
   private ProgressDialog dialog;
 
+  private final ActionBarHelper actionBarHelper = ActionBarHelper.createInstance(this);
+
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    actionBarHelper.onCreate(savedInstanceState);
+    actionBarHelper.setHomeButtonEnabled(true);
     setContentView(R.layout.ticket_details);
 
     startService(new Intent(context, RegistrationService.class));
 
     handler = new Handler();
-
-    final Intent intent = getIntent();
-    data = intent.getData();
   }
 
   @Override
@@ -115,7 +115,7 @@ public class TicketDetails extends RoboActivity {
       }
 
     };
-    contentResolver.registerContentObserver(data, false, contentObserver);
+    contentResolver.registerContentObserver(getIntent().getData(), false, contentObserver);
 
     tracker.trackPageView("TicketDetails");
 
@@ -131,7 +131,8 @@ public class TicketDetails extends RoboActivity {
   }
 
   private void updateView() {
-    model = providerHelper.findTicket(data);
+    Log.d(TAG, "updateView");
+    model = providerHelper.findTicket(getIntent().getData());
 
     setTitle(model.getFrom() + " - " + model.getTo() + " Tåg " + model.getTrain());
 
@@ -221,19 +222,19 @@ public class TicketDetails extends RoboActivity {
 
   @Override
   public boolean onCreateOptionsMenu(final Menu menu) {
-    MenuInflater inflater = getMenuInflater();
+    MenuInflater inflater = actionBarHelper.getMenuInflater(getMenuInflater());
     inflater.inflate(R.menu.details_menu, menu);
 
+    actionBarHelper.onCreateOptionsMenu(menu);
     return true;
   }
 
   @Override
   public boolean onPrepareOptionsMenu(final Menu menu) {
+    model = providerHelper.findTicket(getIntent().getData());
+
     super.onPrepareOptionsMenu(menu);
     MenuItem registrationMenu = menu.findItem(R.id.ticket_details_menu_register);
-    Log.d(TAG, "Timesource:" + timeSource);
-    Log.d(TAG, "Departure:" + model.getDeparture());
-    Log.d(TAG, "Original:" + model.getDeparture().getOriginal());
     long millis = model.getDeparture().getOriginal().getTimeInMillis() - timeSource.getCurrentMillis();
     if (model.isRegistered() || (millis > REGISTER_BEFORE_DEPARTURE_MILLIS)) {
       registrationMenu.setEnabled(false);
@@ -302,6 +303,9 @@ public class TicketDetails extends RoboActivity {
       registerTask.execute(model);
 
       return true;
+    case android.R.id.home:
+      startActivity(new Intent(context, TicketTabActivity.class));
+      finish();
     default:
       return super.onOptionsItemSelected(item);
     }

@@ -82,4 +82,6 @@ public abstract class ActionBarHelper {
   public MenuInflater getMenuInflater(final MenuInflater superMenuInflater) {
     return superMenuInflater;
   }
+
+  public abstract void setHomeButtonEnabled(final boolean enabled);
 }

@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 
 /**
- * An extension of {@link se.acrend.christopher.android.activity.actionbar.example.android.actionbarcompat.ActionBarHelper}
+ * An extension of
+ * {@link se.acrend.christopher.android.activity.actionbar.example.android.actionbarcompat.ActionBarHelper}
  * that provides Android 4.0-specific functionality for IceCreamSandwich
  * devices. It thus requires API level 14.
  */
@@ -16,5 +17,11 @@ public class ActionBarHelperICS extends ActionBarHelperHoneycomb {
   @Override
   protected Context getActionBarThemedContext() {
     return mActivity.getActionBar().getThemedContext();
+  }
+
+  @Override
+  public void setHomeButtonEnabled(final boolean enabled) {
+    mActivity.getActionBar().setHomeButtonEnabled(enabled);
+    mActivity.getActionBar().setDisplayShowHomeEnabled(enabled);
   }
 }

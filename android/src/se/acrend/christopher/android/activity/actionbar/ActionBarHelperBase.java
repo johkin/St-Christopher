@@ -293,4 +293,8 @@ public class ActionBarHelperBase extends ActionBarHelper {
     }
 
   }
+
+  @Override
+  public void setHomeButtonEnabled(final boolean enabled) {
+  }
 }

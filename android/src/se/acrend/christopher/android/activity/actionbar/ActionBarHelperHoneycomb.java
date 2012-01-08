@@ -61,4 +61,8 @@ public class ActionBarHelperHoneycomb extends ActionBarHelper {
   protected Context getActionBarThemedContext() {
     return mActivity;
   }
+
+  @Override
+  public void setHomeButtonEnabled(final boolean enabled) {
+  }
 }
