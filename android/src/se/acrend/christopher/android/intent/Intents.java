@@ -7,6 +7,7 @@ public interface Intents {
   String DELETE_BOOKING = "se.acrend.christopher.DELETE_BOOKING";
 
   String BOOKING_INFORMATION = "se.acrend.christopher.BOOKING_INFORMATION";
+  String UPDATE_BOOKING = "se.acrend.christopher.UPDATE_BOOKING";
 
   String C2DM_REGISTRATION_FINISHED = "se.acrend.christopher.C2DM_REGISTRATION_FINISHED";
   String C2DM_UNREGISTRATION_FINISHED = "se.acrend.christopher.C2DM_UNREGISTRATION_FINISHED";

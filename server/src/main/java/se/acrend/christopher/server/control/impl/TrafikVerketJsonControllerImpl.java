@@ -110,10 +110,9 @@ public class TrafikVerketJsonControllerImpl extends AbstractTrafikVerketControll
         log.debug("Cachar tåg {} för datum {}, grupp: {}",
             new String[] { info.getTrainNo(), info.getDate(), info.getGroupNo() });
         memcacheService.put(key, info.getGroupNo(), Expiration.byDeltaSeconds(CACHE_SECONDS));
+        log.debug("Har cachat tåg: {}", trainNo);
       }
     }
-
-    log.debug("Har cachat tåg: {}", trainNo);
 
     return groupNo;
   }

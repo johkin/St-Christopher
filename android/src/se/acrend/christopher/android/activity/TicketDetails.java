@@ -61,6 +61,8 @@ public class TicketDetails extends RoboActivity {
   private TextView departure;
   @InjectView(R.id.ticket_details_arrival)
   private TextView arrival;
+  @InjectView(R.id.ticket_details_trainNo)
+  private TextView trainNo;
   @InjectView(R.id.ticket_details_notify)
   private ToggleButton notify;
   @InjectView(R.id.ticket_details_showTicket)
@@ -134,8 +136,10 @@ public class TicketDetails extends RoboActivity {
     Log.d(TAG, "updateView");
     model = providerHelper.findTicket(getIntent().getData());
 
-    setTitle(model.getFrom() + " - " + model.getTo() + " Tåg " + model.getTrain());
+    setTitle(model.getFrom() + " - " + model.getTo());
 
+    trainNo.setText(model.getTrain());
+    
     ticketCode.setText(model.getCode());
     if (model.getCar() != null) {
       car.setText(model.getCar());

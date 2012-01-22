@@ -93,13 +93,16 @@
     <action android:name="se.acrend.christopher.PREPARE_REGISTRATION" />
     <action android:name="se.acrend.christopher.REGISTER_BOOKING" />
     <action android:name="se.acrend.christopher.DELETE_BOOKING" />
-
     <data android:mimeType="vnd.android.cursor.item/se.acrend.christopher.ticket" />
    </intent-filter>
   </service>
   <service android:name=".android.service.UpdateService" >
    <intent-filter>
     <action android:name="se.acrend.christopher.BOOKING_INFORMATION" />
+   </intent-filter>
+   <intent-filter>
+    <action android:name="se.acrend.christopher.UPDATE_BOOKING" />
+    <data android:mimeType="vnd.android.cursor.item/se.acrend.christopher.ticket" />
    </intent-filter>
   </service>
 

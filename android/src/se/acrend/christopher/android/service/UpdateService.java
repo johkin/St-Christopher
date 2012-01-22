@@ -16,6 +16,7 @@ import se.acrend.christopher.R;
 import se.acrend.christopher.android.activity.TicketDetails;
 import se.acrend.christopher.android.content.ProviderHelper;
 import se.acrend.christopher.android.content.ProviderTypes;
+import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.model.DbModel;
 import se.acrend.christopher.android.model.DbModel.TimeModel;
 import se.acrend.christopher.android.preference.PrefsHelper;
@@ -66,6 +67,24 @@ public class UpdateService extends RoboIntentService {
   @Override
   protected void onHandleIntent(final Intent intent) {
 
+    if (intent != null) {
+      if (Intents.BOOKING_INFORMATION.equals(intent.getAction())) {
+        updateFromC2dm(intent);
+      } else if (Intents.UPDATE_BOOKING.equals(intent.getAction())) {
+
+        DbModel model = providerHelper.findTicket(intent.getData());
+
+        updateFromProxy(model);
+
+        providerHelper.update(model);
+
+        context.sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).setClass(context,
+            TicketWidgetProvider.class));
+      }
+    }
+  }
+
+  void updateFromC2dm(final Intent intent) {
     Bundle extras = intent.getExtras();
 
     StringBuilder message = new StringBuilder();
@@ -150,7 +169,9 @@ public class UpdateService extends RoboIntentService {
     }
 
     if (extras.containsKey("info")) {
-      // TODO Skicka intent för att hämta information
+      Intent updateIntent = new Intent(Intents.UPDATE_BOOKING, ContentUris.withAppendedId(ProviderTypes.CONTENT_URI,
+          model.getId()));
+      startService(updateIntent);
     }
 
     boolean cancelled = model.getDeparture().isCancelled() || model.getArrival().isCancelled();
@@ -189,13 +210,12 @@ public class UpdateService extends RoboIntentService {
 
     context.sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).setClass(context,
         TicketWidgetProvider.class));
-
   }
 
   public void updateFromProxy(final DbModel model) {
 
     try {
-      HttpPost post = communicationHelper.createPostRequest(HttpUtil.REGISTRATION_PATH + "/");
+      HttpPost post = communicationHelper.createPostRequest(HttpUtil.PROXY_PATH + "/");
 
       List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
       nameValuePairs.add(new BasicNameValuePair("trainNo", model.getTrain()));

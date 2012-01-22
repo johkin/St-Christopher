@@ -10,7 +10,7 @@
 
  <properties>
   <downloadSources>true</downloadSources>
-  <gae.version>1.5.5</gae.version>
+  <gae.version>1.6.1</gae.version>
   <spring.version>3.0.6.RELEASE</spring.version>
  </properties>
 

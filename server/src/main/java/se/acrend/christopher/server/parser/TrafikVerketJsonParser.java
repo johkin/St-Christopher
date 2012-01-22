@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import se.acrend.christopher.server.parser.TrafikVerketJsonParser.Response.LpvTrafiklagen;
 import se.acrend.christopher.server.parser.TrafikVerketJsonParser.Response.LpvTrafiklagen.Trafiklage;
 import se.acrend.christopher.server.util.DateUtil;
 import se.acrend.christopher.shared.model.StationInfo;
@@ -122,14 +123,17 @@ public class TrafikVerketJsonParser {
 
     Response response = gson.fromJson(content, Response.class);
 
-    for (Trafiklage lage : response.getLpvTrafiklagen().getTrafiklage()) {
-      TrainGroupInfo info = new TrainGroupInfo();
+    LpvTrafiklagen lpvTrafiklagen = response.getLpvTrafiklagen();
+    if (lpvTrafiklagen != null) {
+      for (Trafiklage lage : lpvTrafiklagen.getTrafiklage()) {
+        TrainGroupInfo info = new TrainGroupInfo();
 
-      info.setDate(DateUtil.formatDate(lage.getUtgangsdatum()));
-      info.setTrainNo(lage.getAnnonseratTagId());
-      info.setGroupNo(lage.getTagGrupp());
+        info.setDate(DateUtil.formatDate(lage.getUtgangsdatum()));
+        info.setTrainNo(lage.getAnnonseratTagId());
+        info.setGroupNo(lage.getTagGrupp());
 
-      result.add(info);
+        result.add(info);
+      }
     }
 
     return result;
