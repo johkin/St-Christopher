@@ -87,8 +87,10 @@ public class CreateTicketActivity extends RoboActivity {
 
         final Calendar now = Calendar.getInstance(SharedDateUtil.SWEDISH_TIMEZONE, SharedDateUtil.SWEDISH_LOCALE);
         try {
+          int year = now.get(Calendar.YEAR);
           Date date = dateFormat.parse(dateText.getText().toString());
           now.setTime(date);
+          now.set(Calendar.YEAR, year);
         } catch (Exception e) {
           Log.e(TAG, "Fel i datum: " + e);
         }

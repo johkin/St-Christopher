@@ -105,6 +105,12 @@ public class TicketDetails extends RoboActivity {
   }
 
   @Override
+  protected void onPostCreate(final Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+    actionBarHelper.onPostCreate(savedInstanceState);
+  }
+
+  @Override
   protected void onResume() {
     super.onResume();
 
