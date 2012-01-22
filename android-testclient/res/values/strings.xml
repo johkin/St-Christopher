@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello android-testclient!</string>
-    <string name="app_name">android-testclient</string>
+
+ <string name="app_name">St Christopher TestClient</string>
+
 </resources>

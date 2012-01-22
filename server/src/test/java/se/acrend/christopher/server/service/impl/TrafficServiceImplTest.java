@@ -3,7 +3,6 @@ package se.acrend.christopher.server.service.impl;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.acrend.christopher.server.service.impl.TrafficServiceImpl.TrainStopField;
 
 public class TrafficServiceImplTest {
 

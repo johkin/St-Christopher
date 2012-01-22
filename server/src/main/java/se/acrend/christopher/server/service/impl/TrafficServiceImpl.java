@@ -16,12 +16,10 @@ import se.acrend.christopher.server.control.impl.SubscriptionControllerImpl;
 import se.acrend.christopher.server.dao.BookingDao;
 import se.acrend.christopher.server.dao.TrainStopDao;
 import se.acrend.christopher.server.persistence.DataConstants;
-import se.acrend.christopher.server.service.impl.TrafficServiceImpl.TrainStopField.Type;
 import se.acrend.christopher.server.util.Constants;
 import se.acrend.christopher.server.util.DateUtil;
 import se.acrend.christopher.shared.exception.PermanentException;
 import se.acrend.christopher.shared.exception.TemporaryException;
-import se.acrend.christopher.shared.model.AbstractResponse;
 import se.acrend.christopher.shared.model.BookingInformation;
 import se.acrend.christopher.shared.model.ErrorCode;
 import se.acrend.christopher.shared.model.ReturnCode;
@@ -59,7 +57,8 @@ public class TrafficServiceImpl {
   @Autowired
   private BookingDao bookingDao;
 
-  public AbstractResponse registerBooking(final String code, final String trainNo, final Date date, final String from,
+  public BookingInformation registerBooking(final String code, final String trainNo, final Date date,
+      final String from,
       final String to, final String registrationId) {
 
     Calendar cal = DateUtil.createCalendar();
@@ -293,15 +292,15 @@ public class TrafficServiceImpl {
         options.param("code", (String) booking.getProperty("code"));
         options.param("bookingKey", KeyFactory.keyToString(booking.getKey()));
 
-        Type type = null;
+        TrainStopField.Type type = null;
         if (departure) {
-          type = Type.Departure;
+          type = TrainStopField.Type.Departure;
         } else {
-          type = Type.Arrival;
+          type = TrainStopField.Type.Arrival;
         }
 
         for (TrainStopField field : modifiedFields) {
-          if ((field.getType() == Type.Both) || (field.getType() == type)) {
+          if ((field.getType() == TrainStopField.Type.Both) || (field.getType() == type)) {
             String value = field.getValue(currentStop);
             if (value != null) {
               options.param(field.getMessageFieldName(), field.getValue(currentStop));
@@ -317,22 +316,10 @@ public class TrafficServiceImpl {
 
   private void updateProperties(final Entity oldStop, final Entity newStop) {
     oldStop.setPropertiesFrom(newStop);
-    // oldStop.setActualArrival(newStop.getActualArrival());
-    // oldStop.setActualDeparture(newStop.getActualDeparture());
-    // oldStop.setEstimatedArrival(newStop.getEstimatedArrival());
-    // oldStop.setEstimatedDeparture(newStop.getEstimatedDeparture());
-    // oldStop.setGuessedArrival(newStop.getGuessedArrival());
-    // oldStop.setGuessedDeparture(newStop.getGuessedDeparture());
-    // oldStop.setOriginalArrival(newStop.getOriginalArrival());
-    // oldStop.setOriginalDeparture(newStop.getOriginalDeparture());
-    // oldStop.setArrivalStatus(newStop.getArrivalStatus());
-    // oldStop.setDepartureStatus(newStop.getDepartureStatus());
-    // oldStop.setInfo(newStop.getInfo());
-    // oldStop.setTrack(newStop.getTrack());
   }
 
   private List<TrainStopField> getModifiedFields(final Entity oldStop, final Entity newStop) {
-    List<TrainStopField> fields = new ArrayList<TrafficServiceImpl.TrainStopField>();
+    List<TrainStopField> fields = new ArrayList<TrainStopField>();
 
     for (TrainStopField field : TrainStopField.values()) {
       if (field.isModified(oldStop, newStop)) {
@@ -344,89 +331,6 @@ public class TrafficServiceImpl {
     }
 
     return fields;
-  }
-
-  public static enum TrainStopField {
-
-    ActualArrival("actualArrival", Type.Arrival), ActualDeparture("actualDeparture", Type.Departure), TrainInfo(
-        "trainInfo", Type.Both, true), ArrivalInfo("arrivalInfo", Type.Arrival, true), DepartureInfo("departureInfo",
-        Type.Departure, true), ArrivalTrack("arrivalTrack", Type.Arrival), DepartureTrack("departureTrack",
-        Type.Departure), EstimatedArrival("estimatedArrival", Type.Arrival), EstimatedDeparture("estimatedDeparture",
-        Type.Departure), GuessedArrival("guessedArrival", Type.Arrival), GuessedDeparture("guessedDeparture",
-        Type.Departure), ArrivalStatus("arrivalStatus", Type.Arrival), DepartureStatus("departureStatus",
-        Type.Departure);
-
-    public static enum Type {
-      Arrival, Departure, Both
-    }
-
-    private final String fieldName;
-    private final String messageFieldName;
-    private final Type type;
-    private final boolean markerOnly;
-
-    private TrainStopField(final String fieldName, final Type type) {
-      this(fieldName, fieldName, type);
-    }
-
-    private TrainStopField(final String fieldName, final String messageFieldName, final Type type) {
-      this(fieldName, messageFieldName, type, false);
-    }
-
-    private TrainStopField(final String fieldName, final Type type, final boolean markerOnly) {
-      this(fieldName, fieldName, type, markerOnly);
-    }
-
-    private TrainStopField(final String fieldName, final String messageFieldName, final Type type,
-        final boolean markerOnly) {
-      this.fieldName = fieldName;
-      this.messageFieldName = messageFieldName;
-      this.type = type;
-      this.markerOnly = markerOnly;
-    }
-
-    public String getMessageFieldName() {
-      return messageFieldName;
-    }
-
-    public Type getType() {
-      return type;
-    }
-
-    public String getValue(final Entity stop) {
-      Object value = stop.getProperty(fieldName);
-      if (value == null) {
-        return null;
-      }
-      if (value instanceof Date) {
-        return DateUtil.formatTime((Date) value);
-      }
-      return value.toString();
-    }
-
-    public String getMessageValue(final Entity stop) {
-      if (markerOnly) {
-        return Boolean.TRUE.toString();
-      }
-      return getValue(stop);
-    }
-
-    public boolean isModified(final Entity oldStop, final Entity newStop) {
-
-      String oldValue = getValue(oldStop);
-      String newValue = getValue(newStop);
-      return isFieldModified(oldValue, newValue);
-    }
-
-    private boolean isFieldModified(final String o1, final String o2) {
-      if ((o1 == null) && (o2 == null)) {
-        return false;
-      }
-      if (o1 != null) {
-        return !o1.equals(o2);
-      }
-      return true;
-    }
   }
 
   private List<Entity> convert(final List<StationInfo> stations, final Calendar date, final String trainNo) {

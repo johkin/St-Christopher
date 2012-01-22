@@ -16,6 +16,7 @@
 
  <modules>
   <module>android</module>
+  <module>android-testclient</module>
   <module>shared</module>
   <module>server</module>
   <module>libs</module>

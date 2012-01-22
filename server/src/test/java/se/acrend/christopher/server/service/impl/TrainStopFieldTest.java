@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.acrend.christopher.server.persistence.DataConstants;
-import se.acrend.christopher.server.service.impl.TrafficServiceImpl.TrainStopField;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -57,7 +56,7 @@ public class TrainStopFieldTest {
   @Test
   public void testIsModified() {
     oldStop.setProperty("actualArrival", parseDate("2011-10-25 10:00:00"));
-    newStop.setProperty("actualArrival", parseDate("2011-10-25 11:00:00"));
+    newStop.setProperty("actualArrival", parseDate("2011-10-25 10:01:00"));
 
     assertEquals(true, TrainStopField.ActualArrival.isModified(oldStop, newStop));
   }

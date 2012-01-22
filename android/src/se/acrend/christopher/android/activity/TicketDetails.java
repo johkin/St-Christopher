@@ -10,7 +10,6 @@ import se.acrend.christopher.R;
 import se.acrend.christopher.android.activity.actionbar.ActionBarHelper;
 import se.acrend.christopher.android.content.ProviderHelper;
 import se.acrend.christopher.android.content.ProviderTypes;
-import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.model.DbModel;
 import se.acrend.christopher.android.model.DbModel.TimeModel;
 import se.acrend.christopher.android.service.RegistrationService;
@@ -139,7 +138,7 @@ public class TicketDetails extends RoboActivity {
     setTitle(model.getFrom() + " - " + model.getTo());
 
     trainNo.setText(model.getTrain());
-    
+
     ticketCode.setText(model.getCode());
     if (model.getCar() != null) {
       car.setText(model.getCar());
@@ -252,8 +251,6 @@ public class TicketDetails extends RoboActivity {
     switch (item.getItemId()) {
     case R.id.ticket_details_menu_delete:
       getContentResolver().unregisterContentObserver(contentObserver);
-      startService(new Intent(Intents.DELETE_BOOKING, data));
-      finish();
       AsyncTask<Uri, Void, Void> unregisterTask = new AsyncTask<Uri, Void, Void>() {
 
         @Override

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+ <string-array name="stationNames">
+  <item>Stockholm C</item>
+  <item>Uppsala C</item>
+  <item>Norrköping C</item>
+  <item>Linköping C</item>
+  <item>Göteborg C</item>
+  <item>Malmö C</item>
+  <item>Örebro C</item>
+ </string-array>
+</resources>

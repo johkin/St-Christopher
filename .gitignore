@@ -30,3 +30,9 @@
 /.project
 /libs/.project
 /libs/.settings
+/android-testclient/bin
+/android-testclient/gen
+/android-testclient/target
+/android-testclient/.classpath
+/android-testclient/.project
+/android-testclient/.settings

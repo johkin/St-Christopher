@@ -1,12 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
-</LinearLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+ android:id="@+id/createTicket.scrollView"
+ android:layout_width="fill_parent"
+ android:layout_height="fill_parent" >
+
+ <LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical" >
+
+  <LinearLayout
+   android:id="@+id/linearLayout1"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content" >
+
+   <TextView
+    android:id="@+id/dateText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1" />
+
+   <Button
+    android:id="@+id/dateButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Datum" />
+  </LinearLayout>
+
+  <EditText
+   android:id="@+id/trainNo"
+   android:layout_width="fill_parent"
+   android:layout_height="wrap_content"
+   android:inputType="number" />
+
+  <Spinner
+   android:id="@+id/from"
+   android:layout_width="fill_parent"
+   android:layout_height="wrap_content" />
+
+  <LinearLayout
+   android:id="@+id/linearLayout2"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content" >
+
+   <TextView
+    android:id="@+id/departureText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="1" />
+
+   <Button
+    android:id="@+id/departureButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Avgång" />
+  </LinearLayout>
+
+  <Spinner
+   android:id="@+id/to"
+   android:layout_width="fill_parent"
+   android:layout_height="wrap_content" />
+
+  <LinearLayout
+   android:id="@+id/linearLayout3"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content" >
+
+   <TextView
+    android:id="@+id/arrivalText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="1" />
+
+   <Button
+    android:id="@+id/arrivalButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Ankomst" />
+  </LinearLayout>
+
+  <Button
+   android:id="@+id/sendButton"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:text="Skicka" />
+ </LinearLayout>
+
+</ScrollView>

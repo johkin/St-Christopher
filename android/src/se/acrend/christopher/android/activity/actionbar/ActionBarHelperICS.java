@@ -1,7 +1,9 @@
 package se.acrend.christopher.android.activity.actionbar;
 
+import se.acrend.christopher.R;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 
 /**
  * An extension of
@@ -12,6 +14,12 @@ import android.content.Context;
 public class ActionBarHelperICS extends ActionBarHelperHoneycomb {
   protected ActionBarHelperICS(final Activity activity) {
     super(activity);
+  }
+
+  @Override
+  public void onCreate(final Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mActivity.getActionBar().setIcon(R.drawable.ic_logo);
   }
 
   @Override

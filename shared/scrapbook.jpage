@@ -8,3 +8,5 @@ System.out.println(l.getLanguage() + ", " + l.getCountry());
 
 TimeZone SWEDISH_TIMEZONE = TimeZone.getTimeZone("Europe/Stockholm");
 System.out.println(SWEDISH_TIMEZONE.getID());
+
+System.out.println(String.format("%04d", 5));
