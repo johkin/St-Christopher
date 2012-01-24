@@ -13,8 +13,7 @@ public enum TrainStopField {
       Type.Departure, true), ArrivalTrack("arrivalTrack", Type.Arrival), DepartureTrack("departureTrack",
       Type.Departure), EstimatedArrival("estimatedArrival", Type.Arrival), EstimatedDeparture("estimatedDeparture",
       Type.Departure), GuessedArrival("guessedArrival", Type.Arrival), GuessedDeparture("guessedDeparture",
-      Type.Departure), ArrivalStatus("arrivalStatus", Type.Arrival), DepartureStatus("departureStatus",
-      Type.Departure);
+      Type.Departure), ArrivalStatus("arrivalStatus", Type.Arrival), DepartureStatus("departureStatus", Type.Departure);
 
   public static enum Type {
     Arrival, Departure, Both
@@ -72,10 +71,34 @@ public enum TrainStopField {
   }
 
   public boolean isModified(final Entity oldStop, final Entity newStop) {
+    if (isDate(oldStop) || isDate(newStop)) {
+      return isDateFieldModified(oldStop, newStop);
+    }
 
     String oldValue = getValue(oldStop);
     String newValue = getValue(newStop);
     return isFieldModified(oldValue, newValue);
+  }
+
+  private boolean isDate(final Entity entity) {
+    if (entity.hasProperty(fieldName) && entity.getProperty(fieldName) instanceof Date) {
+      return true;
+    }
+    return false;
+  }
+
+  private boolean isDateFieldModified(final Entity e1, final Entity e2) {
+    Date d1 = (Date) e1.getProperty(fieldName);
+    Date d2 = (Date) e2.getProperty(fieldName);
+
+    if (d1 != null && d2 != null) {
+      if (Math.abs(d1.getTime() - d2.getTime()) > 60000) {
+        return true;
+      }
+      return false;
+    }
+    return true;
+
   }
 
   private boolean isFieldModified(final String o1, final String o2) {
@@ -86,5 +109,9 @@ public enum TrainStopField {
       return !o1.equals(o2);
     }
     return true;
+  }
+
+  public String getFieldName() {
+    return fieldName;
   }
 }

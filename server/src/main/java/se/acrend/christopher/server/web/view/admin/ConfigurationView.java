@@ -1,4 +1,4 @@
-package se.acrend.christopher.server.web.view;
+package se.acrend.christopher.server.web.view.admin;
 
 import java.util.Arrays;
 

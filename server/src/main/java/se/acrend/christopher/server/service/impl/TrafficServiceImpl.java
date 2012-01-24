@@ -58,8 +58,7 @@ public class TrafficServiceImpl {
   private BookingDao bookingDao;
 
   public BookingInformation registerBooking(final String code, final String trainNo, final Date date,
-      final String from,
-      final String to, final String registrationId) {
+      final String from, final String to, final String registrationId) {
 
     Calendar cal = DateUtil.createCalendar();
     cal.setTime(date);
@@ -247,7 +246,7 @@ public class TrafficServiceImpl {
             if (!modifiedFields.isEmpty()) {
               log.debug("Uppdaterad station {} för tåg {}", newStop.getProperty("stationName"), trainNo);
               transaction = datastore.beginTransaction();
-              updateProperties(oldStop, newStop);
+              updateProperties(oldStop, newStop, modifiedFields);
               datastore.put(oldStop);
               transaction.commit();
 
@@ -314,8 +313,10 @@ public class TrafficServiceImpl {
     return tasks;
   }
 
-  private void updateProperties(final Entity oldStop, final Entity newStop) {
-    oldStop.setPropertiesFrom(newStop);
+  private void updateProperties(final Entity oldStop, final Entity newStop, final List<TrainStopField> fields) {
+    for (TrainStopField field : fields) {
+      oldStop.setProperty(field.getFieldName(), newStop.getProperty(field.getFieldName()));
+    }
   }
 
   private List<TrainStopField> getModifiedFields(final Entity oldStop, final Entity newStop) {

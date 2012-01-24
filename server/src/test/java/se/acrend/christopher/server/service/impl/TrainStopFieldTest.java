@@ -54,9 +54,17 @@ public class TrainStopFieldTest {
   }
 
   @Test
-  public void testIsModified() {
+  public void testIsModifiedLess2Min() {
     oldStop.setProperty("actualArrival", parseDate("2011-10-25 10:00:00"));
     newStop.setProperty("actualArrival", parseDate("2011-10-25 10:01:00"));
+
+    assertEquals(false, TrainStopField.ActualArrival.isModified(oldStop, newStop));
+  }
+
+  @Test
+  public void testIsModified() {
+    oldStop.setProperty("actualArrival", parseDate("2011-10-25 10:00:00"));
+    newStop.setProperty("actualArrival", parseDate("2011-10-25 10:02:00"));
 
     assertEquals(true, TrainStopField.ActualArrival.isModified(oldStop, newStop));
   }
