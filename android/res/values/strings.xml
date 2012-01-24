@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">St Christopher</string>
-    <string name="menu.preferences">Inställningar</string>
-    <string name="menu.about">Om...</string>
-    <string name="common.exit">Stäng</string>
-    <string name="common.next">Nästa</string>
-    <string name="gosms.header">Go SMS Pro installerad</string>
-    <string name="gosms.text">Du verkar tyvärr ha Go SMS Pro installerad, vilket gör att St Christopher inte kan ta emot biljetterna från SJ.\n
+ <string name="app_name">St Christopher</string>
+ <string name="menu.preferences">Inställningar</string>
+ <string name="menu.about">Om...</string>
+ <string name="common.exit">Stäng</string>
+ <string name="common.next">Nästa</string>
+ <string name="gosms.header">Go SMS Pro installerad</string>
+ <string name="gosms.text">u verkar tyvärr ha Go SMS Pro installerad, vilket gör att St Christopher inte kan ta emot biljetterna från SJ.\n
     För att Christopher ska kunna fungera korrekt måste Go SMS Pro avinstalleras eller deaktiveras.\n
-    Läs mer om problemet genom att klicka på knappen nedan.
-    </string>
-    <string name="gosms.moreinfo">Mer information</string>
-    <string name="button.delete">Ta bort</string>
-    <string name="button.register">Registrera bokning</string>
-    <string name="about.header">Om St Christopher</string>
-    <string name="about.text">
-    Applikationen är inget helgon som sin namne, men den kan ge dig lite hjälp vid tågresor! 
+    Läs mer om problemet genom att klicka på knappen nedan.</string>
+ <string name="gosms.moreinfo">Mer information</string>
+ <string name="button.delete">Ta bort</string>
+ <string name="button.register">Registrera bokning</string>
+ <string name="about.header">Om St Christopher</string>
+ <string name="about.text">    Applikationen är inget helgon som sin namne, men den kan ge dig lite hjälp vid tågresor! 
     \n
     Applikationen har utvecklats för eget bruk, utan koppling till SJ.\n    
     Synpunkter, förslag på förbättringar eller felrapporter skickas till \'android.support@acrend.se\', 
@@ -37,62 +35,63 @@
     \n
     \n
     Vid eventuella fel, som att applikationen inte kan tyda meddelandet från SJ, kommer meddelandet att ligga 
-    kvar i inkorgen. Man kan även skicka mobilbiljetten igen från www.sj.se.
-    </string>
+    kvar i inkorgen. Man kan även skicka mobilbiljetten igen från www.sj.se.</string>
+ <string name="ticket.list.empty">Hittade inga biljetter.</string>
+ <string name="prefs.category.sms">SMS</string>
+ <string name="prefs.category.sms.processIncomingMessages">Läs inkommande SMS</string>
+ <string name="prefs.category.sms.processIncomingMessages.summary">Tolkar inkommande SMS och lägger till information i vald kalender.</string>
+ <string name="prefs.category.sms.deleteProcessedMessage">Ta bort bearbetade SMS</string>
+ <string name="prefs.category.sms.deleteProcessedMessage.summary">Tar bort de SMS som har lagts till i kalendern, så att du slipper rensa själv.</string>
+ <string name="prefs.category.sms.replaceTicket">Ersätt biljetter</string>
+ <string name="prefs.category.sms.replaceTicket.summary">Söker efter existerande biljetter och byter ut dem mot ny information för givet biljettnummer.</string>
+ <string name="prefs.category.serverservices">Server-tjänster</string>
+ <string name="prefs.category.serverservices.title">Tåginformation från Trafikverket</string>
+ <string name="prefs.category.serverservices.summary">Konfiguration för att hantera hur Live-uppdatering ska hanteras.</string>
+ <string name="prefs.category.serverservices.useServerServices.title">Använd server-tjänster</string>
+ <string name="prefs.category.serverservices.useServerServices.summary">Dessa tjänster är kopplade till en prenumeration, som kan köpas via Android Market.</string>
+ <string name="prefs.category.serverservices.readAhead.title">Kontroll av försening innan avfärd</string>
+ <string name="prefs.category.serverservices.readAhead.summary">Välj hur långt innan avfärd som applikationen ska kontrollera eventuell försening.</string>
+ <string name="prefs.category.serverservices.account.title">Konto för inloggning</string>
+ <string name="prefs.category.serverservices.account.summary">Välj det konto som ska användas vid inloggning mot server.</string>
+ <string name="prefs.category.subscription">Prenumeration</string>
+ <string name="prefs.category.subscription.title">Information om prenumeration</string>
+ <string name="prefs.category.subscription.summary">Visa status för din prenumeration.</string>
+ <string name="prefs.category.suggestions">Synpunkter</string>
+ <string name="prefs.category.suggestions.getSatisfaction.title">Länk till getSatisfaction</string>
+ <string name="prefs.category.suggestions.getSatisfaction.summary">Synpunkter och eventuella felrapporter registreras med fördel hos getSatisfaction, klicka här för att komma till sajten.</string>
+ <string name="prefs.category.account.title">Konto</string>
+ <string name="prefs.category.account.summary">Välj Google-konto för kommunikation med server.</string>
+ <string name="prefs.category.c2dmregistration.title">Registrering av push-meddelanden</string>
+ <string name="prefs.category.c2dmregistration.summary">Klicka nedan för att starta registrering av din enhet. Registreringen kan ta några sekunder.</string>
+ <string name="prefs.category.c2dmregistration.register">Registrera</string>
+ <string name="prefs.category.c2dmregistration.wait">Registrerar enhet, vänligen vänta...</string>
+ <string name="ticket.details.trainNo">Tågnr:</string>
+ <string name="ticket.details.ticketCode">Biljettkod:</string>
+ <string name="ticket.details.car">Vagn:</string>
+ <string name="ticket.details.seat">Plats:</string>
+ <string name="ticket.details.departureTrack">Avg spår:</string>
+ <string name="ticket.details.arrivalTrack">Ank spår:</string>
+ <string name="ticket.details.orgTime">Ord tid</string>
+ <string name="ticket.details.newTime">Tid enl Trafikverket</string>
+ <string name="ticket.details.departure">Avgång:</string>
+ <string name="ticket.details.arrival">Ankomst:</string>
+ <string name="ticket.details.notify">Signalera vid ändrad tid</string>
+ <string name="ticket.details.checkTraffic">Kontrollera trafik</string>
+ <string name="ticket.details.showTicket">Visa biljett</string>
+ <string name="ticket.details.register.wait">Registrerar bokning, vänligen vänta...</string>
+ <string name="ticket.details.unregister.wait">Tar bort bokning, vänligen vänta...</string>
+ <string name="ticket.text.title">Mobilbiljett</string>
+ <string name="widget.track">Spår:</string>
+ <string name="widget.seat">Plats:</string>
+ <string name="widget.car">Vagn:</string>
+ <string name="widget.departure">Avgång:</string>
+ <string name="widget.arrival">Ankomst:</string>
+ <string name="widget.code">Internetkod:</string>
+ <string name="widget.no.ticket.found">Hittade ingen bokning.</string>
+ <string name="subscription.details.subscriptionloading">Hämtar prenumerations-information, vänligen vänta...</string>
+ <string name="subscription.details.productsloading">Hämtar produkter, vänligen vänta...</string>
+ <string name="subscription.details.info">Din prenumeration är giltig t o m %1$s. Du har %2$d engångs-bevakningar kvar att använda.</string>
+ <string name="subscription.details.productInfo">Nedanstående tjänster kan köpas via Android Market. Tjänsten lagras på servern kopplat till ditt konto.</string>
+ <string name="subscription.details.buy">Köp</string>
 
-		<string name="ticket.list.empty">Hittade inga biljetter.</string>
-		<string name="prefs.category.sms">SMS</string>
-		<string name="prefs.category.sms.processIncomingMessages">Läs inkommande SMS</string>
-		<string name="prefs.category.sms.processIncomingMessages.summary">Tolkar inkommande SMS och lägger till information i vald kalender.</string>
-		<string name="prefs.category.sms.deleteProcessedMessage">Ta bort bearbetade SMS</string>
-		<string name="prefs.category.sms.deleteProcessedMessage.summary">Tar bort de SMS som har lagts till i kalendern, så att du slipper rensa själv.</string>
-		<string name="prefs.category.sms.replaceTicket">Ersätt biljetter</string>
-		<string name="prefs.category.sms.replaceTicket.summary">Söker efter existerande biljetter och byter ut dem mot ny information för givet biljettnummer.</string>
-		<string name="prefs.category.serverservices">Server-tjänster</string>
-		<string name="prefs.category.serverservices.title">Tåginformation från Trafikverket</string>
-		<string name="prefs.category.serverservices.summary">Konfiguration för att hantera hur Live-uppdatering ska hanteras.</string>
-		<string name="prefs.category.serverservices.useServerServices.title">Använd server-tjänster</string>
-    <string name="prefs.category.serverservices.useServerServices.summary">Dessa tjänster är kopplade till en prenumeration, som kan köpas via Android Market.</string>
-		<string name="prefs.category.serverservices.readAhead.title">Kontroll av försening innan avfärd</string>
-		<string name="prefs.category.serverservices.readAhead.summary">Välj hur långt innan avfärd som applikationen ska kontrollera eventuell försening.</string>
-    <string name="prefs.category.serverservices.account.title">Konto för inloggning</string>
-    <string name="prefs.category.serverservices.account.summary">Välj det konto som ska användas vid inloggning mot server.</string>
-    <string name="prefs.category.subscription">Prenumeration</string>
-    <string name="prefs.category.subscription.title">Information om prenumeration</string>
-    <string name="prefs.category.subscription.summary">Visa status för din prenumeration.</string>
-		<string name="prefs.category.suggestions">Synpunkter</string>
-		<string name="prefs.category.suggestions.getSatisfaction.title">Länk till getSatisfaction</string>
-		<string name="prefs.category.suggestions.getSatisfaction.summary">Synpunkter och eventuella felrapporter registreras med fördel hos getSatisfaction, klicka här för att komma till sajten.</string>
-		<string name="prefs.category.account.title">Konto</string>
-		<string name="prefs.category.account.summary">Välj Google-konto för kommunikation med server.</string>
-		<string name="prefs.category.c2dmregistration.title">Registrering av push-meddelanden</string>
-		<string name="prefs.category.c2dmregistration.summary">Klicka nedan för att starta registrering av din enhet. Registreringen kan ta några sekunder.</string>
-		<string name="prefs.category.c2dmregistration.register">Registrera</string>
-		<string name="prefs.category.c2dmregistration.wait">Registrerar enhet, vänligen vänta...</string>
-		<string name="ticket.details.trainNo">Tågnr:</string>
-		<string name="ticket.details.ticketCode">Biljettkod:</string>
-		<string name="ticket.details.car">Vagn:</string>
-		<string name="ticket.details.seat">Plats:</string>
-		<string name="ticket.details.departureTrack">Avg spår:</string>
-		<string name="ticket.details.arrivalTrack">Ank spår:</string>
-		<string name="ticket.details.orgTime">Ord tid</string>
-		<string name="ticket.details.newTime">Tid enl Trafikverket</string>
-		<string name="ticket.details.departure">Avgång:</string>
-		<string name="ticket.details.arrival">Ankomst:</string>
-		<string name="ticket.details.notify">Signalera vid ändrad tid</string>
-		<string name="ticket.details.checkTraffic">Kontrollera trafik</string>
-		<string name="ticket.details.showTicket">Visa biljett</string>
-    <string name="ticket.details.register.wait">Registrerar bokning, vänligen vänta...</string>
-    <string name="ticket.details.unregister.wait">Tar bort bokning, vänligen vänta...</string>
-		<string name="ticket.text.title">Mobilbiljett</string>
-    <string name="widget.track">Spår:</string>
-    <string name="widget.seat">Plats:</string>
-    <string name="widget.car">Vagn:</string>
-    <string name="widget.departure">Avgång:</string>
-    <string name="widget.arrival">Ankomst:</string>
-    <string name="widget.code">Internetkod:</string>
-    <string name="widget.no.ticket.found">Hittade ingen bokning.</string>
-		<string name="subscription.details.subscriptionloading">Hämtar prenumerations-information, vänligen vänta...</string>
-    <string name="subscription.details.productsloading">Hämtar produkter, vänligen vänta...</string>
-		<string name="subscription.details.info">Din prenumeration är giltig t o m %1$s. Du har %2$d gratis-bevakningar kvar att använda.</string>
 </resources>

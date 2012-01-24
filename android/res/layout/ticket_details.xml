@@ -10,7 +10,7 @@
 
   <TableLayout
    android:id="@+id/ticket.details.tableLayout"
-   android:layout_width="match_parent"
+   android:layout_width="fill_parent"
    android:layout_height="wrap_content" >
 
    <TableRow
@@ -28,8 +28,7 @@
     <TextView
      android:id="@+id/ticket.details.trainNo"
      android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_span="2" />
+     android:layout_height="wrap_content" />
    </TableRow>
 
    <TableRow
@@ -48,8 +47,7 @@
     <TextView
      android:id="@+id/ticket.details.ticketCode"
      android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_span="2" />
+     android:layout_height="wrap_content" />
    </TableRow>
 
    <TableRow
@@ -68,8 +66,7 @@
     <TextView
      android:id="@+id/ticket.details.car"
      android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_span="2" />
+     android:layout_height="wrap_content" />
    </TableRow>
 
    <TableRow
@@ -88,8 +85,7 @@
     <TextView
      android:id="@+id/ticket.details.seat"
      android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_span="2" />
+     android:layout_height="wrap_content" />
    </TableRow>
 
    <TableRow
@@ -108,8 +104,7 @@
     <TextView
      android:id="@+id/ticket.details.departureTrack"
      android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_span="2" />
+     android:layout_height="wrap_content" />
    </TableRow>
 
    <TableRow
@@ -128,8 +123,7 @@
     <TextView
      android:id="@+id/ticket.details.arrivalTrack"
      android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_span="2" />
+     android:layout_height="wrap_content" />
    </TableRow>
 
    <TableRow
@@ -145,11 +139,17 @@
      android:gravity="right"
      android:text="@string/ticket.details.departure" />
 
-    <Button
-     android:id="@+id/ticket.details.departure"
+    <FrameLayout
+     android:id="@+id/departureLayout1"
      android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:text="20111103 07:21" />
+     android:layout_height="wrap_content" >
+
+     <Button
+      android:id="@+id/ticket.details.departure"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="07:21" />
+    </FrameLayout>
    </TableRow>
 
    <TableRow
@@ -165,11 +165,17 @@
      android:gravity="right"
      android:text="@string/ticket.details.arrival" />
 
-    <Button
-     android:id="@+id/ticket.details.arrival"
+    <FrameLayout
+     android:id="@+id/arrivalLayout"
      android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:text="20111103 08:34" />
+     android:layout_height="wrap_content" >
+
+     <Button
+      android:id="@+id/ticket.details.arrival"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="08:34" />
+    </FrameLayout>
    </TableRow>
 
    <TableRow
@@ -187,7 +193,6 @@
      style="@style/Label"
      android:layout_width="fill_parent"
      android:layout_height="wrap_content"
-     android:layout_span="2"
      android:text="@string/ticket.details.notify" />
    </TableRow>
   </TableLayout>

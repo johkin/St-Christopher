@@ -182,10 +182,10 @@ public class TicketDetails extends RoboActivity {
 
   private void addQuickAction(final View view, final TimeModel timeModel) {
     final QuickAction action = new QuickAction(this);
-    action.addActionItem(new ActionItem(0, "Ordinarie", DateUtil.formatDateTime(timeModel.getOriginal())));
-    action.addActionItem(new ActionItem(0, "Faktisk", DateUtil.formatDateTime(timeModel.getActual())));
-    action.addActionItem(new ActionItem(0, "Uppskattad", DateUtil.formatDateTime(timeModel.getEstimated())));
-    action.addActionItem(new ActionItem(0, "Gissad", DateUtil.formatDateTime(timeModel.getGuessed())));
+    action.addActionItem(new ActionItem(0, "Ordinarie", DateUtil.formatTime(timeModel.getOriginal())));
+    action.addActionItem(new ActionItem(0, "Faktisk", DateUtil.formatTime(timeModel.getActual())));
+    action.addActionItem(new ActionItem(0, "Uppskattad", DateUtil.formatTime(timeModel.getEstimated())));
+    action.addActionItem(new ActionItem(0, "Gissad", DateUtil.formatTime(timeModel.getGuessed())));
     view.setClickable(true);
     view.setOnClickListener(new View.OnClickListener() {
 
@@ -208,16 +208,16 @@ public class TicketDetails extends RoboActivity {
     Calendar selectedTime = null;
     if (timeModel.getActual() != null) {
       selectedTime = timeModel.getActual();
-      view.setText("= " + DateUtil.formatDateTime(selectedTime));
+      view.setText("= " + DateUtil.formatTime(selectedTime));
     } else if (timeModel.getEstimated() != null) {
       selectedTime = timeModel.getEstimated();
-      view.setText("~ " + DateUtil.formatDateTime(selectedTime));
+      view.setText("~ " + DateUtil.formatTime(selectedTime));
     } else if (timeModel.getGuessed() != null) {
       selectedTime = timeModel.getGuessed();
-      view.setText("? " + DateUtil.formatDateTime(selectedTime));
+      view.setText("? " + DateUtil.formatTime(selectedTime));
     } else {
       selectedTime = timeModel.getOriginal();
-      view.setText(DateUtil.formatDateTime(selectedTime));
+      view.setText(DateUtil.formatTime(selectedTime));
     }
     if (timeModel.getOriginal() == selectedTime) {
       return;
