@@ -7,6 +7,7 @@ import se.acrend.christopher.android.billing.Consts.PurchaseState;
 import se.acrend.christopher.android.billing.Consts.ResponseCode;
 import se.acrend.christopher.android.billing.PurchaseObserver;
 import se.acrend.christopher.android.billing.ResponseHandler;
+import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.service.BillingService;
 import se.acrend.christopher.android.service.BillingService.RequestPurchase;
 import se.acrend.christopher.android.util.DateUtil;
@@ -222,8 +223,7 @@ public class SubscriptionDetails extends RoboActivity {
         final String developerPayload) {
       Log.i(TAG, "onPurchaseStateChange() itemId: " + itemId + " " + purchaseState);
       if (purchaseState == PurchaseState.PURCHASED) {
-        // TODO Uppdatera produkter
-        // TODO Schemalägg registrering av kommande resor?
+        startService(new Intent(Intents.PREPARE_REGISTRATION));
       }
     }
 

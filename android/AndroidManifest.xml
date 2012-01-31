@@ -50,7 +50,7 @@
   </receiver>
   <!--
       Only C2DM servers can send messages for the app. If permission is 
-			not set - any other app can generate it
+			not set - any other app can generate it
   -->
   <receiver
    android:name="com.google.android.c2dm.C2DMBroadcastReceiver"
@@ -93,7 +93,11 @@
     <action android:name="se.acrend.christopher.PREPARE_REGISTRATION" />
     <action android:name="se.acrend.christopher.REGISTER_BOOKING" />
     <action android:name="se.acrend.christopher.DELETE_BOOKING" />
+
     <data android:mimeType="vnd.android.cursor.item/se.acrend.christopher.ticket" />
+   </intent-filter>
+   <intent-filter>
+    <action android:name="se.acrend.christopher.PREPARE_REGISTRATION" />
    </intent-filter>
   </service>
   <service android:name=".android.service.UpdateService" >
@@ -102,6 +106,7 @@
    </intent-filter>
    <intent-filter>
     <action android:name="se.acrend.christopher.UPDATE_BOOKING" />
+
     <data android:mimeType="vnd.android.cursor.item/se.acrend.christopher.ticket" />
    </intent-filter>
   </service>

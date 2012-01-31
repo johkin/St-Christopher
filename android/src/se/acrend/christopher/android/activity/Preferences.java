@@ -2,18 +2,18 @@ package se.acrend.christopher.android.activity;
 
 import roboguice.activity.RoboPreferenceActivity;
 import se.acrend.christopher.R;
+import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.preference.AccountHelper;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 
 import com.google.inject.Inject;
 
 public class Preferences extends RoboPreferenceActivity {
 
-  @Inject
-  private Context context;
   @Inject
   private AccountHelper accountHelper;
 
@@ -27,9 +27,16 @@ public class Preferences extends RoboPreferenceActivity {
 
     initAccount(account);
 
-    // TODO Preference som pekar på köp-vy
+    ListPreference readAheadMinutes = (ListPreference) findPreference("readAheadMinutes");
 
-    // TODO Lägg till möjlighet att byta konto för inloggning, registrering.
+    readAheadMinutes.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+      @Override
+      public boolean onPreferenceChange(final Preference preference, final Object newValue) {
+        startService(new Intent(Intents.PREPARE_REGISTRATION));
+        return true;
+      }
+    });
   }
 
   void initAccount(final ListPreference account) {

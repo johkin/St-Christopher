@@ -8,8 +8,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import se.acrend.christopher.R;
-import se.acrend.christopher.android.activity.SimpleMenu;
-import se.acrend.christopher.android.activity.SimpleMenuItem;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.XmlResourceParser;

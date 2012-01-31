@@ -122,9 +122,13 @@ public class RegistrationService extends RoboService {
 
       callRegistration(model, retryCount);
     } else if (Intents.PREPARE_REGISTRATION.equals(intent.getAction())) {
-      DbModel model = providerHelper.findTicket(intent.getData());
+      if (intent.getData() != null) {
+        DbModel model = providerHelper.findTicket(intent.getData());
 
-      registerTimer(context, model);
+        registerTimer(context, model);
+      } else {
+        updatePendingRegistrations();
+      }
     }
   }
 
@@ -262,7 +266,6 @@ public class RegistrationService extends RoboService {
 
           notificationManager.notify(model.getTrain(), 1, notification);
         } else {
-          // TODO Notifiera beroende på antal försök?
           scheduleNewRegistration(model, retryCount);
         }
       }
@@ -273,7 +276,6 @@ public class RegistrationService extends RoboService {
           TicketWidgetProvider.class));
     } catch (Exception e) {
       Log.e(TAG, "Error in callRegistration.", e);
-      // TODO Notifiera beroende på antal försök?
       scheduleNewRegistration(model, retryCount);
     }
     return model.isRegistered();

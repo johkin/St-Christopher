@@ -1,4 +1,4 @@
-package se.acrend.christopher.android.activity;
+package se.acrend.christopher.android.activity.actionbar;
 
 import java.util.ArrayList;
 

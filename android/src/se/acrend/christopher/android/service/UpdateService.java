@@ -47,6 +47,8 @@ public class UpdateService extends RoboIntentService {
 
   private static final String TAG = "UpdateService";
 
+  private static final int MAX_RETRY_COUNT = 5;
+
   @Inject
   private PrefsHelper prefsHelper;
   @Inject
@@ -74,7 +76,7 @@ public class UpdateService extends RoboIntentService {
 
         DbModel model = providerHelper.findTicket(intent.getData());
 
-        updateFromProxy(model);
+        updateFromProxy(model, intent.getIntExtra("retryCount", 1));
 
         providerHelper.update(model);
 
@@ -212,7 +214,11 @@ public class UpdateService extends RoboIntentService {
         TicketWidgetProvider.class));
   }
 
-  public void updateFromProxy(final DbModel model) {
+  public void updateFromProxy(final DbModel model, final int retryCount) {
+    if (retryCount > 5) {
+      // TODO notifiera om problem att hämta information.
+      return;
+    }
 
     try {
       HttpPost post = communicationHelper.createPostRequest(HttpUtil.PROXY_PATH + "/");
@@ -228,9 +234,21 @@ public class UpdateService extends RoboIntentService {
 
       updateModel(model, information);
 
+      // Todo Notifiera om ny info
+
     } catch (IOException e) {
       Log.e(TAG, "Kunde inte uppdatera bokning", e);
       // TODO Notifiera om fel vid uppdatering
+      Intent updateIntent = new Intent(Intents.UPDATE_BOOKING, ContentUris.withAppendedId(ProviderTypes.CONTENT_URI,
+          model.getId()));
+      updateIntent.putExtra("retryCount", retryCount + 1);
+
+      PendingIntent pending = PendingIntent.getBroadcast(context, 0, updateIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+      Calendar fiveMinutes = DateUtil.createCalendar();
+      fiveMinutes.add(Calendar.MINUTE, 5);
+
+      alarmManager.set(AlarmManager.RTC, fiveMinutes.getTimeInMillis(), pending);
     }
 
   }
