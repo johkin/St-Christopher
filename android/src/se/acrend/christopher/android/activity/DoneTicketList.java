@@ -1,5 +1,8 @@
 package se.acrend.christopher.android.activity;
 
+import java.sql.Timestamp;
+import java.util.TimeZone;
+
 import se.acrend.christopher.android.content.ProviderHelper;
 import se.acrend.christopher.android.content.TicketAdapter;
 import android.database.Cursor;
@@ -25,8 +28,9 @@ public class DoneTicketList extends AbtractTicketList {
   Cursor getCursor() {
     Uri tickets = providerHelper.getTicketsUrl();
 
-    Cursor cursor = getContentResolver().query(tickets, TicketAdapter.PROJECTION, "originalArrival < datetime('now')",
-        null, "originalDeparture DESC");
+    Cursor cursor = getContentResolver().query(tickets, TicketAdapter.PROJECTION, "originalArrival < ?",
+        new String[] { new Timestamp(System.currentTimeMillis()
+            - TimeZone.getDefault().getOffset(System.currentTimeMillis())).toString() }, "originalDeparture DESC");
     return cursor;
   }
 }

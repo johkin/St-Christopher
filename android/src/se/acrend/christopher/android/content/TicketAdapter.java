@@ -4,14 +4,10 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 import se.acrend.christopher.R;
-import se.acrend.christopher.android.activity.TicketDetails;
 import se.acrend.christopher.android.util.DateUtil;
 import se.acrend.christopher.android.view.DotView;
-import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,21 +39,6 @@ public class TicketAdapter extends SimpleCursorAdapter {
   public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
     final LayoutInflater inflater = LayoutInflater.from(context);
     View itemView = inflater.inflate(R.layout.ticket_item, parent, false);
-
-    final long id = cursor.getLong(columnIds[0]);
-
-    itemView.setOnClickListener(new View.OnClickListener() {
-
-      @Override
-      public void onClick(final View v) {
-        Uri data = ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, id);
-        Intent intent = new Intent();
-        intent.setData(data);
-        intent.setClass(context, TicketDetails.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-      }
-    });
 
     return itemView;
   }

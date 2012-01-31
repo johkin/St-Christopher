@@ -206,7 +206,7 @@ public class UpdateService extends RoboIntentService {
 
         notification.setLatestEventInfo(context, "Tåg " + model.getTrain(), message.toString(), contentIntent);
 
-        notificationManager.notify(model.getTrain(), 1, notification);
+        notificationManager.notify(model.getTrain(), (int) model.getId(), notification);
       }
     }
 

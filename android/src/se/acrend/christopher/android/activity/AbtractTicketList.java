@@ -2,9 +2,15 @@ package se.acrend.christopher.android.activity;
 
 import roboguice.activity.RoboListActivity;
 import se.acrend.christopher.R;
+import se.acrend.christopher.android.content.ProviderTypes;
 import se.acrend.christopher.android.content.TicketAdapter;
+import android.content.ContentUris;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 public abstract class AbtractTicketList extends RoboListActivity {
@@ -34,5 +40,15 @@ public abstract class AbtractTicketList extends RoboListActivity {
   }
 
   abstract Cursor getCursor();
+
+  @Override
+  protected void onListItemClick(final ListView l, final View v, final int position, final long id) {
+
+    Uri data = ContentUris.withAppendedId(ProviderTypes.CONTENT_URI, id);
+    Intent intent = new Intent();
+    intent.setData(data);
+    intent.setClass(getApplicationContext(), TicketDetails.class);
+    startActivity(intent);
+  }
 
 }
