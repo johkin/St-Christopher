@@ -5,7 +5,7 @@
  <parent>
   <groupId>se.acrend.christopher</groupId>
   <artifactId>christopher-parent</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0-SNAPSHOT</version>
  </parent>
 
  <artifactId>christopher-android</artifactId>
@@ -16,12 +16,12 @@
   <dependency>
    <groupId>se.acrend.christopher</groupId>
    <artifactId>christopher-shared</artifactId>
-   <version>0.1.0</version>
+   <version>0.2.0-SNAPSHOT</version>
   </dependency>
   <dependency>
    <groupId>se.acrend.christopher</groupId>
    <artifactId>christopher-libs</artifactId>
-   <version>0.1.0</version>
+   <version>0.2.0-SNAPSHOT</version>
    <type>pom</type>
    <scope>import</scope>
   </dependency>
@@ -138,6 +138,11 @@
        <sign>
         <debug>false</debug>
        </sign>
+       <zipalign>
+        <verbose>false</verbose>
+        <inputApk>${project.build.directory}/${project.artifactId}.apk</inputApk>
+        <outputApk>${project.build.directory}/${project.artifactId}-signed-aligned.apk</outputApk>
+       </zipalign>
       </configuration>
      </plugin>
     </plugins>
