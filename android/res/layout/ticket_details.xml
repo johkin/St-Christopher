@@ -13,10 +13,7 @@
    android:layout_width="fill_parent"
    android:layout_height="wrap_content" >
 
-   <TableRow
-    android:id="@+id/trainNoRow"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+   <TableRow>
 
     <TextView
      android:id="@+id/details.trainNoLabel"
@@ -29,12 +26,6 @@
      android:id="@+id/ticket.details.trainNo"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content" />
-   </TableRow>
-
-   <TableRow
-    android:id="@+id/codeRow"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
 
     <TextView
      android:id="@+id/details.ticketCodeLabel"
@@ -50,10 +41,7 @@
      android:layout_height="wrap_content" />
    </TableRow>
 
-   <TableRow
-    android:id="@+id/carRow"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+   <TableRow>
 
     <TextView
      android:id="@+id/ticket.details.carLabel"
@@ -67,12 +55,6 @@
      android:id="@+id/ticket.details.car"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content" />
-   </TableRow>
-
-   <TableRow
-    android:id="@+id/seatRow"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
 
     <TextView
      android:id="@+id/ticket.details.seatLabel"
@@ -88,10 +70,7 @@
      android:layout_height="wrap_content" />
    </TableRow>
 
-   <TableRow
-    android:id="@+id/departureTrackRow"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+   <TableRow>
 
     <TextView
      android:id="@+id/ticket.details.departureTrackLabel"
@@ -105,12 +84,23 @@
      android:id="@+id/ticket.details.departureTrack"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content" />
+
+    <TextView
+     android:id="@+id/ticket.details.departureInfoLabel"
+     style="@style/Label"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:gravity="right"
+     android:text="@string/ticket.details.info" />
+
+    <TextView
+     android:id="@+id/ticket.details.departureInfo"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:ellipsize="marquee" />
    </TableRow>
 
-   <TableRow
-    android:id="@+id/arrivalTrackRow"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+   <TableRow>
 
     <TextView
      android:id="@+id/ticket.details.arrivalTrackLabel"
@@ -124,12 +114,23 @@
      android:id="@+id/ticket.details.arrivalTrack"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content" />
+
+    <TextView
+     android:id="@+id/ticket.details.arrivalInfoLabel"
+     style="@style/Label"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:gravity="right"
+     android:text="@string/ticket.details.info" />
+
+    <TextView
+     android:id="@+id/ticket.details.arrivalInfo"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:ellipsize="marquee" />
    </TableRow>
 
-   <TableRow
-    android:id="@+id/departureRow"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+   <TableRow>
 
     <TextView
      android:id="@+id/ticket.details.departureLabel"
@@ -142,7 +143,8 @@
     <FrameLayout
      android:id="@+id/departureLayout1"
      android:layout_width="wrap_content"
-     android:layout_height="wrap_content" >
+     android:layout_height="wrap_content"
+     android:layout_span="2" >
 
      <Button
       android:id="@+id/ticket.details.departure"
@@ -152,10 +154,7 @@
     </FrameLayout>
    </TableRow>
 
-   <TableRow
-    android:id="@+id/arrivalRow"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+   <TableRow>
 
     <TextView
      android:id="@+id/ticket.details.arrivalLabel"
@@ -168,7 +167,8 @@
     <FrameLayout
      android:id="@+id/arrivalLayout"
      android:layout_width="wrap_content"
-     android:layout_height="wrap_content" >
+     android:layout_height="wrap_content"
+     android:layout_span="2" >
 
      <Button
       android:id="@+id/ticket.details.arrival"
@@ -178,10 +178,7 @@
     </FrameLayout>
    </TableRow>
 
-   <TableRow
-    android:id="@+id/notifyRow"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+   <TableRow>
 
     <ToggleButton
      android:id="@+id/ticket.details.notify"
@@ -193,6 +190,8 @@
      style="@style/Label"
      android:layout_width="fill_parent"
      android:layout_height="wrap_content"
+     android:layout_span="3"
+     android:layout_weight="1"
      android:text="@string/ticket.details.notify" />
    </TableRow>
   </TableLayout>

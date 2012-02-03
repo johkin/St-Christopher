@@ -32,15 +32,18 @@ public class ComingTicketList extends AbtractTicketList {
     Uri tickets = providerHelper.getTicketsUrl();
 
     Log.d(TAG, "Local: " + new Timestamp(System.currentTimeMillis()).toString());
-    Log.d(TAG, "UTC: " + new Timestamp(System.currentTimeMillis()
-        - TimeZone.getDefault().getOffset(System.currentTimeMillis())).toString());
+    Log.d(
+        TAG,
+        "UTC: "
+            + new Timestamp(System.currentTimeMillis() - TimeZone.getDefault().getOffset(System.currentTimeMillis()))
+                .toString());
 
-    Cursor cursor = getContentResolver().query(
-        tickets,
-        TicketAdapter.PROJECTION,
-        "originalArrival > ?",
-        new String[] { new Timestamp(System.currentTimeMillis()
-            - TimeZone.getDefault().getOffset(System.currentTimeMillis())).toString() }, "originalDeparture ASC");
+    String timestampString = new Timestamp(System.currentTimeMillis()
+        - TimeZone.getDefault().getOffset(System.currentTimeMillis())).toString();
+
+    Cursor cursor = getContentResolver().query(tickets, TicketAdapter.PROJECTION,
+        "(originalArrival > ? and actualArrival is null) or (actualArrival > ?)",
+        new String[] { timestampString, timestampString }, "originalDeparture ASC");
     return cursor;
   }
 }

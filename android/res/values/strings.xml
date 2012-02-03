@@ -78,6 +78,7 @@
  <string name="ticket.details.notify">Signalera vid ändrad tid</string>
  <string name="ticket.details.checkTraffic">Kontrollera trafik</string>
  <string name="ticket.details.showTicket">Visa biljett</string>
+ <string name="ticket.details.info">Info:</string>
  <string name="ticket.details.register.wait">Registrerar bokning, vänligen vänta...</string>
  <string name="ticket.details.unregister.wait">Tar bort bokning, vänligen vänta...</string>
  <string name="ticket.text.title">Mobilbiljett</string>

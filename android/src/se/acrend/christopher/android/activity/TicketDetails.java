@@ -17,6 +17,7 @@ import se.acrend.christopher.android.util.DateUtil;
 import se.acrend.christopher.android.util.TimeSource;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -56,6 +57,10 @@ public class TicketDetails extends RoboActivity {
   private TextView arrivalTrack;
   @InjectView(R.id.ticket_details_departureTrack)
   private TextView departureTrack;
+  @InjectView(R.id.ticket_details_arrivalInfo)
+  private TextView arrivalInfo;
+  @InjectView(R.id.ticket_details_departureInfo)
+  private TextView departureInfo;
   @InjectView(R.id.ticket_details_departure)
   private TextView departure;
   @InjectView(R.id.ticket_details_arrival)
@@ -66,6 +71,9 @@ public class TicketDetails extends RoboActivity {
   private ToggleButton notify;
   @InjectView(R.id.ticket_details_showTicket)
   private Button showTicket;
+
+  @Inject
+  private NotificationManager notificationManager;
 
   @Inject
   private ProviderHelper providerHelper;
@@ -141,6 +149,8 @@ public class TicketDetails extends RoboActivity {
     Log.d(TAG, "updateView");
     model = providerHelper.findTicket(getIntent().getData());
 
+    notificationManager.cancel(model.getTrain(), (int) model.getId());
+
     setTitle(model.getFrom() + " - " + model.getTo());
 
     trainNo.setText(model.getTrain());
@@ -153,7 +163,10 @@ public class TicketDetails extends RoboActivity {
       seat.setText(model.getSeat());
     }
     arrivalTrack.setText(model.getArrivalTrack());
+    arrivalInfo.setText(model.getArrival().getInfo());
+
     departureTrack.setText(model.getDepartureTrack());
+    departureInfo.setText(model.getDeparture().getInfo());
 
     addQuickAction(departure, model.getDeparture());
     addQuickAction(arrival, model.getArrival());

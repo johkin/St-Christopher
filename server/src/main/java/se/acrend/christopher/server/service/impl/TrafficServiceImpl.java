@@ -120,17 +120,21 @@ public class TrafficServiceImpl {
 
       if (departureStop != null) {
         result.setDepartureTrack((String) departureStop.getProperty("departureTrack"));
+        result.setOriginalDeparture(DateUtil.toCalendar((Date) departureStop.getProperty("originalDeparture")));
         result.setActualDeparture(DateUtil.toCalendar((Date) departureStop.getProperty("actualDeparture")));
         result.setEstimatedDeparture(DateUtil.toCalendar((Date) departureStop.getProperty("estimatedDeparture")));
         result.setGuessedDeparture(DateUtil.toCalendar((Date) departureStop.getProperty("guessedDeparture")));
+        result.setDepartureInfo((String) departureStop.getProperty("departureInfo"));
       } else {
         log.warn("Kunde inte hitta station {} för tåg {}", from, trainNo);
       }
       if (arrivalStop != null) {
         result.setArrivalTrack((String) arrivalStop.getProperty("arrivalTrack"));
-        result.setActualArrival(DateUtil.toCalendar((Date) arrivalStop.getProperty("actualDeparture")));
-        result.setEstimatedArrival(DateUtil.toCalendar((Date) arrivalStop.getProperty("estimatedDeparture")));
+        result.setOriginalArrival(DateUtil.toCalendar((Date) arrivalStop.getProperty("originalArrival")));
+        result.setActualArrival(DateUtil.toCalendar((Date) arrivalStop.getProperty("actualArrival")));
+        result.setEstimatedArrival(DateUtil.toCalendar((Date) arrivalStop.getProperty("estimatedArrival")));
         result.setGuessedArrival(DateUtil.toCalendar((Date) arrivalStop.getProperty("guessedArrival")));
+        result.setArrivalInfo((String) departureStop.getProperty("arrivalInfo"));
       } else {
         log.warn("Kunde inte hitta station {} för tåg {}", to, trainNo);
       }

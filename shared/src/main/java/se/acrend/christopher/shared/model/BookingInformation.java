@@ -8,16 +8,20 @@ public class BookingInformation extends AbstractResponse implements Serializable
   private static final long serialVersionUID = 1L;
 
   private String departureTrack;
-  private String arrivalTrack;
+  private String departureInfo;
 
+  private String arrivalTrack;
+  private String arrivalInfo;
+
+  private Calendar originalDeparture;
   private Calendar actualDeparture;
   private Calendar estimatedDeparture;
+  private Calendar guessedDeparture;
 
+  private Calendar originalArrival;
   private Calendar actualArrival;
   private Calendar estimatedArrival;
-
   private Calendar guessedArrival;
-  private Calendar guessedDeparture;
 
   public String getDepartureTrack() {
     return departureTrack;
@@ -82,4 +86,37 @@ public class BookingInformation extends AbstractResponse implements Serializable
   public void setGuessedDeparture(final Calendar guessedDeparture) {
     this.guessedDeparture = guessedDeparture;
   }
+
+  public String getDepartureInfo() {
+    return departureInfo;
+  }
+
+  public void setDepartureInfo(final String departureInfo) {
+    this.departureInfo = departureInfo;
+  }
+
+  public String getArrivalInfo() {
+    return arrivalInfo;
+  }
+
+  public void setArrivalInfo(final String arrivalInfo) {
+    this.arrivalInfo = arrivalInfo;
+  }
+
+  public Calendar getOriginalDeparture() {
+    return originalDeparture;
+  }
+
+  public void setOriginalDeparture(final Calendar originalDeparture) {
+    this.originalDeparture = originalDeparture;
+  }
+
+  public Calendar getOriginalArrival() {
+    return originalArrival;
+  }
+
+  public void setOriginalArrival(final Calendar originalArrival) {
+    this.originalArrival = originalArrival;
+  }
+
 }

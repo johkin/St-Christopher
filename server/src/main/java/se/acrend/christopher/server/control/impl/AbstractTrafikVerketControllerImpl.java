@@ -32,6 +32,21 @@ public class AbstractTrafikVerketControllerImpl {
     }
   }
 
+  void updateGuessedTime(final List<StationInfo> stations, final StationInfo previousStation, final int guessCount) {
+    if (stations.isEmpty()) {
+      return;
+    }
+    StationInfo currentStation = stations.get(0);
+    if (previousStation != null) {
+      if (hasActualTime(previousStation.getDeparture())) {
+        long delayedMillis = previousStation.getDeparture().getDelayedMillis();
+        updateGuessedTime(delayedMillis, currentStation.getArrival());
+        updateGuessedTime(delayedMillis, currentStation.getDeparture());
+      }
+    }
+    updateGuessedTime(stations.subList(1, stations.size()), currentStation, guessCount + 1);
+  }
+
   private boolean hasActualTime(final TimeInfo time) {
     if (time == null) {
       return false;

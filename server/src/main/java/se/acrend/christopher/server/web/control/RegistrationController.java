@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import se.acrend.christopher.server.service.impl.TrafficServiceImpl;
 import se.acrend.christopher.server.util.DateUtil;
-import se.acrend.christopher.shared.model.AbstractResponse;
+import se.acrend.christopher.shared.model.BookingInformation;
 import se.acrend.christopher.shared.parser.ParserFactory;
 
 import com.google.gson.Gson;
@@ -36,7 +36,8 @@ public class RegistrationController {
     try {
       Calendar cal = DateUtil.parseDate(date);
 
-      AbstractResponse result = trafficService.registerBooking(code, trainNo, cal.getTime(), from, to, registrationId);
+      BookingInformation result = trafficService
+          .registerBooking(code, trainNo, cal.getTime(), from, to, registrationId);
 
       resp.setContentType("application/json");
       resp.setCharacterEncoding("UTF-8");

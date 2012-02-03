@@ -111,7 +111,7 @@ public class MessageWrapper {
     ValidatorHelper.notEmpty(arrival, "Ankomst");
 
     if (departure.after(arrival)) {
-      throw new IllegalArgumentException("Avgång kan inte vara efter ankomst.");
+      throw new IllegalArgumentException("Avgång kan inte vara efter ankomst. Meddelande: " + message);
     }
   }
 

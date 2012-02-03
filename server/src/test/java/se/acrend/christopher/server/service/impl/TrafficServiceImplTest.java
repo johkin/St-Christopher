@@ -1,8 +1,6 @@
 package se.acrend.christopher.server.service.impl;
 
 import org.junit.Before;
-import org.junit.Test;
-
 
 public class TrafficServiceImplTest {
 
@@ -11,12 +9,6 @@ public class TrafficServiceImplTest {
   @Before
   public void setUp() throws Exception {
     service = new TrafficServiceImpl();
-  }
-
-  @Test
-  public void test() {
-
-    TrainStopField f = TrainStopField.ActualArrival;
   }
 
 }

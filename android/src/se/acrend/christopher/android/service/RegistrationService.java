@@ -219,14 +219,18 @@ public class RegistrationService extends RoboService {
         model.setArrivalTrack(information.getArrivalTrack());
 
         TimeModel departure = model.getDeparture();
+        departure.setOriginal(information.getOriginalDeparture());
         departure.setActual(information.getActualDeparture());
         departure.setEstimated(information.getEstimatedDeparture());
         departure.setGuessed(information.getGuessedDeparture());
+        departure.setInfo(information.getDepartureInfo());
 
         TimeModel arrival = model.getArrival();
-        arrival.setEstimated(information.getActualArrival());
+        arrival.setOriginal(information.getOriginalArrival());
+        arrival.setActual(information.getActualArrival());
         arrival.setEstimated(information.getEstimatedArrival());
         arrival.setGuessed(information.getGuessedArrival());
+        arrival.setInfo(information.getArrivalInfo());
       } else {
         Log.w(TAG, "Tog emot fel från server: " + information.getErrorCode());
         model.setRegistered(false);

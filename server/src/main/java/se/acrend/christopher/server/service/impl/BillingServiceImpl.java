@@ -15,6 +15,7 @@ import se.acrend.christopher.server.dao.ServerDataDao;
 import se.acrend.christopher.server.entity.ProductEntity.ProductCategory;
 import se.acrend.christopher.server.entity.ProductEntity.ProductType;
 import se.acrend.christopher.server.util.DateUtil;
+import se.acrend.christopher.server.util.EntityUtil;
 import se.acrend.christopher.shared.model.PrepareBillingInfo;
 import se.acrend.christopher.shared.model.ProductList;
 import se.acrend.christopher.shared.model.ProductList.Product;
@@ -43,8 +44,8 @@ public class BillingServiceImpl {
 
     SubscriptionInfo result = new SubscriptionInfo();
 
-    result.setNotificationCount(((Long) subscription.getProperty("notificationCount")).intValue());
-    result.setTravelWarrantCount(((Long) subscription.getProperty("travelWarrantCount")).intValue());
+    result.setNotificationCount(EntityUtil.getInt(subscription, "notificationCount", 0));
+    result.setTravelWarrantCount(EntityUtil.getInt(subscription, "travelWarrantCount", 0));
     result.setNotificationExpireDate(DateUtil.toCalendar((Date) subscription.getProperty("notificationExpireDate")));
     result.setTravelWarrantExpireDate(DateUtil.toCalendar((Date) subscription.getProperty("travelWarrantExpireDate")));
     result.setReturnCode(ReturnCode.Success);
@@ -97,8 +98,8 @@ public class BillingServiceImpl {
 
     subscriptionController.update(subscription);
 
-    result.setNotificationCount(((Long) subscription.getProperty("notificationCount")).intValue());
-    result.setTravelWarrantCount(((Long) subscription.getProperty("travelWarrantCount")).intValue());
+    result.setNotificationCount(EntityUtil.getInt(subscription, "notificationCount", 0));
+    result.setTravelWarrantCount(EntityUtil.getInt(subscription, "travelWarrantCount", 0));
     result.setNotificationExpireDate(DateUtil.toCalendar((Date) subscription.getProperty("notificationExpireDate")));
     result.setTravelWarrantExpireDate(DateUtil.toCalendar((Date) subscription.getProperty("travelWarrantExpireDate")));
 

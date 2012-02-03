@@ -72,8 +72,8 @@ public class CreateTicketActivity extends RoboActivity {
 
     from.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item,
         names));
-    to.setAdapter(new ArrayAdapter<String>(getApplicationContext(),
-        android.R.layout.simple_spinner_dropdown_item, names));
+    to.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item,
+        names));
 
     Calendar now = Calendar.getInstance(SharedDateUtil.SWEDISH_TIMEZONE, SharedDateUtil.SWEDISH_LOCALE);
     dateText.setText(dateFormat.format(now.getTime()));
@@ -206,13 +206,11 @@ public class CreateTicketActivity extends RoboActivity {
 
     StringBuilder message = new StringBuilder(dateText.getText());
     message.append("\n").append("+'220572436'+\n").append("+'903765246'+\n").append("+'373740923'+\n")
-        .append("+'692092924'+\n").append("ÅRSKOR GULD\n");
+        .append("+'692092924'+\n").append("ÅRSKORTS GULD\n");
 
-    message.append("Avg. ").append(from.getSelectedItem()).append(" ")
-        .append(departureText.getText()).append("\n");
+    message.append("Avg. ").append(from.getSelectedItem()).append(" ").append(departureText.getText()).append("\n");
 
-    message.append("Ank. ").append(to.getSelectedItem()).append(" ")
-        .append(arrivalText.getText()).append("\n");
+    message.append("Ank. ").append(to.getSelectedItem()).append(" ").append(arrivalText.getText()).append("\n");
     message.append("Tåg: ").append(trainNo.getText()).append("\n");
     message.append("VU, 1 klass Kan återbetalas\n");
     message.append("Vagn 2, plats 30\n");

@@ -28,9 +28,12 @@ public class DoneTicketList extends AbtractTicketList {
   Cursor getCursor() {
     Uri tickets = providerHelper.getTicketsUrl();
 
-    Cursor cursor = getContentResolver().query(tickets, TicketAdapter.PROJECTION, "originalArrival < ?",
-        new String[] { new Timestamp(System.currentTimeMillis()
-            - TimeZone.getDefault().getOffset(System.currentTimeMillis())).toString() }, "originalDeparture DESC");
+    String timestampString = new Timestamp(System.currentTimeMillis()
+        - TimeZone.getDefault().getOffset(System.currentTimeMillis())).toString();
+
+    Cursor cursor = getContentResolver().query(tickets, TicketAdapter.PROJECTION,
+        "(originalArrival < ? and actualArrival is null) or (actualArrival < ?)",
+        new String[] { timestampString, timestampString }, "originalDeparture DESC");
     return cursor;
   }
 }
