@@ -6,10 +6,14 @@ import se.acrend.christopher.R;
 import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.preference.PrefsHelper;
 import se.acrend.christopher.shared.util.SharedConstants;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -30,7 +34,7 @@ public class RegisterDevice extends RoboActivity {
   @InjectView(R.id.register_device_register)
   private Button register;
 
-  private ProgressDialog dialog;
+  private Dialog dialog;
 
   private BroadcastReceiver receiver;
 
@@ -74,10 +78,25 @@ public class RegisterDevice extends RoboActivity {
 
           next.setEnabled(true);
           context.unregisterReceiver(receiver);
+        } else {
+          OnCancelListener listener = new OnCancelListener() {
+
+            @Override
+            public void onCancel(final DialogInterface dialog) {
+              RegisterDevice.this.setResult(RESULT_CANCELED);
+              finish();
+            }
+          };
+
+          dialog = new AlertDialog.Builder(context).setTitle("Fel vi registrering")
+              .setMessage("Meddelande från server: " + intent.getStringExtra("errorId")).setCancelable(true)
+              .setOnCancelListener(listener).create();
+          dialog.show();
         }
       }
     };
     context.registerReceiver(receiver, new IntentFilter(Intents.C2DM_REGISTRATION_FINISHED));
+    context.registerReceiver(receiver, new IntentFilter(Intents.C2DM_REGISTRATION_ERROR));
 
     next.setOnClickListener(new View.OnClickListener() {
 
@@ -87,5 +106,6 @@ public class RegisterDevice extends RoboActivity {
         finish();
       }
     });
+
   }
 }

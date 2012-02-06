@@ -54,5 +54,10 @@ public class C2DMReceiver extends C2DMBaseReceiver {
   @Override
   public void onError(final Context context, final String errorId) {
     Log.e("C2DM", "Error received: " + errorId);
+
+    Intent intent = new Intent(Intents.C2DM_REGISTRATION_ERROR);
+    intent.putExtra("result", false);
+    intent.putExtra("errorId", errorId);
+    context.sendBroadcast(intent);
   }
 }
