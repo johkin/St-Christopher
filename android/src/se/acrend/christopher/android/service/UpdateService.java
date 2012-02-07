@@ -19,10 +19,11 @@ import se.acrend.christopher.android.content.ProviderTypes;
 import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.model.DbModel;
 import se.acrend.christopher.android.model.DbModel.TimeModel;
-import se.acrend.christopher.android.preference.PrefsHelper;
+import se.acrend.christopher.android.service.ServerCommunicationHelper.ResponseCallback;
 import se.acrend.christopher.android.util.DateUtil;
 import se.acrend.christopher.android.util.HttpUtil;
 import se.acrend.christopher.android.widget.TicketWidgetProvider;
+import se.acrend.christopher.shared.exception.TemporaryException;
 import se.acrend.christopher.shared.model.StationInfo;
 import se.acrend.christopher.shared.model.TimeInfo;
 import se.acrend.christopher.shared.model.TimeInfo.Status;
@@ -49,8 +50,6 @@ public class UpdateService extends RoboIntentService {
 
   private static final int MAX_RETRY_COUNT = 5;
 
-  @Inject
-  private PrefsHelper prefsHelper;
   @Inject
   private ProviderHelper providerHelper;
   @Inject
@@ -227,16 +226,24 @@ public class UpdateService extends RoboIntentService {
       nameValuePairs.add(new BasicNameValuePair("trainNo", model.getTrain()));
       nameValuePairs.add(new BasicNameValuePair("date", DateUtil.formatDate(model.getDeparture().getOriginal())));
 
-      HttpResponse response = communicationHelper.callServer(post, nameValuePairs);
+      TrainInfo information = communicationHelper.callServer(post, nameValuePairs, new ResponseCallback<TrainInfo>() {
 
-      Gson gson = ParserFactory.createParser();
-      TrainInfo information = gson.fromJson(new InputStreamReader(response.getEntity().getContent()), TrainInfo.class);
+        @Override
+        public TrainInfo doWithResponse(final HttpResponse response) throws IOException {
+          Gson gson = ParserFactory.createParser();
+          TrainInfo information = gson.fromJson(new InputStreamReader(response.getEntity().getContent()),
+              TrainInfo.class);
+
+          return information;
+        }
+
+      });
 
       updateModel(model, information);
 
       // Todo Notifiera om ny info
 
-    } catch (IOException e) {
+    } catch (TemporaryException e) {
       Log.e(TAG, "Kunde inte uppdatera bokning", e);
       // TODO Notifiera om fel vid uppdatering
       Intent updateIntent = new Intent(Intents.UPDATE_BOOKING, ContentUris.withAppendedId(ProviderTypes.CONTENT_URI,

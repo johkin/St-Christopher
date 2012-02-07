@@ -1,5 +1,6 @@
 package se.acrend.christopher.android.service;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -23,10 +24,12 @@ import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.model.DbModel;
 import se.acrend.christopher.android.model.DbModel.TimeModel;
 import se.acrend.christopher.android.preference.PrefsHelper;
+import se.acrend.christopher.android.service.ServerCommunicationHelper.ResponseCallback;
 import se.acrend.christopher.android.util.DateUtil;
 import se.acrend.christopher.android.util.HttpUtil;
 import se.acrend.christopher.android.util.TimeSource;
 import se.acrend.christopher.android.widget.TicketWidgetProvider;
+import se.acrend.christopher.shared.exception.TemporaryException;
 import se.acrend.christopher.shared.model.BookingInformation;
 import se.acrend.christopher.shared.model.ErrorCode;
 import se.acrend.christopher.shared.model.ReturnCode;
@@ -161,7 +164,7 @@ public class RegistrationService extends RoboService {
 
       context.sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).setClass(context,
           TicketWidgetProvider.class));
-    } catch (Exception e) {
+    } catch (TemporaryException e) {
       Log.e(TAG, "Error in delete.", e);
     }
   }
@@ -169,25 +172,24 @@ public class RegistrationService extends RoboService {
   private void callUnRegister(final DbModel info) {
     Log.d(TAG, "UnRegister booking");
 
-    try {
+    HttpPost post = communicationHelper.createPostRequest(HttpUtil.REGISTRATION_PATH + "/unregister");
 
-      HttpPost post = communicationHelper.createPostRequest(HttpUtil.REGISTRATION_PATH + "/unregister");
+    List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+    nameValuePairs.add(new BasicNameValuePair("code", info.getCode()));
 
-      List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-      nameValuePairs.add(new BasicNameValuePair("code", info.getCode()));
+    boolean result = communicationHelper.callServer(post, nameValuePairs, new ResponseCallback<Boolean>() {
 
-      HttpResponse response = communicationHelper.callServer(post, nameValuePairs);
-
-      if (HttpStatus.SC_OK == response.getStatusLine().getStatusCode()) {
-        info.setRegistered(false);
+      @Override
+      public Boolean doWithResponse(final HttpResponse response) throws IOException {
+        return HttpStatus.SC_OK == response.getStatusLine().getStatusCode();
       }
+    });
 
-      providerHelper.update(info);
-
-      response.getEntity().consumeContent();
-    } catch (Exception e) {
-      Log.e(TAG, "Error in callUnRegister.", e);
+    if (result) {
+      info.setRegistered(false);
     }
+
+    providerHelper.update(info);
   }
 
   public boolean callRegistration(final DbModel model, final int retryCount) {
@@ -206,11 +208,19 @@ public class RegistrationService extends RoboService {
       nameValuePairs.add(new BasicNameValuePair("date", DateUtil.formatDate(model.getDeparture().getOriginal())));
       nameValuePairs.add(new BasicNameValuePair("registrationId", registrationId));
 
-      HttpResponse response = communicationHelper.callServer(post, nameValuePairs);
+      BookingInformation information = communicationHelper.callServer(post, nameValuePairs,
+          new ResponseCallback<BookingInformation>() {
 
-      Gson gson = ParserFactory.createParser();
-      BookingInformation information = gson.fromJson(new InputStreamReader(response.getEntity().getContent()),
-          BookingInformation.class);
+            @Override
+            public BookingInformation doWithResponse(final HttpResponse response) throws IOException {
+              Gson gson = ParserFactory.createParser();
+              BookingInformation information = gson.fromJson(new InputStreamReader(response.getEntity().getContent()),
+                  BookingInformation.class);
+
+              return information;
+            }
+
+          });
 
       if (information.getReturnCode() == ReturnCode.Success) {
         model.setRegistered(true);
@@ -278,7 +288,7 @@ public class RegistrationService extends RoboService {
 
       context.sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).setClass(context,
           TicketWidgetProvider.class));
-    } catch (Exception e) {
+    } catch (TemporaryException e) {
       Log.e(TAG, "Error in callRegistration.", e);
       scheduleNewRegistration(model, retryCount);
     }

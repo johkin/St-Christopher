@@ -36,6 +36,7 @@ public class ChristopherApp extends RoboInjectableApplication {
 
   @Override
   public void onTerminate() {
+    analyticsTracker.dispatch();
     analyticsTracker.stopSession();
   }
 

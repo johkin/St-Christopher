@@ -23,12 +23,12 @@
     Informationen om tid och spår hämtas från Trafikverket, kontrollera alltid när du kommer till stationen så att 
     informationen i applikationen stämmer med informationen på tavlorna. Den tid som anges som \'Gissad tid\' beräknas
     från senast kända station och stämmer oftast bra, men ibland kan tågen köra ikapp på vissa sträckor. Här får man
-    ibland lita till sitt egna sunda förnuft, om man ska gå efter det gissade tiderna.  
+    lita till sitt egna sunda förnuft, om man ska gå efter det gissade tiderna.  
     \n
     Instruktioner\n
     \t1. Välj vilket Google-konto du vill använda för registrering av dina bokningar.\n
     \t2. Klicka för att registrera din telefon/enhet, så att du kan ta emot uppdateringar av information.\n
-    \t3. Placera ut en widget på någon av din hemskärm för att på ett enkelt sätt få den senaste informationen.
+    \t3. Placera ut en widget på någon av din hemskärm för att på ett enkelt sätt få den senaste informationen.\n
     \t4. Inställningarna är nu klara och du kan invänta din första resa.\n
     \t5. Om du känner dig trygg med att applikationen fungerar, välj "Ta bort bearbetade SMS".\n 
     \t\tApplikationen kommer då att ta bort meddelandet från inkorgen.\n
@@ -62,9 +62,22 @@
  <string name="prefs.category.account.title">Konto</string>
  <string name="prefs.category.account.summary">Välj Google-konto för kommunikation med server.</string>
  <string name="prefs.category.c2dmregistration.title">Registrering av push-meddelanden</string>
- <string name="prefs.category.c2dmregistration.summary">Klicka nedan för att starta registrering av din enhet. Registreringen kan ta några sekunder.</string>
+ <string name="prefs.category.c2dmregistration.summary">För att kunna ta emot uppdateringar för dina bokningar behöver du registrera din telefon som mottagare av Push-meddelanden hos Google.<br />
+Resultatet av registreringen visas som en notifiering. Efter att du har tagit emot en godkänd registrering kan du börja använda applikationen.<br />
+Klicka nedan för att starta registrering av din enhet.</string>
  <string name="prefs.category.c2dmregistration.register">Registrera</string>
  <string name="prefs.category.c2dmregistration.wait">Registrerar enhet, vänligen vänta...</string>
+ <string name="prefs.category.c2dmregistration.success.title">Registrering klar</string>
+ <string name="prefs.category.c2dmregistration.success.message">Din enhet är nu registrerad hos Google och du kan börja använda applikationen.</string>
+ <string name="prefs.category.c2dmregistration.error.title">Fel vid registrering av enhet</string>
+ <string name="prefs.category.c2dmregistration.error.serverMessage">Meddelande från Google-server:<br />
+ </string>
+ <string name="prefs.category.c2dmregistration.error.SERVICE_NOT_AVAILABLE">Tillfälligt fel vid registrering av enhet hos Google. Har schemalagt nytt försök vid senare tillfälle.</string>
+ <string name="prefs.category.c2dmregistration.error.ACCOUNT_MISSING">Google kan inte hitta ditt konto, kontrollera att du har registrerat ett Google-konto på din telefon.</string>
+ <string name="prefs.category.c2dmregistration.error.AUTHENTICATION_FAILED">Kunde inte logga in på Googles server, kontrollera att du har rätt användarnamn och lösenord på ditt Google-konto på telefonen.</string>
+ <string name="prefs.category.c2dmregistration.error.TOO_MANY_REGISTRATIONS">Din telefon är kopplad till för många applikationer som använder Push-meddelanden. Avinstallera några applikationer som använder Push-meddelanden och försök sedan igen.</string>
+ <string name="prefs.category.c2dmregistration.error.INVALID_SENDER">Avsändande konto är inte godkänt av Google. Kontrollera om du har senaste versionen av applikationen eller kontakta Acrend för support.</string>
+ <string name="prefs.category.c2dmregistration.error.PHONE_REGISTRATION_ERROR">Din telefon stödjer tyvärr inte Push-meddelanden, applikationen kommer inte att kunna fungera på denna enhet.</string>
  <string name="ticket.details.trainNo">Tågnr:</string>
  <string name="ticket.details.ticketCode">Biljettkod:</string>
  <string name="ticket.details.car">Vagn:</string>

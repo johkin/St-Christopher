@@ -18,6 +18,8 @@ import android.view.MenuInflater;
 public abstract class ActionBarHelper {
   protected Activity mActivity;
 
+  private boolean homeButtonEnabled = false;
+
   /**
    * Factory method for creating {@link ActionBarHelper} objects for a given
    * activity. Depending on which device the app is running, either a basic
@@ -83,5 +85,11 @@ public abstract class ActionBarHelper {
     return superMenuInflater;
   }
 
-  public abstract void setHomeButtonEnabled(final boolean enabled);
+  public void setHomeButtonEnabled(final boolean enabled) {
+    homeButtonEnabled = enabled;
+  }
+
+  public boolean isHomeButtonEnabled() {
+    return homeButtonEnabled;
+  }
 }

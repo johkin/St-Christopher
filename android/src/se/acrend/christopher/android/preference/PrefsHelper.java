@@ -36,9 +36,16 @@ public class PrefsHelper {
     return prefs.getBoolean("replaceTicket", false);
   }
 
-  public static boolean isProcessIncommingMessages(final Context context) {
+  public boolean isProcessIncommingMessages() {
     SharedPreferences prefs = getPrefs(context);
     return prefs.getBoolean("processIncomingMessages", false);
+  }
+
+  public void setProcessIncommingMessages(final boolean processIncomingMessages) {
+    SharedPreferences prefs = getPrefs(context);
+    Editor editor = prefs.edit();
+    editor.putBoolean("processIncomingMessages", processIncomingMessages);
+    editor.commit();
   }
 
   public int getReadAheadMinutes() {

@@ -10,9 +10,9 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 
+import se.acrend.christopher.android.service.ServerCommunicationHelper.ResponseCallback;
 import se.acrend.christopher.android.util.HttpUtil;
 import se.acrend.christopher.shared.exception.PermanentException;
-import se.acrend.christopher.shared.exception.TemporaryException;
 import se.acrend.christopher.shared.model.PrepareBillingInfo;
 import se.acrend.christopher.shared.model.ProductList;
 import se.acrend.christopher.shared.model.SubscriptionInfo;
@@ -37,20 +37,24 @@ public class BillingHelper {
 
       List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 
-      HttpResponse response = communicationHelper.callServer(post, parameters);
+      SubscriptionInfo information = communicationHelper.callServer(post, parameters,
+          new ResponseCallback<SubscriptionInfo>() {
 
-      Gson gson = ParserFactory.createParser();
-      SubscriptionInfo information = gson.fromJson(new InputStreamReader(response.getEntity().getContent()),
-          SubscriptionInfo.class);
+            @Override
+            public SubscriptionInfo doWithResponse(final HttpResponse response) throws IOException {
+              Gson gson = ParserFactory.createParser();
+              SubscriptionInfo information = gson.fromJson(new InputStreamReader(response.getEntity().getContent()),
+                  SubscriptionInfo.class);
+
+              return information;
+            }
+          });
 
       return information;
 
     } catch (IllegalStateException e) {
       Log.e(TAG, "Felaktigt tillstånd för att hämta innehåll från servern.", e);
       throw new PermanentException("Felaktigt tillstånd för att hämta innehåll från servern.", e);
-    } catch (IOException e) {
-      Log.e(TAG, "Fel vid överföring till eller från server.", e);
-      throw new TemporaryException("Fel vid överföring till eller från server.", e);
     }
   }
 
@@ -63,19 +67,23 @@ public class BillingHelper {
 
       List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 
-      HttpResponse response = communicationHelper.callServer(post, parameters);
+      ProductList information = communicationHelper.callServer(post, parameters, new ResponseCallback<ProductList>() {
 
-      Gson gson = ParserFactory.createParser();
-      ProductList information = gson.fromJson(new InputStreamReader(response.getEntity().getContent()),
-          ProductList.class);
+        @Override
+        public ProductList doWithResponse(final HttpResponse response) throws IOException {
+          Gson gson = ParserFactory.createParser();
+          ProductList information = gson.fromJson(new InputStreamReader(response.getEntity().getContent()),
+              ProductList.class);
+
+          return information;
+        }
+
+      });
 
       return information;
     } catch (IllegalStateException e) {
       Log.e(TAG, "Felaktigt tillstånd för att hämta innehåll från servern.", e);
       throw new PermanentException("Felaktigt tillstånd för att hämta innehåll från servern.", e);
-    } catch (IOException e) {
-      Log.e(TAG, "Fel vid överföring till eller från server.", e);
-      throw new TemporaryException("Fel vid överföring till eller från server.", e);
     }
   }
 
@@ -87,20 +95,24 @@ public class BillingHelper {
 
       List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 
-      HttpResponse response = communicationHelper.callServer(post, parameters);
+      PrepareBillingInfo billingInfo = communicationHelper.callServer(post, parameters,
+          new ResponseCallback<PrepareBillingInfo>() {
 
-      Gson gson = ParserFactory.createParser();
-      PrepareBillingInfo billingInfo = gson.fromJson(new InputStreamReader(response.getEntity().getContent()),
-          PrepareBillingInfo.class);
+            @Override
+            public PrepareBillingInfo doWithResponse(final HttpResponse response) throws IOException {
+              Gson gson = ParserFactory.createParser();
+              PrepareBillingInfo billingInfo = gson.fromJson(new InputStreamReader(response.getEntity().getContent()),
+                  PrepareBillingInfo.class);
+
+              return billingInfo;
+            }
+          });
 
       return billingInfo.getMarketLicenseKey();
 
     } catch (IllegalStateException e) {
       Log.e(TAG, "Felaktigt tillstånd för att hämta innehåll från servern.", e);
       throw new PermanentException("Felaktigt tillstånd för att hämta innehåll från servern.", e);
-    } catch (IOException e) {
-      Log.e(TAG, "Fel vid överföring till eller från server.", e);
-      throw new TemporaryException("Fel vid överföring till eller från server.", e);
     }
   }
 
@@ -115,20 +127,25 @@ public class BillingHelper {
       parameters.add(new BasicNameValuePair("productId", productId));
       parameters.add(new BasicNameValuePair("nonce", Long.toString(nonce)));
 
-      HttpResponse response = communicationHelper.callServer(post, parameters);
+      SubscriptionInfo information = communicationHelper.callServer(post, parameters,
+          new ResponseCallback<SubscriptionInfo>() {
 
-      Gson gson = ParserFactory.createParser();
-      SubscriptionInfo information = gson.fromJson(new InputStreamReader(response.getEntity().getContent()),
-          SubscriptionInfo.class);
+            @Override
+            public SubscriptionInfo doWithResponse(final HttpResponse response) throws IOException {
+              Gson gson = ParserFactory.createParser();
+              SubscriptionInfo information = gson.fromJson(new InputStreamReader(response.getEntity().getContent()),
+                  SubscriptionInfo.class);
+
+              return information;
+            }
+
+          });
 
       return information;
 
     } catch (IllegalStateException e) {
       Log.e(TAG, "Felaktigt tillstånd för att hämta innehåll från servern.", e);
       throw new PermanentException("Felaktigt tillstånd för att hämta innehåll från servern.", e);
-    } catch (IOException e) {
-      Log.e(TAG, "Fel vid överföring till eller från server.", e);
-      throw new TemporaryException("Fel vid överföring till eller från server.", e);
     }
   }
 

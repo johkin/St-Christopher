@@ -1,42 +1,27 @@
 package se.acrend.christopher.android.activity.setup;
 
-import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 import se.acrend.christopher.R;
-import se.acrend.christopher.android.intent.Intents;
-import se.acrend.christopher.android.preference.PrefsHelper;
+import se.acrend.christopher.android.activity.actionbar.ActionBarActivity;
 import se.acrend.christopher.shared.util.SharedConstants;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.google.android.c2dm.C2DMessaging;
 import com.google.inject.Inject;
 
-public class RegisterDevice extends RoboActivity {
+public class RegisterDevice extends ActionBarActivity {
 
   @Inject
   private Context context;
-  @Inject
-  private PrefsHelper prefsHelper;
 
-  @InjectView(R.id.register_device_nextButton)
-  private Button next;
   @InjectView(R.id.register_device_register)
   private Button register;
-
-  private Dialog dialog;
-
-  private BroadcastReceiver receiver;
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
@@ -49,63 +34,18 @@ public class RegisterDevice extends RoboActivity {
       @Override
       public void onClick(final View v) {
 
-        String message = context.getResources().getString(R.string.prefs_category_c2dmregistration_wait);
-
-        dialog = ProgressDialog.show(RegisterDevice.this, "", message, true, false);
-
-        Intent registrationIntent = new Intent("com.google.android.c2dm.intent.REGISTER");
+        Intent registrationIntent = new Intent(C2DMessaging.REQUEST_REGISTRATION_INTENT);
 
         registrationIntent.putExtra("app", PendingIntent.getBroadcast(context, 0, new Intent(), 0));
 
         registrationIntent.putExtra("sender", SharedConstants.C2DM_ACCOUNT);
 
         context.startService(registrationIntent);
+
+        RegisterDevice.this.finish();
+
+        Toast.makeText(context, R.string.prefs_category_c2dmregistration_wait, Toast.LENGTH_LONG).show();
       }
     });
-
-    next.setEnabled(false);
-
-    receiver = new BroadcastReceiver() {
-
-      @Override
-      public void onReceive(final Context context, final Intent intent) {
-        if (dialog != null) {
-          dialog.dismiss();
-        }
-        if (intent.getBooleanExtra("result", false)) {
-
-          prefsHelper.setRegistrationId(intent.getStringExtra("registrationId"));
-
-          next.setEnabled(true);
-          context.unregisterReceiver(receiver);
-        } else {
-          OnCancelListener listener = new OnCancelListener() {
-
-            @Override
-            public void onCancel(final DialogInterface dialog) {
-              RegisterDevice.this.setResult(RESULT_CANCELED);
-              finish();
-            }
-          };
-
-          dialog = new AlertDialog.Builder(context).setTitle("Fel vi registrering")
-              .setMessage("Meddelande från server: " + intent.getStringExtra("errorId")).setCancelable(true)
-              .setOnCancelListener(listener).create();
-          dialog.show();
-        }
-      }
-    };
-    context.registerReceiver(receiver, new IntentFilter(Intents.C2DM_REGISTRATION_FINISHED));
-    context.registerReceiver(receiver, new IntentFilter(Intents.C2DM_REGISTRATION_ERROR));
-
-    next.setOnClickListener(new View.OnClickListener() {
-
-      @Override
-      public void onClick(final View v) {
-        setResult(RESULT_OK);
-        finish();
-      }
-    });
-
   }
 }

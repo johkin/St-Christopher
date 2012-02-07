@@ -19,6 +19,8 @@ public class Preferences extends RoboPreferenceActivity {
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
+    // TODO lägg till actionbar från Compatibility Package
+
     super.onCreate(savedInstanceState);
 
     addPreferencesFromResource(R.xml.preferences);

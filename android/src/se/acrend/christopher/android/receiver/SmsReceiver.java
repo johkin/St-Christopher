@@ -20,11 +20,13 @@ public class SmsReceiver extends RoboBroadcastReceiver {
   private MessageHandler messageHandler;
   @Inject
   private GoogleAnalyticsTracker tracker;
+  @Inject
+  private PrefsHelper prefsHelper;
 
   @Override
   protected void handleReceive(final Context context, final Intent intent) {
     Log.d(TAG, "Received Intent: " + intent);
-    if (!PrefsHelper.isProcessIncommingMessages(context)) {
+    if (!prefsHelper.isProcessIncommingMessages()) {
       return;
     }
 

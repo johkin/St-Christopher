@@ -17,10 +17,13 @@ public class HttpUtil {
   public static String toString(final HttpResponse response) throws UnsupportedEncodingException, IOException {
     StringBuilder builder = new StringBuilder();
 
+    builder.append("status:").append(response.getStatusLine().getStatusCode()).append("\n");
+
     for (Header header : response.getAllHeaders()) {
       builder.append(header.getName()).append(": ").append(header.getValue()).append("\n");
     }
     builder.append("\n");
+    // .append(IOUtils.toString(response.getEntity().getContent()));
 
     return builder.toString();
   }

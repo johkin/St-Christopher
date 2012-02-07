@@ -62,7 +62,7 @@ public class TicketTabActivity extends RoboTabActivity {
     } else if (prefsHelper.getAccountName() == null) {
       startActivityForResult(new Intent().setClass(getApplicationContext(), ChooseAccount.class), 2);
     } else if (prefsHelper.getRegistrationId() == null) {
-      startActivityForResult(new Intent().setClass(getApplicationContext(), RegisterDevice.class), 3);
+      startActivity(new Intent().setClass(getApplicationContext(), RegisterDevice.class));
     }
   }
 

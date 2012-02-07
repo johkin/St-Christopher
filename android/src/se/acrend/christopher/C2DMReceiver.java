@@ -11,13 +11,15 @@ import com.google.android.c2dm.C2DMBaseReceiver;
 
 public class C2DMReceiver extends C2DMBaseReceiver {
 
+  private static final String TAG = "C2DM";
+
   public C2DMReceiver() {
     super(SharedConstants.C2DM_ACCOUNT);
   }
 
   @Override
   public void onUnregistered(final Context context) {
-    Log.d("C2DM", "Unregistered");
+    Log.d(TAG, "Unregistered");
 
     Intent intent = new Intent(Intents.C2DM_UNREGISTRATION_FINISHED);
     intent.putExtra("result", true);
@@ -26,7 +28,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 
   @Override
   public void onRegistered(final Context context, final String registrationId) throws java.io.IOException {
-    Log.d("C2DM", "Registration ID arrived: " + registrationId);
+    Log.d(TAG, "Registration ID arrived: " + registrationId);
 
     Intent intent = new Intent(Intents.C2DM_REGISTRATION_FINISHED);
     intent.putExtra("result", true);
@@ -36,12 +38,12 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 
   @Override
   protected void onMessage(final Context context, final Intent intent) {
-    Log.d("C2DM", "Message arrived");
+    Log.i(TAG, "Message arrived");
     // Extract the payload from the message
     Bundle extras = intent.getExtras();
     if (extras != null) {
       for (String key : extras.keySet()) {
-        Log.i("C2DM", key + ": " + extras.getString(key));
+        Log.d(TAG, key + ": " + extras.getString(key));
       }
 
       Intent newIntent = new Intent(Intents.BOOKING_INFORMATION);
@@ -53,7 +55,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 
   @Override
   public void onError(final Context context, final String errorId) {
-    Log.e("C2DM", "Error received: " + errorId);
+    Log.e(TAG, "Error received: " + errorId);
 
     Intent intent = new Intent(Intents.C2DM_REGISTRATION_ERROR);
     intent.putExtra("result", false);

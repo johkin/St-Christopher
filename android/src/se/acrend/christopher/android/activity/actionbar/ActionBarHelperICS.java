@@ -29,6 +29,7 @@ public class ActionBarHelperICS extends ActionBarHelperHoneycomb {
 
   @Override
   public void setHomeButtonEnabled(final boolean enabled) {
+    super.setHomeButtonEnabled(enabled);
     mActivity.getActionBar().setHomeButtonEnabled(enabled);
     mActivity.getActionBar().setDisplayShowHomeEnabled(enabled);
   }

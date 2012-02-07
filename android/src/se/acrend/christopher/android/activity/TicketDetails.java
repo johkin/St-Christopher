@@ -4,10 +4,9 @@ import java.util.Calendar;
 
 import net.londatiga.android.ActionItem;
 import net.londatiga.android.QuickAction;
-import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 import se.acrend.christopher.R;
-import se.acrend.christopher.android.activity.actionbar.ActionBarHelper;
+import se.acrend.christopher.android.activity.actionbar.ActionBarActivity;
 import se.acrend.christopher.android.content.ProviderHelper;
 import se.acrend.christopher.android.content.ProviderTypes;
 import se.acrend.christopher.android.model.DbModel;
@@ -41,7 +40,7 @@ import android.widget.ToggleButton;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.inject.Inject;
 
-public class TicketDetails extends RoboActivity {
+public class TicketDetails extends ActionBarActivity {
 
   private static final String TAG = "TicketDetails";
 
@@ -98,24 +97,15 @@ public class TicketDetails extends RoboActivity {
 
   private ProgressDialog dialog;
 
-  private final ActionBarHelper actionBarHelper = ActionBarHelper.createInstance(this);
-
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    actionBarHelper.onCreate(savedInstanceState);
-    actionBarHelper.setHomeButtonEnabled(true);
+    getActionBarHelper().setHomeButtonEnabled(true);
     setContentView(R.layout.ticket_details);
 
     startService(new Intent(context, RegistrationService.class));
 
     handler = new Handler();
-  }
-
-  @Override
-  protected void onPostCreate(final Bundle savedInstanceState) {
-    super.onPostCreate(savedInstanceState);
-    actionBarHelper.onPostCreate(savedInstanceState);
   }
 
   @Override
@@ -164,9 +154,13 @@ public class TicketDetails extends RoboActivity {
     }
     arrivalTrack.setText(model.getArrivalTrack());
     arrivalInfo.setText(model.getArrival().getInfo());
+    // Aktivera rullande text
+    arrivalInfo.setSelected(true);
 
     departureTrack.setText(model.getDepartureTrack());
     departureInfo.setText(model.getDeparture().getInfo());
+    // Aktivera rullande text
+    departureInfo.setSelected(true);
 
     addQuickAction(departure, model.getDeparture());
     addQuickAction(arrival, model.getArrival());
@@ -244,10 +238,9 @@ public class TicketDetails extends RoboActivity {
 
   @Override
   public boolean onCreateOptionsMenu(final Menu menu) {
-    MenuInflater inflater = actionBarHelper.getMenuInflater(getMenuInflater());
+    MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.details_menu, menu);
 
-    actionBarHelper.onCreateOptionsMenu(menu);
     return true;
   }
 

@@ -1,12 +1,10 @@
 package se.acrend.christopher.android.activity.setup;
 
-import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 import se.acrend.christopher.R;
+import se.acrend.christopher.android.activity.actionbar.ActionBarActivity;
 import se.acrend.christopher.android.preference.AccountHelper;
 import se.acrend.christopher.android.preference.AccountHelper.InitAccountCallback;
-import se.acrend.christopher.android.preference.PrefsHelper;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -16,17 +14,10 @@ import android.widget.Spinner;
 
 import com.google.inject.Inject;
 
-public class ChooseAccount extends RoboActivity {
+public class ChooseAccount extends ActionBarActivity {
 
-  private static final String TAG = "ChooseAccount";
-
-  private static final String ACCOUNT_TYPE = "com.google";
-
-  private AccountManager accountManager;
   @Inject
   private Context context;
-  @Inject
-  private PrefsHelper prefsHelper;
   @Inject
   private AccountHelper accountHelper;
 
@@ -40,8 +31,6 @@ public class ChooseAccount extends RoboActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.choose_account);
     setTitle(R.string.prefs_category_account_title);
-
-    accountManager = AccountManager.get(context);
 
     String[] accountNames = accountHelper.getAccountNames();
     final ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item,

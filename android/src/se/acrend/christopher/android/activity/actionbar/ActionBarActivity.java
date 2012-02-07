@@ -1,9 +1,13 @@
 package se.acrend.christopher.android.activity.actionbar;
 
+import roboguice.activity.RoboActivity;
+import se.acrend.christopher.android.activity.TicketTabActivity;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 /**
  * A base activity that defers common functionality across app activities to an
@@ -12,7 +16,7 @@ import android.view.MenuInflater;
  * Android Compatibility Package by extending
  * android.support.v4.app.FragmentActivity instead of {@link Activity}.
  */
-public abstract class ActionBarActivity extends Activity {
+public abstract class ActionBarActivity extends RoboActivity {
   final ActionBarHelper mActionBarHelper = ActionBarHelper.createInstance(this);
 
   /**
@@ -61,4 +65,19 @@ public abstract class ActionBarActivity extends Activity {
     mActionBarHelper.onTitleChanged(title, color);
     super.onTitleChanged(title, color);
   }
+
+  @Override
+  public boolean onOptionsItemSelected(final MenuItem item) {
+    switch (item.getItemId()) {
+    case android.R.id.home:
+      if (getActionBarHelper().isHomeButtonEnabled()) {
+        startActivity(new Intent(this, TicketTabActivity.class));
+        finish();
+        return true;
+      }
+    default:
+      return super.onOptionsItemSelected(item);
+    }
+  }
+
 }

@@ -1,8 +1,8 @@
 package se.acrend.christopher.android.activity;
 
-import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 import se.acrend.christopher.R;
+import se.acrend.christopher.android.activity.actionbar.ActionBarActivity;
 import se.acrend.christopher.android.billing.Consts.PurchaseState;
 import se.acrend.christopher.android.billing.Consts.ResponseCode;
 import se.acrend.christopher.android.billing.PurchaseObserver;
@@ -32,7 +32,7 @@ import android.widget.TextView;
 
 import com.google.inject.Inject;
 
-public class SubscriptionDetails extends RoboActivity {
+public class SubscriptionDetails extends ActionBarActivity {
 
   private static final String TAG = "SubscriptionDetails";
 
@@ -60,6 +60,8 @@ public class SubscriptionDetails extends RoboActivity {
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.subscription_details);
+
+    getActionBarHelper().setHomeButtonEnabled(true);
 
     detailsInfo.setText("");
 
@@ -109,7 +111,8 @@ public class SubscriptionDetails extends RoboActivity {
 
       @Override
       protected void onPostExecute(final ProductList result) {
-        ArrayAdapter<Product> s = new ArrayAdapter<ProductList.Product>(context, R.layout.product_dropdown_item,
+        ArrayAdapter<Product> productAdapter = new ArrayAdapter<ProductList.Product>(context,
+            R.layout.product_dropdown_item,
             result.getProducts()) {
 
           @Override
@@ -144,7 +147,7 @@ public class SubscriptionDetails extends RoboActivity {
           }
 
         };
-        productList.setAdapter(s);
+        productList.setAdapter(productAdapter);
 
         dialog.dismiss();
       }
