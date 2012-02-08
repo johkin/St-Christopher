@@ -11,6 +11,8 @@ import se.acrend.christophertestclient.R;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -51,8 +53,6 @@ public class CreateTicketActivity extends RoboActivity {
       SharedDateUtil.SWEDISH_LOCALE);
 
   private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH.mm", SharedDateUtil.SWEDISH_LOCALE);
-
-  private int count = 1;
 
   /**
    * Called when the activity is first created.
@@ -202,6 +202,10 @@ public class CreateTicketActivity extends RoboActivity {
   // 010 624 472 391 895 723 215
 
   private void sendMessage() {
+
+    SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+    int count = preferences.getInt("count", 1);
+
     Intent intent = new Intent("se.acrend.christopher.TEST_MESSAGE");
 
     StringBuilder message = new StringBuilder(dateText.getText());
@@ -215,10 +219,16 @@ public class CreateTicketActivity extends RoboActivity {
     message.append("VU, 1 klass Kan återbetalas\n");
     message.append("Vagn 2, plats 30\n");
     message.append("Personlig biljett giltig med ID\n");
-    message.append("Internet/Bilj.nr. SPG9352F").append(String.format("%04d%n", count));
+
+    SimpleDateFormat numFormat = new SimpleDateFormat("MMdd");
+    String ticketDate = numFormat.format(new Date(System.currentTimeMillis()));
+
+    message.append("Internet/Bilj.nr. TES").append(ticketDate).append("T").append(String.format("%04d%n", count));
     message.append("010 624 472 391 895 723 215");
 
-    count++;
+    Editor editor = preferences.edit();
+    editor.putInt("count", count + 1);
+    editor.commit();
 
     intent.putExtra("sender", "SJ Biljett");
     intent.putExtra("message", message.toString());

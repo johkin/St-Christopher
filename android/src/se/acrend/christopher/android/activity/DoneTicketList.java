@@ -11,7 +11,7 @@ import android.net.Uri;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.inject.Inject;
 
-public class DoneTicketList extends AbtractTicketList {
+public class DoneTicketList extends AbstractTicketList {
 
   @Inject
   private ProviderHelper providerHelper;
@@ -28,12 +28,12 @@ public class DoneTicketList extends AbtractTicketList {
   Cursor getCursor() {
     Uri tickets = providerHelper.getTicketsUrl();
 
-    String timestampString = new Timestamp(System.currentTimeMillis()
-        - TimeZone.getDefault().getOffset(System.currentTimeMillis())).toString();
+    String timestampString = new Timestamp((System.currentTimeMillis()
+        - TimeZone.getDefault().getOffset(System.currentTimeMillis())) + FOUR_HOURS_IN_MILLIS).toString();
 
     Cursor cursor = getContentResolver().query(tickets, TicketAdapter.PROJECTION,
-        "(originalArrival < ? and actualArrival is null) or (actualArrival < ?)",
-        new String[] { timestampString, timestampString }, "originalDeparture DESC");
+        "actualArrival is null or  originalArrival < ?",
+        new String[] { timestampString }, "originalDeparture DESC");
     return cursor;
   }
 }

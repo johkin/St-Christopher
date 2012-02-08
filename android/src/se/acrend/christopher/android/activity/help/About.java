@@ -7,9 +7,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+import com.google.inject.Inject;
+
 public class About extends ActionBarActivity {
   @InjectView(R.id.about_close)
   private Button exit;
+  @Inject
+  private GoogleAnalyticsTracker tracker;
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    tracker.trackPageView("About");
+  }
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {

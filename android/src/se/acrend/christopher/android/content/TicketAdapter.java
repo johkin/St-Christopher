@@ -8,6 +8,7 @@ import se.acrend.christopher.android.util.DateUtil;
 import se.acrend.christopher.android.view.DotView;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,13 @@ public class TicketAdapter extends SimpleCursorAdapter {
     String to = cursor.getString(columnIds[5]);
     String actualDepartureText = cursor.getString(columnIds[6]);
     String actualArrivalText = cursor.getString(columnIds[7]);
+    String estimatedDeparture = cursor.getString(columnIds[8]);
+    String estimatedArrival = cursor.getString(columnIds[9]);
+    String guessedDeparture = cursor.getString(columnIds[10]);
+    String guessedArrival = cursor.getString(columnIds[11]);
     int registered = cursor.getInt(columnIds[12]);
+
+    Log.d(TAG, "arrival: " + arrivalText + ", " + estimatedArrival + ", " + guessedArrival + ", " + actualArrivalText);
 
     TextView codeText = (TextView) v.findViewById(R.id.ticket_item_ticketCode);
     codeText.setText(code);

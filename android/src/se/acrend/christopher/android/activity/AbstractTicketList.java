@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-public abstract class AbtractTicketList extends RoboListActivity {
+public abstract class AbstractTicketList extends RoboListActivity {
+
+  public static final long FOUR_HOURS_IN_MILLIS = 4 * 60 * 60 * 1000;
 
   @Override
   public void onCreate(final Bundle savedInstanceState) {

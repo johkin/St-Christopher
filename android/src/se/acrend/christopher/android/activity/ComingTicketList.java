@@ -12,7 +12,7 @@ import android.util.Log;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.inject.Inject;
 
-public class ComingTicketList extends AbtractTicketList {
+public class ComingTicketList extends AbstractTicketList {
 
   private static final String TAG = "ComingTicketList";
 
@@ -38,12 +38,12 @@ public class ComingTicketList extends AbtractTicketList {
             + new Timestamp(System.currentTimeMillis() - TimeZone.getDefault().getOffset(System.currentTimeMillis()))
                 .toString());
 
-    String timestampString = new Timestamp(System.currentTimeMillis()
-        - TimeZone.getDefault().getOffset(System.currentTimeMillis())).toString();
+    String timestampString = new Timestamp((System.currentTimeMillis()
+        - TimeZone.getDefault().getOffset(System.currentTimeMillis())) + FOUR_HOURS_IN_MILLIS).toString();
 
     Cursor cursor = getContentResolver().query(tickets, TicketAdapter.PROJECTION,
-        "(originalArrival > ? and actualArrival is null) or (actualArrival > ?)",
-        new String[] { timestampString, timestampString }, "originalDeparture ASC");
+        "actualArrival is null or originalArrival > ?",
+        new String[] { timestampString }, "originalDeparture ASC");
     return cursor;
   }
 }

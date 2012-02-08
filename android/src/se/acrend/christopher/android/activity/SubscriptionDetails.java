@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.inject.Inject;
 
 public class SubscriptionDetails extends ActionBarActivity {
@@ -49,6 +50,8 @@ public class SubscriptionDetails extends ActionBarActivity {
 
   @Inject
   private BillingService billingService;
+  @Inject
+  private GoogleAnalyticsTracker tracker;
 
   private ProgressDialog dialog;
 
@@ -85,6 +88,8 @@ public class SubscriptionDetails extends ActionBarActivity {
   @Override
   protected void onResume() {
     super.onResume();
+
+    tracker.trackPageView("SubscriptionDetails");
 
     if (!billingService.checkBillingSupported()) {
       // TODO showDialog(DIALOG_CANNOT_CONNECT_ID);
