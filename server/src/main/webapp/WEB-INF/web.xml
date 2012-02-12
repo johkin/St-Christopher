@@ -45,7 +45,7 @@
 
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/_ah/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
@@ -74,7 +74,7 @@
 		</web-resource-collection>
 		<web-resource-collection>
 			<web-resource-name>cron</web-resource-name>
-			<url-pattern>/cron/*</url-pattern>
+			<url-pattern>/dispatch/cron/*</url-pattern>
 		</web-resource-collection>
 		<web-resource-collection>
 			<web-resource-name>admin</web-resource-name>

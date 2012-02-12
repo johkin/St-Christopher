@@ -23,7 +23,7 @@ public class FindChangedStopsQueueController {
   @Autowired
   private TrafficServiceImpl trafficService;
 
-  @RequestMapping("/_ah/queue/current-trains")
+  @RequestMapping("/queue/current-trains")
   protected void doPost(@RequestParam final String date, @RequestParam final String trainNo,
       final HttpServletResponse resp) throws IOException {
 

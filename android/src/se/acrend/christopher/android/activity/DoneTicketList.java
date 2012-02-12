@@ -32,7 +32,7 @@ public class DoneTicketList extends AbstractTicketList {
         - TimeZone.getDefault().getOffset(System.currentTimeMillis())) + FOUR_HOURS_IN_MILLIS).toString();
 
     Cursor cursor = getContentResolver().query(tickets, TicketAdapter.PROJECTION,
-        "actualArrival is null or  originalArrival < ?",
+        "actualArrival is not null or originalArrival < ?",
         new String[] { timestampString }, "originalDeparture DESC");
     return cursor;
   }

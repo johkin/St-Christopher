@@ -156,11 +156,35 @@ public class TicketDetails extends ActionBarActivity {
     arrivalInfo.setText(model.getArrival().getInfo());
     // Aktivera rullande text
     arrivalInfo.setSelected(true);
+    if (model.getArrival().getInfo() != null) {
+      final QuickAction arrivalInfoAction = new QuickAction(this);
+      arrivalInfoAction.addActionItem(new ActionItem(0, "Information", model.getArrival().getInfo()));
+      arrivalInfo.setClickable(true);
+      arrivalInfo.setOnClickListener(new View.OnClickListener() {
+
+        @Override
+        public void onClick(final View v) {
+          arrivalInfoAction.show(v);
+        }
+      });
+    }
 
     departureTrack.setText(model.getDepartureTrack());
     departureInfo.setText(model.getDeparture().getInfo());
     // Aktivera rullande text
     departureInfo.setSelected(true);
+    if (model.getDeparture().getInfo() != null) {
+      final QuickAction departureInfoAction = new QuickAction(this);
+      departureInfoAction.addActionItem(new ActionItem(0, "Information", model.getDeparture().getInfo()));
+      departureInfo.setClickable(true);
+      departureInfo.setOnClickListener(new View.OnClickListener() {
+
+        @Override
+        public void onClick(final View v) {
+          departureInfoAction.show(v);
+        }
+      });
+    }
 
     addQuickAction(departure, model.getDeparture());
     addQuickAction(arrival, model.getArrival());

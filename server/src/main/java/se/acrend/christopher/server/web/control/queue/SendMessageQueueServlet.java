@@ -48,7 +48,7 @@ public class SendMessageQueueServlet {
   @Autowired
   private DatastoreService datastore;
 
-  @RequestMapping("/_ah/queue/send-message")
+  @RequestMapping("/queue/send-message")
   protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws IOException {
     try {
       Entity data = dataDao.findData();

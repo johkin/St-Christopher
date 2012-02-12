@@ -39,7 +39,7 @@ public class AuthQueueController {
   @Autowired
   private ConfigurationServiceImpl configurationService;
 
-  @RequestMapping("/_ah/queue/update-server-auth")
+  @RequestMapping("/queue/update-server-auth")
   protected void handle(final HttpServletResponse response) throws IOException {
 
     try {

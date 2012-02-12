@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
  android:installLocation="internalOnly"
  package="se.acrend.christopher"
- android:versionCode="010"
+ android:versionCode="020"
  android:versionName="0.2.0-SNAPSHOT" >
 
  <application
@@ -50,7 +50,7 @@
   </receiver>
   <!--
       Only C2DM servers can send messages for the app. If permission is 
-			not set - any other app can generate it
+			not set - any other app can generate it
   -->
   <receiver
    android:name="com.google.android.c2dm.C2DMBroadcastReceiver"

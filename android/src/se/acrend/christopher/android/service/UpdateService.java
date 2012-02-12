@@ -94,37 +94,37 @@ public class UpdateService extends RoboIntentService {
     DbModel model = providerHelper.findByCode(code);
 
     TimeModel departure = model.getDeparture();
-    boolean changedDepartureTime = false;
     if (extras.containsKey("actualDeparture")) {
       departure.setActual(DateUtil.parseDateTime(extras.getString("actualDeparture")));
-      changedDepartureTime = true;
+      message.append("Ny faktiskt avgångstid: " + DateUtil.formatTime(model.getDeparture().getActual()));
     }
     if (extras.containsKey("estimatedDeparture")) {
       departure.setEstimated(DateUtil.parseDateTime(extras.getString("estimatedDeparture")));
-      changedDepartureTime = true;
+      message.append("Ny uppskattad avgångstid: " + DateUtil.formatTime(model.getDeparture().getEstimated()));
     }
     if (extras.containsKey("guessedDeparture")) {
       departure.setGuessed(DateUtil.parseDateTime(extras.getString("guessedDeparture")));
-      changedDepartureTime = true;
-    }
-    if (changedDepartureTime) {
-      message.append("Ny avgångstid: " + DateUtil.formatTime(getMostSignificantTime(model.getDeparture())));
+      message.append("Ny gissad avgångstid: " + DateUtil.formatTime(model.getDeparture().getGuessed()));
     }
 
     TimeModel arrival = model.getArrival();
     boolean changedArrivalTime = false;
     if (extras.containsKey("actualArrival")) {
       arrival.setActual(DateUtil.parseDateTime(extras.getString("actualArrival")));
+      message.append("Ny faktiskt ankomsttid: " + DateUtil.formatTime(model.getArrival().getActual()));
       changedArrivalTime = true;
     }
     if (extras.containsKey("estimatedArrival")) {
       arrival.setEstimated(DateUtil.parseDateTime(extras.getString("estimatedArrival")));
+      message.append("Ny uppskattad ankomsttid: " + DateUtil.formatTime(model.getArrival().getEstimated()));
       changedArrivalTime = true;
     }
     if (extras.containsKey("guessedArrival")) {
       arrival.setGuessed(DateUtil.parseDateTime(extras.getString("guessedArrival")));
+      message.append("Ny gissad ankomsttid: " + DateUtil.formatTime(model.getArrival().getGuessed()));
       changedArrivalTime = true;
     }
+
     if (changedArrivalTime) {
       Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
       updateIntent.setClass(context, TicketWidgetProvider.class);
@@ -135,8 +135,6 @@ public class UpdateService extends RoboIntentService {
       alarmTime.add(Calendar.MINUTE, -15);
 
       alarmManager.set(AlarmManager.RTC, alarmTime.getTimeInMillis(), pending);
-
-      message.append("Ny ankomsttid: " + DateUtil.formatTime(orgTime));
     }
 
     if (extras.containsKey("departureTrack")) {
@@ -257,7 +255,6 @@ public class UpdateService extends RoboIntentService {
 
       alarmManager.set(AlarmManager.RTC, fiveMinutes.getTimeInMillis(), pending);
     }
-
   }
 
   void updateModel(final DbModel model, final TrainInfo information) {

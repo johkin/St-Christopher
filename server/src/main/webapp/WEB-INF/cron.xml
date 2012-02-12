@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cronentries>
   <cron>
-    <url>/cron/check-traffic</url>
+    <url>/dispatch/cron/check-traffic</url>
     <description>Kontrollera trafik varannan minut</description>
     <schedule>every 2 minutes</schedule>
   </cron>
   <cron>
-    <url>/cron/delete-old-entries</url>
+    <url>/dispatch/cron/delete-old-entries</url>
     <description>Ta bort gammal data var 6:e timme</description>
     <schedule>every 6 hours</schedule>
   </cron>
