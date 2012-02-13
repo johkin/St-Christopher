@@ -28,11 +28,25 @@
     android:text="Datum" />
   </LinearLayout>
 
-  <EditText
-   android:id="@+id/trainNo"
+  <LinearLayout
+   android:id="@+id/trainNoLayout"
    android:layout_width="fill_parent"
    android:layout_height="wrap_content"
-   android:inputType="number" />
+   android:orientation="horizontal" >
+
+   <TextView
+    android:id="@+id/textView1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Tågnummer"
+    android:textStyle="bold" />
+
+   <EditText
+    android:id="@+id/trainNo"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:inputType="number" />
+  </LinearLayout>
 
   <Spinner
    android:id="@+id/from"
