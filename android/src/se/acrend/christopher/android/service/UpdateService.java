@@ -19,6 +19,7 @@ import se.acrend.christopher.android.content.ProviderTypes;
 import se.acrend.christopher.android.intent.Intents;
 import se.acrend.christopher.android.model.DbModel;
 import se.acrend.christopher.android.model.DbModel.TimeModel;
+import se.acrend.christopher.android.preference.PrefsHelper;
 import se.acrend.christopher.android.service.ServerCommunicationHelper.ResponseCallback;
 import se.acrend.christopher.android.util.DateUtil;
 import se.acrend.christopher.android.util.HttpUtil;
@@ -60,6 +61,8 @@ public class UpdateService extends RoboIntentService {
   private Context context;
   @Inject
   private ServerCommunicationHelper communicationHelper;
+  @Inject
+  private PrefsHelper prefsHelper;
 
   public UpdateService() {
     super(TAG);
@@ -189,7 +192,14 @@ public class UpdateService extends RoboIntentService {
     if (model.isNotify()) {
       if (message.length() > 0) {
         Notification notification = new Notification();
-        notification.defaults = Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE;
+        String value = prefsHelper.getNotificationSound();
+        if (!value.isEmpty()) {
+          notification.sound = Uri.parse(value);
+        }
+        notification.defaults = Notification.DEFAULT_LIGHTS;
+        if (prefsHelper.isNotificationVibration()) {
+          notification.defaults |= Notification.DEFAULT_VIBRATE;
+        }
         notification.icon = R.drawable.ic_launcher_logo_bw;
         notification.when = System.currentTimeMillis();
         notification.flags = Notification.FLAG_AUTO_CANCEL;

@@ -101,8 +101,7 @@ public class SendMessageQueueServlet {
       }
 
       String formData = encodeFormParams(params);
-      log.info("formData: " + formData + ", auth: " + auth);
-      log.info("auth: " + auth);
+      log.debug("formData: " + formData + ", auth: " + auth);
 
       URL url = new URL("https://android.apis.google.com/c2dm/send");
 
@@ -116,10 +115,10 @@ public class SendMessageQueueServlet {
 
       List<HTTPHeader> headers = response.getHeaders();
 
-      log.info("ResponseCode: {}", response.getResponseCode());
-      log.info("Headers: {}" + toString(headers));
+      log.debug("ResponseCode: {}", response.getResponseCode());
+      log.debug("Headers: {}" + toString(headers));
       String content = new String(response.getContent(), Constants.ENCODING);
-      log.info("Content: {}", content);
+      log.debug("Content: {}", content);
 
       for (HTTPHeader header : headers) {
         if ("update-client-auth".equals(header.getName())) {
@@ -130,7 +129,6 @@ public class SendMessageQueueServlet {
           Transaction transaction = datastore.beginTransaction();
           datastore.put(data);
           transaction.commit();
-          // sendAuthMessage();
         }
       }
 

@@ -18,6 +18,23 @@
    android:title="@string/prefs.category.sms.replaceTicket" />
  </PreferenceCategory>
  <PreferenceCategory
+  android:summary="@string/prefs.category.notify.summary"
+  android:title="@string/prefs.category.notify.title" >
+  <CheckBoxPreference
+   android:defaultValue="true"
+   android:key="notifyVibration"
+   android:summary="@string/prefs.category.notify.vibration.summary"
+   android:title="@string/prefs.category.notify.vibration.title" />
+
+  <RingtonePreference
+   android:key="notifySound"
+   android:ringtoneType="notification"
+   android:showDefault="true"
+   android:showSilent="true"
+   android:summary="@string/prefs.category.notify.sound.summary"
+   android:title="@string/prefs.category.notify.sound.title" />
+ </PreferenceCategory>
+ <PreferenceCategory
   android:summary="@string/prefs.category.serverservices.summary"
   android:title="@string/prefs.category.serverservices" >
   <ListPreference

@@ -7,6 +7,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 
 import com.google.inject.Inject;
 
@@ -89,6 +90,16 @@ public class PrefsHelper {
   public String getRegistrationId() {
     SharedPreferences prefs = getPrefs(context);
     return prefs.getString(Constants.REGISTRATION_KEY, null);
+  }
+
+  public String getNotificationSound() {
+    SharedPreferences prefs = getPrefs(context);
+    return prefs.getString(Constants.NOTIFICATION_SOUND, Settings.System.DEFAULT_NOTIFICATION_URI.toString());
+  }
+
+  public boolean isNotificationVibration() {
+    SharedPreferences prefs = getPrefs(context);
+    return prefs.getBoolean(Constants.NOTIFICATION_VIBRATION, true);
   }
 
   public void setRegistrationId(final String registrationId) {

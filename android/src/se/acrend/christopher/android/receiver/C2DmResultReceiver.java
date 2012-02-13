@@ -69,8 +69,7 @@ public class C2DmResultReceiver extends RoboBroadcastReceiver {
     }
 
     Notification notification = new Notification();
-    notification.defaults = Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS
-        | Notification.DEFAULT_VIBRATE;
+    notification.defaults = Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND;
     notification.icon = R.drawable.ic_launcher_logo_bw;
     notification.when = System.currentTimeMillis();
     notification.flags = Notification.FLAG_AUTO_CANCEL;

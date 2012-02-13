@@ -78,6 +78,12 @@ Klicka nedan för att starta registrering av din enhet.</string>
  <string name="prefs.category.c2dmregistration.error.TOO_MANY_REGISTRATIONS">Din telefon är kopplad till för många applikationer som använder Push-meddelanden. Avinstallera några applikationer som använder Push-meddelanden och försök sedan igen.</string>
  <string name="prefs.category.c2dmregistration.error.INVALID_SENDER">Avsändande konto är inte godkänt av Google. Kontrollera om du har senaste versionen av applikationen eller kontakta Acrend för support.</string>
  <string name="prefs.category.c2dmregistration.error.PHONE_REGISTRATION_ERROR">Din telefon stödjer tyvärr inte Push-meddelanden, applikationen kommer inte att kunna fungera på denna enhet.</string>
+ <string name="prefs.category.notify.title">Notifieringar</string>
+ <string name="prefs.category.notify.summary">Välj hur uppdateringar ska visas på enheten, med vibration och/eller ljud.</string>
+ <string name="prefs.category.notify.vibration.title">Vibration</string>
+ <string name="prefs.category.notify.vibration.summary">Välj om vibration skall användas.</string>
+ <string name="prefs.category.notify.sound.title">Ljud</string>
+ <string name="prefs.category.notify.sound.summary">Välj vilket ljud som ska användas för uppdateringar.</string>
  <string name="ticket.details.trainNo">Tågnr:</string>
  <string name="ticket.details.ticketCode">Biljettkod:</string>
  <string name="ticket.details.car">Vagn:</string>
