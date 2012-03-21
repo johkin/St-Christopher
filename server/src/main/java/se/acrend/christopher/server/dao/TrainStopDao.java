@@ -61,4 +61,11 @@ public class TrainStopDao {
     }
     return counter;
   }
+
+  public List<Entity> findByStationName(final String stationName) {
+    PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_TRAIN_STOP)
+        .addFilter("stationName", FilterOperator.EQUAL, stationName));
+
+    return query.asList(FetchOptions.Builder.withDefaults());
+  }
 }

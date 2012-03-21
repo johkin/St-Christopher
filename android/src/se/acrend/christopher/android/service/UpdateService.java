@@ -73,9 +73,10 @@ public class UpdateService extends RoboIntentService {
 
     if (intent != null) {
       if (Intents.BOOKING_INFORMATION.equals(intent.getAction())) {
+        Log.d(TAG, "Update from C2dm-intent");
         updateFromC2dm(intent);
       } else if (Intents.UPDATE_BOOKING.equals(intent.getAction())) {
-
+        Log.d(TAG, "Update from proxy.");
         DbModel model = providerHelper.findTicket(intent.getData());
 
         updateFromProxy(model, intent.getIntExtra("retryCount", 1));
@@ -170,7 +171,8 @@ public class UpdateService extends RoboIntentService {
       model.getDeparture().setCancelled(false);
     }
 
-    if (extras.containsKey("info")) {
+    if (extras.containsKey("arrivalInfo") || extras.containsKey("departureInfo")
+        || extras.containsKey("updateFromProxy")) {
       Intent updateIntent = new Intent(Intents.UPDATE_BOOKING, ContentUris.withAppendedId(ProviderTypes.CONTENT_URI,
           model.getId()));
       startService(updateIntent);
@@ -249,8 +251,9 @@ public class UpdateService extends RoboIntentService {
 
       updateModel(model, information);
 
-      // Todo Notifiera om ny info
+      providerHelper.update(model);
 
+      // Todo Notifiera om ny info
     } catch (TemporaryException e) {
       Log.e(TAG, "Kunde inte uppdatera bokning", e);
       // TODO Notifiera om fel vid uppdatering

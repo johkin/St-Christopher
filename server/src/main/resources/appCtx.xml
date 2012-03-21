@@ -40,5 +40,11 @@
     <property name="staticMethod"
       value="com.google.appengine.api.datastore.DatastoreServiceFactory.getDatastoreService" />    
 	</bean>
+ 
+   <bean id="mailService"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod"
+      value="com.google.appengine.api.mail.MailServiceFactory.getMailService" />    
+  </bean>
 
 </beans>

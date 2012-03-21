@@ -50,7 +50,7 @@
   </receiver>
   <!--
       Only C2DM servers can send messages for the app. If permission is 
-			not set - any other app can generate it
+			not set - any other app can generate it
   -->
   <receiver
    android:name="com.google.android.c2dm.C2DMBroadcastReceiver"

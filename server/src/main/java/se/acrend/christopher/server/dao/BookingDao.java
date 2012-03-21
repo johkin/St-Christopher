@@ -1,6 +1,7 @@
 package se.acrend.christopher.server.dao;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,18 +49,6 @@ public class BookingDao {
     return query.asList(FetchOptions.Builder.withDefaults());
   }
 
-  // public Entity findByTrainNoDateUser(final String trainNo, final Calendar
-  // date, final String email) {
-  // PreparedQuery query = datastore.prepare(new
-  // Query(DataConstants.KIND_BOOKING)
-  // .addFilter("trainNo", FilterOperator.EQUAL, trainNo)
-  // .addFilter("date", FilterOperator.EQUAL, DateUtil.toDate(date))
-  // .addFilter("userEmail", FilterOperator.EQUAL, email));
-  // Entity booking = query.asSingleEntity();
-  //
-  // return booking;
-  // }
-
   public Entity findByCodeUser(final String code, final String email) {
     PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_BOOKING).addFilter("code",
         FilterOperator.EQUAL, code)
@@ -74,12 +63,29 @@ public class BookingDao {
         .addFilter("departure", FilterOperator.EQUAL, key));
 
     return query.asList(FetchOptions.Builder.withDefaults());
+  }
 
+  public List<Entity> findByDepartureName(final String departureName, final String trainNo, final Date date) {
+    PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_BOOKING)
+        .addFilter("departureName", FilterOperator.EQUAL, departureName)
+        .addFilter("trainNo", FilterOperator.EQUAL, trainNo)
+        .addFilter("date", FilterOperator.EQUAL, date));
+
+    return query.asList(FetchOptions.Builder.withDefaults());
   }
 
   public List<Entity> findByArrival(final Key key) {
     PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_BOOKING)
         .addFilter("arrival", FilterOperator.EQUAL, key));
+
+    return query.asList(FetchOptions.Builder.withDefaults());
+  }
+
+  public List<Entity> findByArrivalName(final String departureName, final String trainNo, final Date date) {
+    PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_BOOKING)
+        .addFilter("arrivalName", FilterOperator.EQUAL, departureName)
+        .addFilter("trainNo", FilterOperator.EQUAL, trainNo)
+        .addFilter("date", FilterOperator.EQUAL, date));
 
     return query.asList(FetchOptions.Builder.withDefaults());
   }
@@ -95,5 +101,13 @@ public class BookingDao {
       counter++;
     }
     return counter;
+  }
+
+  public List<Entity> findByTrainNoAndDate(final String trainNo, final Calendar date) {
+    PreparedQuery query = datastore.prepare(new Query(DataConstants.KIND_BOOKING)
+        .addFilter("trainNo", FilterOperator.EQUAL, trainNo)
+        .addFilter("date", FilterOperator.EQUAL, DateUtil.toDate(date)));
+
+    return query.asList(FetchOptions.Builder.withDefaults());
   }
 }

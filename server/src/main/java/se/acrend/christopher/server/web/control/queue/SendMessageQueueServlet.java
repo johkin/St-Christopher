@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import se.acrend.christopher.server.dao.BookingDao;
 import se.acrend.christopher.server.dao.ServerDataDao;
 import se.acrend.christopher.server.util.Constants;
+import se.acrend.christopher.server.util.QueueUtil;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
@@ -84,7 +85,7 @@ public class SendMessageQueueServlet {
   }
 
   private void sendAuthMessage() {
-    Queue queue = QueueFactory.getQueue(Constants.AUTH_QUEUE_NAME);
+    Queue queue = QueueFactory.getQueue(QueueUtil.AUTH_QUEUE_NAME);
     queue.add();
   }
 
@@ -101,7 +102,7 @@ public class SendMessageQueueServlet {
       }
 
       String formData = encodeFormParams(params);
-      log.debug("formData: " + formData + ", auth: " + auth);
+      log.debug("formData: {}", formData);
 
       URL url = new URL("https://android.apis.google.com/c2dm/send");
 

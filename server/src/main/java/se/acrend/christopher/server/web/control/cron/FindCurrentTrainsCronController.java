@@ -17,8 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import se.acrend.christopher.server.dao.TrainStopDao;
-import se.acrend.christopher.server.util.Constants;
 import se.acrend.christopher.server.util.DateUtil;
+import se.acrend.christopher.server.util.QueueUtil;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.taskqueue.Queue;
@@ -69,13 +69,13 @@ public class FindCurrentTrainsCronController {
         String trainNo = (String) stop.getProperty("trainNo");
         String key = trainNo + date;
         if (!currentTrains.contains(key)) {
-          log.debug("Adding train {} on {} to queue.", trainNo, date);
+          log.debug("Adding train {} on {} to update-queue.", trainNo, date);
           tasks.add(TaskOptions.Builder.withParam("trainNo", trainNo).param("date", date));
           currentTrains.add(key);
         }
       }
 
-      Queue queue = QueueFactory.getQueue(Constants.CURRENT_TRAINS_QUEUE_NAME);
+      Queue queue = QueueFactory.getQueue(QueueUtil.CURRENT_TRAINS_QUEUE_NAME);
       queue.add(tasks);
 
     } catch (Exception e) {

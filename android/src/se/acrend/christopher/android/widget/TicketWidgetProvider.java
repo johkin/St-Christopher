@@ -163,7 +163,7 @@ public class TicketWidgetProvider extends RoboBroadcastReceiver {
         remoteView.setTextColor(viewId, Color.GREEN);
       }
     }
-    remoteView.setTextViewText(viewId, prefix + DateUtil.formatTime(selectedTime));
+    remoteView.setTextViewText(viewId, prefix + DateUtil.formatShortDateTime(selectedTime));
   }
 
   public void onDeleted(final Context context, final int[] appWidgetIds) {

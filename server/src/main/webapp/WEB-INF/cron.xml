@@ -6,6 +6,11 @@
     <schedule>every 2 minutes</schedule>
   </cron>
   <cron>
+    <url>/dispatch/cron/load-trains</url>
+    <description>Kontrollera nya trains varannan minut</description>
+    <schedule>every 2 minutes</schedule>
+  </cron>
+  <cron>
     <url>/dispatch/cron/delete-old-entries</url>
     <description>Ta bort gammal data var 6:e timme</description>
     <schedule>every 6 hours</schedule>

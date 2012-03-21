@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import se.acrend.christopher.server.service.impl.ConfigurationServiceImpl;
 import se.acrend.christopher.server.util.Constants;
+import se.acrend.christopher.server.util.QueueUtil;
 import se.acrend.christopher.shared.util.SharedConstants;
 
 import com.google.appengine.api.datastore.Entity;
@@ -51,7 +52,7 @@ public class AuthQueueController {
         data.setProperty("authString", auth);
         configurationService.updateConfiguration(data);
       }
-      Queue queue = QueueFactory.getQueue(Constants.AUTH_QUEUE_NAME);
+      Queue queue = QueueFactory.getQueue(QueueUtil.AUTH_QUEUE_NAME);
       queue.purge();
     } catch (Exception e) {
       log.error("Kunde hämta auth-token.", e);

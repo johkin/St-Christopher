@@ -168,7 +168,12 @@ public class ProviderHelper {
   }
 
   private void addTimeValues(final ContentValues values, final TimeModel model, final String suffix) {
-    values.put("original" + suffix, new Timestamp(model.getOriginal().getTimeInMillis()).toString());
+    if (model == null) {
+      return;
+    }
+    if (model.getOriginal() != null) {
+      values.put("original" + suffix, new Timestamp(model.getOriginal().getTimeInMillis()).toString());
+    }
     if (model.getActual() != null) {
       values.put("actual" + suffix, new Timestamp(model.getActual().getTimeInMillis()).toString());
     }

@@ -38,8 +38,8 @@ public class SubscriptionControllerImpl {
 
       subscription = new Entity(DataConstants.KIND_SUBSCRIPTION);
 
-      subscription.setProperty("notificationCount", 5);
-      subscription.setProperty("travelWarrantCount", 5);
+      subscription.setProperty("notificationCount", 5l);
+      subscription.setProperty("travelWarrantCount", 5l);
 
       Calendar calendar = DateUtil.createCalendar();
       calendar.add(Calendar.DAY_OF_YEAR, -1);

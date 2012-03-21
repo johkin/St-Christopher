@@ -20,6 +20,9 @@ public class DateUtil {
 
   private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", SharedDateUtil.SWEDISH_LOCALE);
 
+  private static final SimpleDateFormat shortDateTimeFormat = new SimpleDateFormat("HH:mm d/M",
+      SharedDateUtil.SWEDISH_LOCALE);
+
   static {
     dateFormat.setTimeZone(SharedDateUtil.SWEDISH_TIMEZONE);
     dateTimeFormat.setTimeZone(SharedDateUtil.SWEDISH_TIMEZONE);
@@ -66,6 +69,20 @@ public class DateUtil {
       return null;
     }
     return formatTime(cal.getTime());
+  }
+
+  public static String formatShortDateTime(final Calendar cal) {
+    if (cal == null) {
+      return null;
+    }
+    return formatShortDateTime(cal.getTime());
+  }
+
+  public static String formatShortDateTime(final Date date) {
+    if (date == null) {
+      return null;
+    }
+    return shortDateTimeFormat.format(date);
   }
 
   public static String formatDateTime(final Date date) {

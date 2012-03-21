@@ -1,6 +1,7 @@
 package se.acrend.christophertestclient.activity;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -70,6 +71,8 @@ public class CreateTicketActivity extends RoboActivity {
 
     String[] names = getResources().getStringArray(R.array.stationNames);
 
+    Arrays.sort(names);
+
     from.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item,
         names));
     to.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item,
@@ -134,6 +137,9 @@ public class CreateTicketActivity extends RoboActivity {
                 now.set(Calendar.MINUTE, minute);
 
                 departureText.setText(timeFormat.format(now.getTime()));
+
+                now.add(Calendar.MINUTE, 5);
+                arrivalText.setText(timeFormat.format(now.getTime()));
               }
 
             }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), true);
@@ -210,7 +216,7 @@ public class CreateTicketActivity extends RoboActivity {
 
     StringBuilder message = new StringBuilder(dateText.getText());
     message.append("\n").append("+'220572436'+\n").append("+'903765246'+\n").append("+'373740923'+\n")
-        .append("+'692092924'+\n").append("ÅRSKORTS GULD\n");
+        .append("+'692092924'+\n").append("ÅRSKORT GULD\n");
 
     message.append("Avg. ").append(from.getSelectedItem()).append(" ").append(departureText.getText()).append("\n");
 

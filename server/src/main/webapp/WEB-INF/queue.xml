@@ -6,6 +6,10 @@
     <name>update-server-auth</name>
     <rate>0.1/s</rate>
   </queue>
+    <queue>
+    <name>load-train</name>
+    <rate>0.2/s</rate>
+  </queue>
   <queue>
     <name>current-trains</name>
     <rate>5/s</rate>

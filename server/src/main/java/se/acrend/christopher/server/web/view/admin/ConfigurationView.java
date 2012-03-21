@@ -32,6 +32,7 @@ public class ConfigurationView extends VerticalLayout {
     final EntityItem formItem = new EntityItem(data);
     formItem.addItemProperty("authString", String.class, "");
     formItem.addItemProperty("marketLicenseKey", String.class, "");
+    formItem.addItemProperty("adminEmail", String.class, "");
 
     // Create the Form
     final Form form = new Form();
@@ -43,7 +44,7 @@ public class ConfigurationView extends VerticalLayout {
     // personForm.setFormFieldFactory(new PersonFieldFactory());
     form.setItemDataSource(formItem);
 
-    form.setVisibleItemProperties(Arrays.asList("authString", "marketLicenseKey"));
+    form.setVisibleItemProperties(Arrays.asList("authString", "marketLicenseKey", "adminEmail"));
 
     addComponent(form);
 

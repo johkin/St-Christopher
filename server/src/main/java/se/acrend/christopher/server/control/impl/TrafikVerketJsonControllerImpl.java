@@ -1,6 +1,5 @@
 package se.acrend.christopher.server.control.impl;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,6 +16,7 @@ import se.acrend.christopher.server.parser.TrafikVerketJsonParser;
 import se.acrend.christopher.server.parser.TrafikVerketJsonParser.TrainGroupInfo;
 import se.acrend.christopher.server.util.DateUtil;
 import se.acrend.christopher.shared.exception.PermanentException;
+import se.acrend.christopher.shared.exception.TemporaryException;
 import se.acrend.christopher.shared.model.TrainInfo;
 
 import com.google.appengine.api.memcache.Expiration;
@@ -53,8 +53,7 @@ public class TrafikVerketJsonControllerImpl extends AbstractTrafikVerketControll
    * (java.lang.String, java.util.Calendar)
    */
   @Override
-  public TrainInfo getTagInfo(final String trainNo, final Calendar cal) throws MalformedURLException, IOException,
-      UnsupportedEncodingException {
+  public TrainInfo getTagInfo(final String trainNo, final Calendar cal) {
 
     String date = DateUtil.formatDate(cal);
 
@@ -65,22 +64,32 @@ public class TrafikVerketJsonControllerImpl extends AbstractTrafikVerketControll
       log.debug("Hittade ingen grupp för tåg {}, datum {}", trainNo, date);
       throw new PermanentException("Kunde inte hitta tåg " + trainNo + " för datum " + date);
     }
+    try {
 
-    HTTPRequest request = getTrainInfo(group);
+      // TODO Hantera en lista av tåggrupp-id?
 
-    HTTPResponse response = urlFetchService.fetch(request);
+      // Kombinera svaren
 
-    log.debug("Hämtat tåg-info, status: {}", response.getResponseCode());
+      HTTPRequest request = getTrainInfo(group);
 
-    TrainInfo info = parser.parse(new String(response.getContent(), "UTF-8"), date, trainNo);
+      HTTPResponse response = urlFetchService.fetch(request);
 
-    updateGuessedTime(info.getStations());
+      log.debug("Hämtat tåg-info, status: {}", response.getResponseCode());
 
-    return info;
+      TrainInfo info = parser.parse(new String(response.getContent(), "UTF-8"), date, trainNo);
+
+      updateGuessedTime(info.getStations());
+
+      return info;
+    } catch (Exception e) {
+      log.error("Kunde inte hämta tåg-info för tåg {}", trainNo, e);
+      throw new TemporaryException("Kunde inte hämta tåg-info för tåg " + trainNo, e);
+    }
   }
 
-  String getTrainGroup(final String trainNo, final String date) throws MalformedURLException, IOException,
-      UnsupportedEncodingException {
+  String getTrainGroup(final String trainNo, final String date) {
+
+    // TODO Hantera en lista av tåggrupp-id?
 
     String key = date + "-" + trainNo;
 
@@ -91,27 +100,31 @@ public class TrafikVerketJsonControllerImpl extends AbstractTrafikVerketControll
     }
 
     log.debug("Tåg {} är inte cachat.", trainNo);
+    try {
+      HTTPRequest request = createRequestForTrainNo(trainNo);
 
-    HTTPRequest request = createRequestForTrainNo(trainNo);
+      HTTPResponse response = urlFetchService.fetch(request);
 
-    HTTPResponse response = urlFetchService.fetch(request);
+      log.debug("Hämtat tåg-info, status: {}", response.getResponseCode());
 
-    log.debug("Hämtat tåg-info, status: {}", response.getResponseCode());
+      List<TrainGroupInfo> groups = parser.parseTrainGroup(new String(response.getContent(), "UTF-8"));
 
-    List<TrainGroupInfo> groups = parser.parseTrainGroup(new String(response.getContent(), "UTF-8"));
+      for (TrainGroupInfo info : groups) {
+        if (date.equals(info.getDate())) {
+          groupNo = info.getGroupNo();
+        }
+        key = info.getDate() + "-" + info.getTrainNo();
 
-    for (TrainGroupInfo info : groups) {
-      if (date.equals(info.getDate())) {
-        groupNo = info.getGroupNo();
+        if (!memcacheService.contains(key)) {
+          log.debug("Cachar tåg {} för datum {}, grupp: {}",
+              new String[] { info.getTrainNo(), info.getDate(), info.getGroupNo() });
+          memcacheService.put(key, info.getGroupNo(), Expiration.byDeltaSeconds(CACHE_SECONDS));
+          log.debug("Har cachat tåg: {}", trainNo);
+        }
       }
-      key = info.getDate() + "-" + info.getTrainNo();
-
-      if (!memcacheService.contains(key)) {
-        log.debug("Cachar tåg {} för datum {}, grupp: {}",
-            new String[] { info.getTrainNo(), info.getDate(), info.getGroupNo() });
-        memcacheService.put(key, info.getGroupNo(), Expiration.byDeltaSeconds(CACHE_SECONDS));
-        log.debug("Har cachat tåg: {}", trainNo);
-      }
+    } catch (Exception e) {
+      log.error("Kunde inte hämta tåggrupp för tåg {}", trainNo, e);
+      throw new TemporaryException("Kunde inte hämta tåggrupp för tåg " + trainNo, e);
     }
 
     return groupNo;
