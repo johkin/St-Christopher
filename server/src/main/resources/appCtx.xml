@@ -35,6 +35,12 @@
 			value="com.google.appengine.api.memcache.MemcacheServiceFactory.getMemcacheService" />
   </bean>
   
+  <bean id="urlFetchService"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="staticMethod"
+      value="com.google.appengine.api.urlfetch.URLFetchServiceFactory.getURLFetchService" />
+  </bean>
+  
   <bean id="datastoreService"
     class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
     <property name="staticMethod"

@@ -3,7 +3,10 @@ package se.acrend.christopher.server.control.impl;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,17 +20,16 @@ import se.acrend.christopher.server.parser.TrafikVerketJsonParser.TrainGroupInfo
 import se.acrend.christopher.server.util.DateUtil;
 import se.acrend.christopher.shared.exception.PermanentException;
 import se.acrend.christopher.shared.exception.TemporaryException;
+import se.acrend.christopher.shared.model.StationInfo;
 import se.acrend.christopher.shared.model.TrainInfo;
 
 import com.google.appengine.api.memcache.Expiration;
 import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.urlfetch.HTTPHeader;
 import com.google.appengine.api.urlfetch.HTTPMethod;
 import com.google.appengine.api.urlfetch.HTTPRequest;
 import com.google.appengine.api.urlfetch.HTTPResponse;
 import com.google.appengine.api.urlfetch.URLFetchService;
-import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 
 @Component("TrafikVerketJsonController")
 public class TrafikVerketJsonControllerImpl extends AbstractTrafikVerketControllerImpl implements
@@ -40,10 +42,10 @@ public class TrafikVerketJsonControllerImpl extends AbstractTrafikVerketControll
   private final Logger log = LoggerFactory.getLogger(getClass());
   @Autowired
   private TrafikVerketJsonParser parser;
-
-  private final URLFetchService urlFetchService = URLFetchServiceFactory.getURLFetchService();
-
-  private final MemcacheService memcacheService = MemcacheServiceFactory.getMemcacheService();
+  @Autowired
+  private URLFetchService urlFetchService;
+  @Autowired
+  private MemcacheService memcacheService;
 
   /*
    * (non-Javadoc)
@@ -57,46 +59,77 @@ public class TrafikVerketJsonControllerImpl extends AbstractTrafikVerketControll
 
     String date = DateUtil.formatDate(cal);
 
-    String group = getTrainGroup(trainNo, date);
+    List<String> groups = getTrainGroup(trainNo, date);
 
-    if (group == null) {
+    if (groups.isEmpty()) {
       // TODO Felhantering
       log.debug("Hittade ingen grupp för tåg {}, datum {}", trainNo, date);
       throw new PermanentException("Kunde inte hitta tåg " + trainNo + " för datum " + date);
     }
     try {
+      TrainInfo info = null;
+      for (String groupNo : groups) {
+        HTTPRequest request = getTrainInfo(groupNo);
 
-      // TODO Hantera en lista av tåggrupp-id?
+        HTTPResponse response = urlFetchService.fetch(request);
 
-      // Kombinera svaren
+        log.debug("Hämtat tåg-info, status: {}", response.getResponseCode());
 
-      HTTPRequest request = getTrainInfo(group);
+        TrainInfo currentInfo = parser.parse(new String(response.getContent(), "UTF-8"), date, trainNo);
+        if (info == null) {
+          info = currentInfo;
+        } else {
+          info.getStations().addAll(currentInfo.getStations());
 
-      HTTPResponse response = urlFetchService.fetch(request);
+          if (currentInfo.getLastKnownTime() != null) {
+            info.setLastKnownActivity(currentInfo.getLastKnownActivity());
+            info.setLastKnownPosition(currentInfo.getLastKnownPosition());
+            info.setLastKnownTime(currentInfo.getLastKnownTime());
+          }
+        }
+      }
 
-      log.debug("Hämtat tåg-info, status: {}", response.getResponseCode());
-
-      TrainInfo info = parser.parse(new String(response.getContent(), "UTF-8"), date, trainNo);
+      if (groups.size() > 1) {
+        mergeStations(info.getStations());
+      }
 
       updateGuessedTime(info.getStations());
 
       return info;
+
     } catch (Exception e) {
       log.error("Kunde inte hämta tåg-info för tåg {}", trainNo, e);
       throw new TemporaryException("Kunde inte hämta tåg-info för tåg " + trainNo, e);
     }
   }
 
-  String getTrainGroup(final String trainNo, final String date) {
+  void mergeStations(final List<StationInfo> stations) {
+    Collections.sort(stations);
 
-    // TODO Hantera en lista av tåggrupp-id?
+    Iterator<StationInfo> iterator = stations.iterator();
+    StationInfo previous = null;
+    while (iterator.hasNext()) {
+      StationInfo stationInfo = iterator.next();
+      if (previous != null) {
+        if (previous.getName().equals(stationInfo.getName())) {
+
+          previous.setDeparture(stationInfo.getDeparture());
+
+          iterator.remove();
+        }
+      }
+      previous = stationInfo;
+    }
+  }
+
+  List<String> getTrainGroup(final String trainNo, final String date) {
 
     String key = date + "-" + trainNo;
 
-    String groupNo = (String) memcacheService.get(key);
-    if (groupNo != null) {
-      log.debug("Tåg {} för datum {} är cachat, grupp: {}", new String[] { trainNo, date, groupNo });
-      return groupNo;
+    List<String> groups = (List<String>) memcacheService.get(key);
+    if (groups != null) {
+      log.debug("Tåg {} för datum {} är cachat, antal grupper {}", new Object[] { trainNo, date, groups.size() });
+      return groups;
     }
 
     log.debug("Tåg {} är inte cachat.", trainNo);
@@ -107,33 +140,35 @@ public class TrafikVerketJsonControllerImpl extends AbstractTrafikVerketControll
 
       log.debug("Hämtat tåg-info, status: {}", response.getResponseCode());
 
-      List<TrainGroupInfo> groups = parser.parseTrainGroup(new String(response.getContent(), "UTF-8"));
+      List<TrainGroupInfo> groupInfos = parser.parseTrainGroup(new String(response.getContent(), "UTF-8"));
 
-      for (TrainGroupInfo info : groups) {
-        if (date.equals(info.getDate())) {
-          groupNo = info.getGroupNo();
-        }
-        key = info.getDate() + "-" + info.getTrainNo();
+      groups = new ArrayList<String>();
 
-        if (!memcacheService.contains(key)) {
-          log.debug("Cachar tåg {} för datum {}, grupp: {}",
-              new String[] { info.getTrainNo(), info.getDate(), info.getGroupNo() });
-          memcacheService.put(key, info.getGroupNo(), Expiration.byDeltaSeconds(CACHE_SECONDS));
-          log.debug("Har cachat tåg: {}", trainNo);
+      for (TrainGroupInfo info : groupInfos) {
+
+        String groupNo = info.getGroupNo();
+
+        if (!groups.contains(groupNo)) {
+          log.debug("Adding group {}", groupNo);
+          groups.add(groupNo);
         }
       }
+
+      log.debug("Cachar tåg {} för datum {}", trainNo, date);
+      memcacheService.put(key, groups, Expiration.byDeltaSeconds(CACHE_SECONDS));
+      log.debug("Har cachat tåg: {}", trainNo);
     } catch (Exception e) {
       log.error("Kunde inte hämta tåggrupp för tåg {}", trainNo, e);
       throw new TemporaryException("Kunde inte hämta tåggrupp för tåg " + trainNo, e);
     }
 
-    return groupNo;
+    return groups;
   }
 
   private HTTPRequest createRequestForTrainNo(final String trainNo) throws MalformedURLException,
       UnsupportedEncodingException {
     String requestBody = createRequest("WOW", "LpvTrafiklagen", "AnnonseratTagId = '" + trainNo + "' ",
-        "TagGrupp, AnnonseratTagId, Utgangsdatum", "Utgangsdatum ASC");
+        "DISTINCT TagGrupp, AnnonseratTagId, Utgangsdatum", "Utgangsdatum ASC");
 
     URL url = new URL(ORION_URL);
 

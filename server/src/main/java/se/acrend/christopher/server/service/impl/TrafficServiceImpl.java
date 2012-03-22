@@ -39,6 +39,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.mail.MailService;
+import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
@@ -72,6 +73,8 @@ public class TrafficServiceImpl {
   private ConfigurationServiceImpl configurationService;
   @Autowired
   private MailService mailService;
+  @Autowired
+  private MemcacheService memcacheService;
 
   public BookingInformation registerBooking(final String code, final String trainNo, final Date date,
       final String from, final String to, final String registrationId) {
@@ -475,6 +478,8 @@ public class TrafficServiceImpl {
     List<Entity> stops = trainStopDao.findByTrainNo(trainNo, cal);
 
     if (stops.isEmpty()) {
+      resetCache(trainNo, cal);
+
       Entity train = trainDao.findByTrainNo(trainNo, cal);
       TrainInfo info = null;
       try {
@@ -538,7 +543,17 @@ public class TrafficServiceImpl {
     } else {
       log.debug("Train {} already loaded.", trainNo);
     }
+  }
 
+  void resetCache(final String trainNo, final Calendar cal) {
+
+    String key = DateUtil.formatDate(cal) + "-" + trainNo;
+
+    log.debug("Clearing cache for trainNo {}, date {}", trainNo, DateUtil.formatDate(cal));
+
+    if (memcacheService.contains(key)) {
+      memcacheService.delete(key);
+    }
   }
 
   public void createStationNameMapping(final String sjName, final String trafikVerketName) {

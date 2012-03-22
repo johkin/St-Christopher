@@ -43,7 +43,32 @@ public class StationInfoTest {
 
     assertEquals("1", list.get(0).getName());
     assertEquals("3", list.get(2).getName());
+  }
 
+  @Test
+  public void testCompareToDepartureAndArrival() {
+    List<StationInfo> list = new ArrayList<StationInfo>();
+
+    StationInfo info = new StationInfo();
+    info.setName("3");
+    info.setDeparture(new TimeInfo());
+    info.getDeparture().setOriginal(createCalendar(3));
+    list.add(info);
+    info = new StationInfo();
+    info.setName("1");
+    info.setArrival(new TimeInfo());
+    info.getArrival().setOriginal(createCalendar(1));
+    list.add(info);
+    info = new StationInfo();
+    info.setName("2");
+    info.setDeparture(new TimeInfo());
+    info.getDeparture().setOriginal(createCalendar(2));
+    list.add(info);
+
+    Collections.sort(list);
+
+    assertEquals("1", list.get(0).getName());
+    assertEquals("3", list.get(2).getName());
   }
 
   Calendar createCalendar(final long millis) {
